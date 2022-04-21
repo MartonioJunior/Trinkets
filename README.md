@@ -1,0 +1,5 @@
+[What the Package is]
+[How to install the Package/What to keep in mind]
+[How to use the package/What the package can do/Link to the documentation]
+[Credits/Licensing]
+[Call for Action (Contribution/Donations)]

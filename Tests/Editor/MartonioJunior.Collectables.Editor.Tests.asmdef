@@ -1,0 +1,13 @@
+{
+	"name": "MartonioJunior.Collectables.Editor.Tests",
+	"references": [
+		"MartonioJunior.Collectables.Editor"
+	],
+	"optionalUnityReferences": [
+		"TestAssemblies"
+	],
+	"includePlatforms": [
+		"Editor"
+	],
+	"excludePlatforms": []
+}

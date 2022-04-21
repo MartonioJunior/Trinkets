@@ -1,0 +1,15 @@
+{
+    "name": "com.martonio.collectables",
+    "displayName": "Collectables (Tentative Title)",
+    "version": "0.0.0",
+    "unity": "2020.3",
+    "description": "[Important details about what the package offers]",
+    "dependencies": {},
+    "author": {
+      "name": "Martônio Júnior",
+      "url": "https://github.com/martoniojunior"
+    },
+    "repository": "https://github.com/martoniojunior/collectables.git",
+    "license": "MIT",
+    "type": "tool"
+  }
