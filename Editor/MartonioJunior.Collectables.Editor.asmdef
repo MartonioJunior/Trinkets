@@ -1,7 +1,9 @@
 {
     "name": "MartonioJunior.Collectables.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:b7fd8e9133aba4e78812da30d465f377"
+    ],
     "includePlatforms": [
         "Editor"
     ],

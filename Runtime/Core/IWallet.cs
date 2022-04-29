@@ -4,6 +4,6 @@ namespace MartonioJunior.Collectables
 {
     public interface IWallet
     {
-        IResource[] Contents();
+        void Clear();
     }
 }
