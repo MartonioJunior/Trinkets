@@ -32,8 +32,19 @@ namespace MartonioJunior.Collectables.Currency
         #endregion
         #region EngineScrob Implementation
         public override void Reset() {}
-        public override void Setup() {}
-        public override void TearDown() {}
+
+        public override void Setup()
+        {
+            onScanWallet += OnScanWallet;
+            onTaxWallet += OnTaxWallet;
+        }
+
+        public override void TearDown()
+        {
+            onScanWallet -= OnScanWallet;
+            onTaxWallet -= OnTaxWallet;
+        }
+
         public override void Validate() {}
         #endregion
         #region IResourceScanner Implementation
@@ -56,6 +67,16 @@ namespace MartonioJunior.Collectables.Currency
         }
         #endregion
         #region Methods
+        public void OnScanWallet(bool scanResult)
+        {
+            scannedWallet?.Invoke(scanResult);
+        }
+
+        public void OnTaxWallet()
+        {
+            taxedWallet?.Invoke();
+        }
+
         public void Scan(ICurrencyWallet wallet)
         {
             bool scanResult = IResourceScannerExtensions.Scan(this, wallet);

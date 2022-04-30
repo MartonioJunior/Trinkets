@@ -56,7 +56,9 @@ namespace MartonioJunior.Collectables.Currency
         {
             var list = new List<ICurrency>();
 
-            foreach(var pair in currencyAmounts) {
+            if (predicate == null) {
+                list.AddRange(currencyAmounts.Keys);
+            } else foreach(var pair in currencyAmounts) {
                 var currency = pair.Key;
                 if (predicate(currency)) list.Add(currency);
             }
