@@ -116,6 +116,40 @@ namespace Tests.MartonioJunior.Collectables.Currency
 
             Assert.Zero(modelReference.AmountOf(Currency));
         }
+
+        [Test]
+        public void Search_ReturnsArrayOfResultsAligningWithPredicate()
+        {
+            var failedCurrency = ScriptableObject.CreateInstance<CurrencyData>();
+            modelReference.Add(failedCurrency);
+            var result = modelReference.Search((item) => {
+                return modelReference.AmountOf(item) < ChangeAmount;
+            });
+
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(failedCurrency, result[0]);
+
+            ScriptableObject.DestroyImmediate(failedCurrency);
+        }
+
+        [Test]
+        public void Search_ReturnsEmptyArrayWhenPredicateFails()
+        {
+            var result = modelReference.Search((item) => {
+                return item == null;
+            });
+
+            Assert.Zero(result.Length);
+        }
+
+        [Test]
+        public void Search_ReturnsAllElementsWhenPredicateIsNull()
+        {
+            var result = modelReference.Search(null);
+
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(Currency, result[0]);
+        }
         #endregion
     }
 }

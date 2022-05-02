@@ -51,6 +51,12 @@ namespace Tests.MartonioJunior.Collectables.Currency
         #endregion
         #region Method Tests
         [Test]
+        public void Amount_ReturnsAmountCriteriaOfComponent()
+        {
+            Assert.AreEqual(modelReference.Amount, AmountRemoved);
+        }
+
+        [Test]
         public void Check_ReturnsTrueWhenWalletHasEnoughResourcesAndComponentIsEnabled()
         {
             InsertMoneyOnWallet(AmountOnWallet);
@@ -114,6 +120,19 @@ namespace Tests.MartonioJunior.Collectables.Currency
         }
 
         [Test]
+        public void ScanWallet_WorksTheSameAsScan()
+        {
+            modelReference.ScanWallet(Wallet);
+
+            Assert.Zero(Wallet.AmountOf(Currency));
+
+            InsertMoneyOnWallet(AmountOnWallet);
+            modelReference.ScanWallet(Wallet);
+
+            Assert.AreEqual(FinalAmount, Wallet.AmountOf(Currency));
+        }
+
+        [Test]
         public void Tax_RemovesResourceFromTheWallet()
         {
             InsertMoneyOnWallet(AmountOnWallet);
@@ -131,6 +150,15 @@ namespace Tests.MartonioJunior.Collectables.Currency
             modelReference.Tax(Wallet);
 
             Assert.AreEqual(1, triggerCount);
+        }
+
+        [Test]
+        public void TaxWallet_WorksTheSameAsTax()
+        {
+            InsertMoneyOnWallet(AmountOnWallet);
+            modelReference.TaxWallet(Wallet);
+
+            Assert.AreEqual(FinalAmount, Wallet.AmountOf(Currency));
         }
         #endregion
     }
