@@ -5,6 +5,7 @@ using UnityEngine.TestTools;
 using MartonioJunior.Collectables.Currency;
 using UnityEngine.Events;
 using System;
+using MartonioJunior.Collectables;
 
 namespace Tests.MartonioJunior.Collectables.Currency
 {
@@ -15,14 +16,15 @@ namespace Tests.MartonioJunior.Collectables.Currency
         public const int NegativeAmount = -2;
         #endregion
         #region Variables
-        private ICurrency Currency;
+        private CurrencyData Currency;
         private CurrencyWallet Wallet;
         #endregion
         #region ComponentTestModel Implementation
         public override void CreateTestContext()
         {
-            Wallet = ScriptableObject.CreateInstance<CurrencyWallet>();
-            Currency = ScriptableObject.CreateInstance<CurrencyData>();
+            EngineScrob.Instance(out Wallet);
+            EngineScrob.Instance(out Currency);
+
             base.CreateTestContext();
         }
 
@@ -35,8 +37,10 @@ namespace Tests.MartonioJunior.Collectables.Currency
         public override void DestroyTestContext()
         {
             base.DestroyTestContext();
+
             ScriptableObject.DestroyImmediate(Wallet);
-            ScriptableObject.DestroyImmediate(Currency as CurrencyData);
+            ScriptableObject.DestroyImmediate(Currency);
+
             Wallet = null;
             Currency = null;
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using MartonioJunior.Collectables.Currency;
 using System.Collections.Generic;
+using MartonioJunior.Collectables;
 
 namespace Tests.MartonioJunior.Collectables.Currency
 {
@@ -18,7 +19,8 @@ namespace Tests.MartonioJunior.Collectables.Currency
         #region ScrobTestModel Implementation
         public override void CreateTestContext()
         {
-            Currency = ScriptableObject.CreateInstance<CurrencyData>();
+            EngineScrob.Instance(out Currency);
+
             base.CreateTestContext();
         }
 
@@ -30,7 +32,9 @@ namespace Tests.MartonioJunior.Collectables.Currency
         public override void DestroyTestContext()
         {
             base.DestroyTestContext();
+
             ScriptableObject.DestroyImmediate(Currency);
+
             Currency = null;
         }
         #endregion
@@ -50,6 +54,12 @@ namespace Tests.MartonioJunior.Collectables.Currency
         }
 
         [Test]
+        public void Add_ReturnsFalseWhenCurrencyIsNull()
+        {
+            Assert.Ignore(NotImplemented);
+        }
+
+        [Test]
         public void AmountOf_ReturnsAmountOfCurrencyInWallet()
         {
             Assert.AreEqual(AmountOfCurrency, modelReference.AmountOf(Currency));
@@ -61,6 +71,12 @@ namespace Tests.MartonioJunior.Collectables.Currency
             modelReference.Clear();
 
             Assert.Zero(modelReference.AmountOf(Currency));
+        }
+
+        [Test]
+        public void AmountOf_ReturnsZeroWhenCurrencyIsNull()
+        {
+            Assert.Ignore(NotImplemented);
         }
 
         [Test]
@@ -110,6 +126,12 @@ namespace Tests.MartonioJunior.Collectables.Currency
         }
 
         [Test]
+        public void Remove_ReturnsFalseWhenCurrencyIsNull()
+        {
+            Assert.Ignore(NotImplemented);
+        }
+
+        [Test]
         public void Reset_SetsAmountForCurrencyOnWalletToZero()
         {
             modelReference.Reset(Currency);
@@ -118,9 +140,15 @@ namespace Tests.MartonioJunior.Collectables.Currency
         }
 
         [Test]
+        public void Reset_DoesNothingWhenCurrencyIsNull()
+        {
+            Assert.Ignore(NotImplemented);
+        }
+
+        [Test]
         public void Search_ReturnsArrayOfResultsAligningWithPredicate()
         {
-            var failedCurrency = ScriptableObject.CreateInstance<CurrencyData>();
+            EngineScrob.Instance(out CurrencyData failedCurrency);
             modelReference.Add(failedCurrency);
             var result = modelReference.Search((item) => {
                 return modelReference.AmountOf(item) < ChangeAmount;
