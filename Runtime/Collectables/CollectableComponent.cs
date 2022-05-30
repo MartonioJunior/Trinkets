@@ -7,10 +7,10 @@ namespace MartonioJunior.Collectables.Collectables
     public class CollectableComponent: EngineBehaviour, IResourceInstancer<ICollectableWallet>
     {
         #region Variables
-        [SerializeField] Field<ICollectable> collectable;
+        [SerializeField] Field<ICollectable> collectable = new Field<ICollectable>();
 
         public ICollectable Collectable {
-            get => collectable.Unpack();
+            get => collectable.Unwrap();
             set => collectable.Set(value);
         }
         #endregion
@@ -40,7 +40,7 @@ namespace MartonioJunior.Collectables.Collectables
         {
             if (enabled && collectable.HasValue()) {
                 bool newAddition = wallet.Add(Collectable);
-                OnCollected(newAddition);
+                onCollected?.Invoke(newAddition);
             }
         }
         #endregion
@@ -52,7 +52,7 @@ namespace MartonioJunior.Collectables.Collectables
 
         private void OnCollected(bool newlyAdded)
         {
-            collectedEvent.Invoke(newlyAdded);
+            collectedEvent?.Invoke(newlyAdded);
         }
         #endregion
     }

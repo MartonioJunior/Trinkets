@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,17 +7,20 @@ namespace MartonioJunior.Collectables.Collectables
     [AddComponentMenu("Collectables/Collectable/Collectable Event Listener")]
     public class CollectableEventListener: EngineBehaviour, IResourceProcessor<ICollectableWallet, bool>
     {
+        #region Constants
+        public const float UpdateTime = 0.5f;
+        #endregion
         #region Variables
-        [SerializeField] Field<ICollectable> collectable;
-        [SerializeField] Field<ICollectableWallet> wallet;
+        [SerializeField] Field<ICollectable> collectable = new Field<ICollectable>();
+        [SerializeField] Field<ICollectableWallet> wallet = new Field<ICollectableWallet>();
 
         public ICollectable Collectable {
-            get => collectable.Unpack();
+            get => collectable.Unwrap();
             set => collectable.Set(value);
         }
 
         public ICollectableWallet Wallet {
-            get => wallet.Unpack();
+            get => wallet.Unwrap();
             set => wallet.Set(value);
         }
         #endregion
@@ -33,7 +37,6 @@ namespace MartonioJunior.Collectables.Collectables
         public override void Setup()
         {
             onCollectableChange += OnCollectableChange;
-            FixedUpdate();
         }
 
         public override void TearDown()
@@ -46,16 +49,20 @@ namespace MartonioJunior.Collectables.Collectables
         #region IResourceProcessor Implementation
         public bool Convert(ICollectableWallet wallet)
         {
-            if (!collectable.HasValue()) return false;
+            if (wallet == null || !collectable.HasValue()) return false;
 
             return wallet.Contains(Collectable);
         }
         #endregion
         #region Methods
-        private void FixedUpdate()
+        private IEnumerator Start()
         {
-            var wasCollected = Convert(Wallet);
-            onCollectableChange?.Invoke(wasCollected);
+            while (true) {
+                var wasCollected = Convert(Wallet);
+                onCollectableChange?.Invoke(wasCollected);
+
+                yield return new WaitForSeconds(UpdateTime);
+            }
         }
 
         private void OnCollectableChange(bool wasCollected)

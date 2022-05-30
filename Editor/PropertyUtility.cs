@@ -73,5 +73,29 @@ namespace MartonioJunior.Collectables.Editor
                 rect.x += width;
             }
         }
+
+        public static void DropArea(Rect dropRect, string message, Action<UnityEngine.Object> receivedDrop)
+        {
+            Event evt = Event.current;
+            GUI.Box(dropRect, message);
+        
+            switch (evt.type) {
+                case EventType.DragUpdated:
+                case EventType.DragPerform:
+                    if (!dropRect.Contains(evt.mousePosition))
+                        return;
+                    
+                    DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+                
+                    if (evt.type == EventType.DragPerform) {
+                        DragAndDrop.AcceptDrag();
+                    
+                        foreach (UnityEngine.Object draggedObject in DragAndDrop.objectReferences) {
+                            receivedDrop?.Invoke(draggedObject);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 }

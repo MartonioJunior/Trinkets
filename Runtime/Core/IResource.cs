@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace MartonioJunior.Collectables
 {
-    public interface IResource
+    public interface IResource: IRepresentable
     {
-        string Name {get;}
         int Value {get;}
     }
 }

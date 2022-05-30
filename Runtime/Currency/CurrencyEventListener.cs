@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,17 +7,20 @@ namespace MartonioJunior.Collectables.Currency
     [AddComponentMenu("Collectables/Currency/Currency Event Listener")]
     public class CurrencyEventListener: EngineBehaviour, IResourceProcessor<ICurrencyWallet, int>
     {
+        #region Constants
+        public const float UpdateTime = 0.5f;
+        #endregion
         #region Variables
         [SerializeField] Field<ICurrencyWallet> wallet = new Field<ICurrencyWallet>();
         [SerializeField] Field<ICurrency> currency = new Field<ICurrency>();
 
         public ICurrency Currency {
-            get => currency.Unpack();
+            get => currency.Unwrap();
             set => currency.Set(value);
         }
 
         public ICurrencyWallet Wallet {
-            get => wallet.Unpack();
+            get => wallet.Unwrap();
             set => wallet.Set(value);
         }
         #endregion
@@ -33,7 +37,6 @@ namespace MartonioJunior.Collectables.Currency
         public override void Setup()
         {
             onAmountChange += OnAmountChange;
-            FixedUpdate();
         }
 
         public override void TearDown()
@@ -49,10 +52,14 @@ namespace MartonioJunior.Collectables.Currency
         }
         #endregion
         #region Methods
-        private void FixedUpdate()
+        private IEnumerator Start()
         {
-            var amount = Convert(Wallet);
-            onAmountChange?.Invoke(amount);
+            while (true) {
+                var amount = Convert(Wallet);
+                onAmountChange?.Invoke(amount);
+
+                yield return new WaitForSeconds(UpdateTime);
+            }
         }
 
         private void OnAmountChange(int newAmount)

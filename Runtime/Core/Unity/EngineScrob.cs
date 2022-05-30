@@ -28,5 +28,11 @@ namespace MartonioJunior.Collectables
             TearDown();
         }
         #endregion
+        #region Static Methods
+        public static void Instance<T>(out T obj) where T: ScriptableObject
+        {
+            obj = ScriptableObject.CreateInstance<T>();
+        }
+        #endregion
     }
 }

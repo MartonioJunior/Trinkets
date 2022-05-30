@@ -9,6 +9,7 @@ namespace MartonioJunior.Collectables.Currency
         public const string DefaultDisplayName = "Unnamed Currency";
         #endregion
         #region Variables
+        [SerializeField] Sprite displayIcon;
         [SerializeField] string displayName;
         [SerializeField] string symbol;
         [SerializeField, Min(0)] int currencyRateValue;
@@ -25,17 +26,21 @@ namespace MartonioJunior.Collectables.Currency
         }
         #endregion
         #region ICurrency Implementation
-        public string Symbol {
-            get => symbol;
-            set => symbol = value;
-        }
-
         public string Name {
             get => displayName;
             set {
                 displayName = value;
                 Validate();
             }
+        }
+
+        public Sprite Image {
+            get => displayIcon;
+        }
+
+        public string Symbol {
+            get => symbol;
+            set => symbol = value;
         }
 
         public int Value {

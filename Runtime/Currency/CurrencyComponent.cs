@@ -10,7 +10,7 @@ namespace MartonioJunior.Collectables.Currency
         [SerializeField] Field<ICurrency> currency = new Field<ICurrency>();
         [SerializeField, Min(0)] int amount;
         public ICurrency Currency {
-            get => currency.Unpack();
+            get => currency.Unwrap();
             set => currency.Set(value);
         }
 

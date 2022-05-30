@@ -11,7 +11,7 @@ namespace MartonioJunior.Collectables.Currency
         [SerializeField, Min(0f)] int amount;
         [SerializeField] bool taxWallet;
         public ICurrency Currency {
-            get => currency.Unpack();
+            get => currency.Unwrap();
             set => currency.Set(value);
         }
 

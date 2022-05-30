@@ -20,7 +20,7 @@ namespace MartonioJunior.Collectables.Currency
         #region ICurrencyWallet Implementation
         public bool Add(ICurrency currency)
         {
-            if (currencyAmounts.ContainsKey(currency)) return false;
+            if (currency == null || currencyAmounts.ContainsKey(currency)) return false;
 
             currencyAmounts[currency] = 0;
             return true;
@@ -28,7 +28,7 @@ namespace MartonioJunior.Collectables.Currency
 
         public int AmountOf(ICurrency currency)
         {
-            if (currencyAmounts.TryGetValue(currency, out int value)) return value;
+            if (currency != null && currencyAmounts.TryGetValue(currency, out int value)) return value;
             else return 0;
         }
 
@@ -44,11 +44,15 @@ namespace MartonioJunior.Collectables.Currency
 
         public bool Remove(ICurrency currency)
         {
+            if (currency == null) return false;
+
             return currencyAmounts.Remove(currency);
         }
 
         public void Reset(ICurrency currency)
         {
+            if (currency == null) return;
+
             currencyAmounts[currency] = 0;
         }
 
