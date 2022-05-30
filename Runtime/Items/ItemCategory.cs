@@ -2,9 +2,12 @@ using UnityEngine;
 
 namespace MartonioJunior.Collectables.Items
 {
-    [CreateAssetMenu(fileName="NewItemCategory", menuName="JurassicEngine/Gameplay/ItemCategory")]
-    public class ItemCategory: EngineScrob, IResourceCategory
+    [CreateAssetMenu(fileName="New Category", menuName="Collectables/Item/Category")]
+    public class ItemCategory: EngineScrob, IItemCategory
     {
+        #region Constants
+        public const string DefaultDisplayName = "Unnamed Category";
+        #endregion
         #region Variables
         [SerializeField] string displayName;
         #endregion
@@ -12,10 +15,21 @@ namespace MartonioJunior.Collectables.Items
         public override void Reset() {}
         public override void Setup() {}
         public override void TearDown() {}
-        public override void Validate() {}
+        public override void Validate()
+        {
+            if (string.IsNullOrEmpty(displayName)) {
+                displayName = DefaultDisplayName;
+            }
+        }
         #endregion
-        #region IResourceCategory Implementation
-        public string Name => displayName;
+        #region IItemCategory Implementation
+        public string Name {
+            get => displayName;
+            set {
+                displayName = value;
+                Validate();
+            }
+        }
         #endregion
     }
 }
