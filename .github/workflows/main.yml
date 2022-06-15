@@ -24,7 +24,7 @@ jobs:
           lfs: true
       - run: mkdir Packages
         shell: pwsh
-      - run: mv $GITHUB_WORKSPACE /Packages
+      - run: mv $GITHUB_WORKSPACE Packages
         shell: pwsh
       - name: Clone Template Project
         uses: GuillaumeFalourd/clone-github-repo-action@v2
