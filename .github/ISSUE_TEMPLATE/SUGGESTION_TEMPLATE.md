@@ -1,11 +1,18 @@
-**Is your feature request related to a problem? Please describe.**
-<!-- A clear and concise description of what the problem is. Ex. I'm always frustrated when [...] -->
+**Is your suggestion related to a problem?**
+<!-- Example: "I've been a having a problem with ... because ..." -->
 
 **Describe the solution you'd like**
-<!-- A clear and concise description of what you want to happen. -->
+<!-- Example: "I'd like ... so that ..." -->
 
-**Describe alternatives you've considered**
-<!-- A clear and concise description of any alternative solutions or features you've considered. -->
+**Did you consider other alternatives? Which ones?**
+<!-- Example: "I tried using ... and ..., but neither ..." -->
 
 **Additional context**
-<!-- Add any other context or screenshots about the feature request here. -->
+<!-- Here's a good place to put some images/screenshots and any additional comments you may have -->
+
+<!-- 
+General tips when making Suggestions:
+- Always check to see if anyone else hasn't already made the suggestion
+- Be concise and clear in what you write
+- Examples and Reference Points can help explaining an idea
+-->
