@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace MartonioJunior.Collectables.Editor
+namespace MartonioJunior.Trinkets.Editor
 {
     public static partial class ObjectExtensions
     {

@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Reference = UnityEngine.Object;
 
-namespace MartonioJunior.Collectables.Editor
+namespace MartonioJunior.Trinkets.Editor
 {
     public sealed class PropertyUtility
     {

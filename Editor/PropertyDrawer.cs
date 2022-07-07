@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace MartonioJunior.Collectables.Editor
+namespace MartonioJunior.Trinkets.Editor
 {
     public abstract class PropertyDrawer: UnityEditor.PropertyDrawer
     {
