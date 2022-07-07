@@ -1,6 +1,6 @@
-using MartonioJunior.Collectables.Items;
+using MartonioJunior.Trinkets.Items;
 
-namespace Tests.MartonioJunior.Collectables.Items
+namespace Tests.MartonioJunior.Trinkets.Items
 {
     public class ItemScanner_Dummy: ItemScanner
     {

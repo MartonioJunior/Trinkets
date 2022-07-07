@@ -1,17 +1,17 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Collectables.Items
+namespace MartonioJunior.Trinkets.Items
 {
-    [AddComponentMenu("Collectables/Items/Item Drop")]
-    public class ItemDropComponent: EngineBehaviour, IResourceInstancer<IItemWallet>
+    public class ItemBuilderComponent: EngineBehaviour, IItemBuilder
     {
         #region Variables
-        [SerializeField] Field<IItem> item = new Field<IItem>();
-
-        public IItem Item {
-            get => item.Unwrap();
-            set => item.Set(value);
+        [SerializeField] Field<IItemBuilder> builder = new Field<IItemBuilder>();
+        #endregion
+        #region Properties
+        public IItemBuilder Builder {
+            get => builder.Unwrap();
+            set => builder.Set(value);
         }
         #endregion
         #region Delegates
@@ -36,19 +36,19 @@ namespace MartonioJunior.Collectables.Items
 
         public override void Validate() {}
         #endregion
-        #region IResourceInstancer Implementation
+        #region IItemBuilder Implementation
+        public IItemModel Model => Builder?.Model;
+        
         public void AddTo(IItemWallet wallet)
         {
             if (wallet == null) return;
 
-            if (item.HasValue()) {
-                Item.InstanceOn(wallet);
-                onCollectedItem?.Invoke();
-            }
+            Builder.Model.AddTo(wallet);
+            onCollectedItem?.Invoke();
         }
         #endregion
         #region Methods
-        private void OnCollectedItem()
+        public void OnCollectedItem()
         {
             collectedItem?.Invoke();
         }

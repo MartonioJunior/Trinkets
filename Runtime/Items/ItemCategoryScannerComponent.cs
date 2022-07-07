@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MartonioJunior.Collectables.Items
+namespace MartonioJunior.Trinkets.Items
 {
     public class ItemCategoryScannerComponent: ItemScanner
     {

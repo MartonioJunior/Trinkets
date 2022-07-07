@@ -2,16 +2,16 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Items;
-using MartonioJunior.Collectables;
+using MartonioJunior.Trinkets.Items;
+using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Collectables.Items
+namespace Tests.MartonioJunior.Trinkets.Items
 {
-    public class ItemTypeScannerComponent_Tests: ComponentTestModel<ItemTypeScannerComponent>
+    public class ItemModelScannerComponent_Tests: ComponentTestModel<ItemModelScannerComponent>
     {
         private const int RequiredAmount = 4;
         #region Constants
-        private ItemData_Dummy Item;
+        private ItemModel_Dummy Item;
         private ItemWallet Wallet;
         #endregion
         #region TestModel Implementation
@@ -25,7 +25,7 @@ namespace Tests.MartonioJunior.Collectables.Items
 
         public override void ConfigureValues()
         {
-            modelReference.Item = Item;
+            modelReference.Model = Item;
             modelReference.Amount = RequiredAmount;
         }
 
@@ -41,6 +41,11 @@ namespace Tests.MartonioJunior.Collectables.Items
         }
         #endregion
         #region Method Tests
+        [Test]
+        public void Amount_ReturnsRequiredQuantityOfItem()
+        {
+            Assert.AreEqual(RequiredAmount, modelReference.Amount);
+        }
         [Test]
         public void FulfillsCriteria_TrueWhenAmountOnWalletGreaterOrEqualToAmount()
         {
@@ -60,7 +65,7 @@ namespace Tests.MartonioJunior.Collectables.Items
         [Test]
         public void FulfillsCriteria_FalseWhenItemIsNotSet()
         {
-            modelReference.Item = null;
+            modelReference.Model = null;
             Wallet.InstanceMultiple(Item, 9);
 
             Assert.False(modelReference.FulfillsCriteria(Wallet));

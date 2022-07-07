@@ -2,41 +2,41 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Items;
-using MartonioJunior.Collectables;
-using Dummy = Tests.MartonioJunior.Collectables.Items.ItemEventListener_Dummy;
+using MartonioJunior.Trinkets.Items;
+using MartonioJunior.Trinkets;
+using Dummy = Tests.MartonioJunior.Trinkets.Items.ItemEventListener_Dummy;
 
-namespace Tests.MartonioJunior.Collectables.Items
+namespace Tests.MartonioJunior.Trinkets.Items
 {
     public class ItemEventListener_Tests: ComponentTestModel<ItemEventListener_Dummy>
     {
         #region Constants
-        private ItemData_Dummy Shovel;
+        private ItemModel_Dummy ShovelModel;
         private ItemWallet Wallet;
         #endregion
         #region TestModel Implementation
         public override void CreateTestContext()
         {
             EngineScrob.Instance(out Wallet);
-            EngineScrob.Instance(out Shovel);
+            EngineScrob.Instance(out ShovelModel);
 
             base.CreateTestContext();
         }
 
         public override void ConfigureValues()
         {
-            modelReference.Item = Shovel;
+            modelReference.Model = ShovelModel;
             modelReference.Wallet = Wallet;
 
-            Wallet.Add(Shovel);
+            ShovelModel.AddTo(Wallet);
         }
 
         public override void DestroyTestContext()
         {
             ScriptableObject.DestroyImmediate(Wallet);
-            ScriptableObject.DestroyImmediate(Shovel);
+            ScriptableObject.DestroyImmediate(ShovelModel);
 
-            Shovel = null;
+            ShovelModel = null;
             Wallet = null;
 
             base.DestroyTestContext();
@@ -46,8 +46,8 @@ namespace Tests.MartonioJunior.Collectables.Items
         [Test]
         public void Convert_ReturnsValueFromResultOfEvents()
         {
-            Assert.AreEqual(1, modelReference.Convert(Wallet));
-            Assert.Zero(modelReference.Convert(null));
+            Assert.AreEqual(1, modelReference.Convert(Wallet.SearchOn(ShovelModel, null))[0]);
+            Assert.Zero(modelReference.Convert(null)[0]);
         }
         #endregion
         #region Coroutines
@@ -55,11 +55,11 @@ namespace Tests.MartonioJunior.Collectables.Items
         public IEnumerator Start_UpdatesResultEveryUpdateCycle()
         {
             int amount = -1;
-            modelReference.onItemChange += (number) => amount = number;
+            modelReference.onCollectionChange += (number) => amount = number[0];
 
             yield return new WaitForSeconds(Dummy.UpdateTime);
             Assert.AreEqual(1, amount);
-            Wallet.Add(Shovel);
+            ShovelModel.AddTo(Wallet);
 
             yield return new WaitForSeconds(Dummy.UpdateTime);
             Assert.AreEqual(2, amount);
@@ -69,7 +69,7 @@ namespace Tests.MartonioJunior.Collectables.Items
         public IEnumerator Start_InvokesOnItemChangeEvent()
         {
             bool triggeredEvent = false;
-            modelReference.onItemChange += (number) => triggeredEvent = true;
+            modelReference.onCollectionChange += (number) => triggeredEvent = true;
             Assert.False(triggeredEvent);
 
             yield return new WaitForSeconds(Dummy.UpdateTime);

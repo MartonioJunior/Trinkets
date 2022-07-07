@@ -2,21 +2,21 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Items;
-using MartonioJunior.Collectables;
+using MartonioJunior.Trinkets.Items;
+using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Collectables.Items
+namespace Tests.MartonioJunior.Trinkets.Items
 {
-    public class ItemDropComponent_Tests: ComponentTestModel<ItemDropComponent>
+    public class ItemBuilderComponent_Tests: ComponentTestModel<ItemBuilderComponent>
     {
         #region Constants
-        private ItemData_Dummy Gem;
+        private ItemModel_Dummy GemModel;
         private ItemWallet Wallet;
         #endregion
         #region TestModel Implementation
         public override void CreateTestContext()
         {
-            EngineScrob.Instance(out Gem);
+            EngineScrob.Instance(out GemModel);
             EngineScrob.Instance(out Wallet);
 
             base.CreateTestContext();
@@ -24,15 +24,15 @@ namespace Tests.MartonioJunior.Collectables.Items
 
         public override void ConfigureValues()
         {
-            modelReference.Item = Gem;
+            modelReference.Builder = GemModel;
         }
         
         public override void DestroyTestContext()
         {
-            ScriptableObject.DestroyImmediate(Gem);
+            ScriptableObject.DestroyImmediate(GemModel);
             ScriptableObject.DestroyImmediate(Wallet);
             
-            Gem = null;
+            GemModel = null;
             Wallet = null;
 
             base.DestroyTestContext();
@@ -44,7 +44,7 @@ namespace Tests.MartonioJunior.Collectables.Items
         {
             modelReference.AddTo(Wallet);
 
-            Assert.AreEqual(1, Wallet.AmountOf(Gem));
+            Assert.AreEqual(1, Wallet.AmountOf(GemModel));
         }
 
         [Test]
@@ -65,6 +65,19 @@ namespace Tests.MartonioJunior.Collectables.Items
             modelReference.AddTo(Wallet);
 
             Assert.True(triggeredEvent);
+        }
+
+        [Test]
+        public void Model_ReturnsReferenceForBuildingItems()
+        {
+            Assert.AreEqual(GemModel, modelReference.Builder);
+        }
+
+        [Test]
+        public void Model_ReturnsNullWhenNoBuilderIsSet()
+        {
+            modelReference.Builder = null;
+            Assert.Null(modelReference.Builder);
         }
         #endregion
     }

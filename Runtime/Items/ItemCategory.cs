@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace MartonioJunior.Collectables.Items
+namespace MartonioJunior.Trinkets.Items
 {
-    [CreateAssetMenu(fileName="New Category", menuName="Collectables/Item/Category")]
+    [CreateAssetMenu(fileName = "New Category", menuName = "Trinkets/Item/Category")]
     public class ItemCategory: EngineScrob, IItemCategory
     {
         #region Constants
@@ -10,6 +10,7 @@ namespace MartonioJunior.Collectables.Items
         #endregion
         #region Variables
         [SerializeField] string displayName;
+        [SerializeField] Sprite displayIcon;
         #endregion
         #region EngineScrob Implementation
         public override void Reset() {}
@@ -29,6 +30,17 @@ namespace MartonioJunior.Collectables.Items
                 displayName = value;
                 Validate();
             }
+        }
+
+        public Sprite Image {
+            get => displayIcon;
+            set => displayIcon = value;
+        }
+        #endregion
+        #region Methods
+        public override string ToString()
+        {
+            return $"{displayName} (Item Category)";
         }
         #endregion
     }

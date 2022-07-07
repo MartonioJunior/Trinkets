@@ -1,4 +1,4 @@
-namespace MartonioJunior.Collectables.Items
+namespace MartonioJunior.Trinkets.Items
 {
-    public interface IItemCategory: IResourceCategory {}
+    public interface IItemCategory: IResourceCategory, IRepresentable {}
 }

@@ -2,10 +2,10 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Items;
-using MartonioJunior.Collectables;
+using MartonioJunior.Trinkets.Items;
+using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Collectables.Items
+namespace Tests.MartonioJunior.Trinkets.Items
 {
     public class ItemCategoryScannerComponent_Tests: ComponentTestModel<ItemCategoryScannerComponent>
     {
@@ -13,8 +13,8 @@ namespace Tests.MartonioJunior.Collectables.Items
         private const int RequiredAmount = 5;
         private ItemWallet Wallet;
         private ItemCategory Category;
-        private ItemData_Dummy Weapon;
-        private ItemData_Dummy Potion;
+        private ItemModel_Dummy Weapon;
+        private ItemModel_Dummy Potion;
         #endregion
         #region TestModel Implementation
         public override void CreateTestContext()
@@ -50,6 +50,12 @@ namespace Tests.MartonioJunior.Collectables.Items
         }
         #endregion
         #region Method Tests
+        [Test]
+        public void Amount_ReturnsQuantityRequired()
+        {
+            Assert.AreEqual(RequiredAmount, modelReference.Amount);
+        }
+
         [Test]
         public void FulfillsCriteria_TrueWhenAmountOfCategoryOnWalletIsGreaterOrEqual()
         {

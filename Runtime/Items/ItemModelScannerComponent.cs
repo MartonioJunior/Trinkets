@@ -1,16 +1,16 @@
 using UnityEngine;
 
-namespace MartonioJunior.Collectables.Items
+namespace MartonioJunior.Trinkets.Items
 {
-    public class ItemTypeScannerComponent: ItemScanner
+    public class ItemModelScannerComponent: ItemScanner
     {
         #region Variables
-        [SerializeField] Field<IItem> item = new Field<IItem>();
+        [SerializeField] Field<IItemModel> model = new Field<IItemModel>();
         [SerializeField, Min(0)] int amount;
 
-        public IItem Item {
-            get => item.Unwrap();
-            set => item.Set(value);
+        public IItemModel Model {
+            get => model.Unwrap();
+            set => model.Set(value);
         }
 
         public int Amount {
@@ -21,15 +21,13 @@ namespace MartonioJunior.Collectables.Items
         #region ItemScanner Implementation
         public override bool FulfillsCriteria(IItemWallet wallet)
         {
-            return wallet.AmountOf(Item) >= amount;
+            return wallet.AmountOf(Model) >= amount;
         }
 
         public override bool PerformTax(IItemWallet wallet)
         {
             if (amount > 0) {
-                for(int i = 0; i < amount; i++) {
-                    wallet.Remove(Item);
-                }
+                wallet.Remove(Model, amount);
                 return true;
             } else {
                 return false;

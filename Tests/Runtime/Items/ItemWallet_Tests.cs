@@ -2,21 +2,21 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Items;
-using MartonioJunior.Collectables;
+using MartonioJunior.Trinkets.Items;
+using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Collectables.Items
+namespace Tests.MartonioJunior.Trinkets.Items
 {
     public class ItemWallet_Tests: ScrobTestModel<ItemWallet>
     {
         #region Constants
         private ItemCategory Category;
-        private ItemData_Dummy Flag;
+        private ItemModel_Dummy FlagModel;
         #endregion
         #region TestModel Implementation
         public override void CreateTestContext()
         {
-            EngineScrob.Instance(out Flag);
+            EngineScrob.Instance(out FlagModel);
             EngineScrob.Instance(out Category);
 
             base.CreateTestContext();
@@ -26,10 +26,10 @@ namespace Tests.MartonioJunior.Collectables.Items
 
         public override void DestroyTestContext()
         {
-            ScriptableObject.DestroyImmediate(Flag);
+            ScriptableObject.DestroyImmediate(FlagModel);
             ScriptableObject.DestroyImmediate(Category);
 
-            Flag = null;
+            FlagModel = null;
             Category = null;
 
             base.CreateTestContext();
@@ -39,11 +39,12 @@ namespace Tests.MartonioJunior.Collectables.Items
         [Test]
         public void Add_ReturnsTrueWhenAdditionIsSuccessful()
         {
+            var Flag = FlagModel.New;
             Assert.True(modelReference.Add(Flag));
 
             var result = modelReference.Search(null);
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual(Flag.FilterName, result[0].FilterName);
+            Assert.AreEqual(Flag, result[0]);
         }
 
         [Test]
@@ -56,6 +57,7 @@ namespace Tests.MartonioJunior.Collectables.Items
         [Test]
         public void AmountOf_Item_ReturnsAmountOfItemOnWallet()
         {
+            var Flag = FlagModel.New;
             modelReference.Add(Flag);
 
             Assert.AreEqual(1, modelReference.AmountOf(Flag));
@@ -64,17 +66,33 @@ namespace Tests.MartonioJunior.Collectables.Items
         [Test]
         public void AmountOf_Item_ReturnsZeroWhenNoItemsOfSameTypeOnWallet()
         {
+            var Flag = FlagModel.New;
             Assert.Zero(modelReference.AmountOf(Flag));
+        }
+
+        [Test]
+        public void AmountOf_ItemModel_ReturnsAmountOfItemOnWallet()
+        {
+            var Flag = FlagModel.New;
+            modelReference.Add(Flag);
+
+            Assert.AreEqual(1, modelReference.AmountOf(FlagModel));
+        }
+
+        [Test]
+        public void AmountOf_ItemModel_ReturnsZeroWhenNoItemsOfSameTypeOnWallet()
+        {
+            Assert.Zero(modelReference.AmountOf(FlagModel));
         }
 
         [Test]
         public void AmountOf_ItemCategory_CountsNumberOfItemsFromCategory()
         {
-            EngineScrob.Instance(out ItemData_Dummy Batter);
+            EngineScrob.Instance(out ItemModel_Dummy Batter);
             modelReference.InstanceMultiple(Batter, 5);
 
-            Flag.Category = Category;
-            modelReference.InstanceMultiple(Flag, 9);
+            FlagModel.Category = Category;
+            modelReference.InstanceMultiple(FlagModel, 9);
 
             Assert.AreEqual(9, modelReference.AmountOf(Category));
             ScriptableObject.DestroyImmediate(Batter);
@@ -83,46 +101,64 @@ namespace Tests.MartonioJunior.Collectables.Items
         [Test]
         public void AmountOf_ItemCategory_ReturnsZeroWhenNoItemsOfCategory()
         {
-            modelReference.InstanceMultiple(Flag, 5);
+            modelReference.InstanceMultiple(FlagModel, 5);
             Assert.Zero(modelReference.AmountOf(Category));
         }
 
         [Test]
         public void Clear_EmptiesWallet()
         {
-            modelReference.InstanceMultiple(Flag, 8);
+            modelReference.InstanceMultiple(FlagModel, 8);
             modelReference.Clear();
 
             Assert.Zero(modelReference.Search(null).Length);
         }
 
         [Test]
-        public void InstanceMultiple_InstanceMultipleItemsOnWallet()
+        public void CopyMultiple_InstancesMultipleItemsWithSameValuesOnWallet()
         {
             const int ItemCount = 3;
-            modelReference.InstanceMultiple(Flag, ItemCount);
+            const int ItemValue = 2;
+            var Flag = FlagModel.New;
+            modelReference.CopyMultiple(Flag, ItemCount);
             var result = modelReference.Search(null);
 
             Assert.AreEqual(ItemCount, result.Length);
-            Assert.AreEqual(Flag.FilterName, result[0].FilterName);
-            Assert.AreEqual(Flag.FilterName, result[1].FilterName);
-            Assert.AreEqual(Flag.FilterName, result[2].FilterName);
+            Assert.AreEqual(ItemValue, result[0].Value);
+            Assert.AreEqual(ItemValue, result[1].Value);
+            Assert.AreEqual(ItemValue, result[2].Value);
+        }
+
+        [Test]
+        public void InstanceMultiple_CreatesMultipleItemsFromModelOnWallet()
+        {
+            const int ItemCount = 3;
+            modelReference.InstanceMultiple(FlagModel, ItemCount);
+            var result = modelReference.Search(null);
+
+            Assert.AreEqual(ItemCount, result.Length);
+            Assert.AreEqual(FlagModel, result[0].Model);
+            Assert.AreEqual(FlagModel, result[1].Model);
+            Assert.AreEqual(FlagModel, result[2].Model);
         }
 
         [Test]
         public void Remove_Item_ReturnsTrueWhenRemovalIsSuccessful()
         {
-            modelReference.InstanceMultiple(Flag, 2);
+            var Flag = FlagModel.New;
+            modelReference.InstanceMultiple(FlagModel, 1);
+            modelReference.Add(Flag);
             Assert.True(modelReference.Remove(Flag));
 
             var result = modelReference.Search(null);
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual(Flag.FilterName, result[0].FilterName);
+            Assert.AreEqual(FlagModel, result[0].Model);
         }
 
         [Test]
         public void Remove_Item_ReturnsFalseWhenItemNotOnWallet()
         {
+            var Flag = FlagModel.New;
             modelReference.Add(Flag);
             modelReference.Clear();
 
@@ -132,29 +168,29 @@ namespace Tests.MartonioJunior.Collectables.Items
         [Test]
         public void Remove_Item_ReturnsFalseWhenKeyNotOnDictionary()
         {
-            Assert.False(modelReference.Remove(Flag));
+            Assert.False(modelReference.Remove(FlagModel.New));
         }
 
         [Test]
         public void Remove_ItemCategory_RemovesItemsOfCategory()
         {
-            EngineScrob.Instance(out ItemData_Dummy Pants);
+            EngineScrob.Instance(out ItemModel_Dummy Pants);
             modelReference.InstanceMultiple(Pants, 2);
-            Flag.Category = Category;
-            modelReference.InstanceMultiple(Flag, 7);
+            FlagModel.Category = Category;
+            modelReference.InstanceMultiple(FlagModel, 7);
             modelReference.Remove(Category, 6);
 
-            var resultA = modelReference.Search((item) => item?.Category?.Name == Category.Name);
+            var resultA = modelReference.Search((item) => Category.Equals(item.Model.Category));
             Assert.AreEqual(1, resultA.Length);
-            Assert.AreEqual(Category, resultA[0].Category);
+            Assert.True(Category.Equals(resultA[0].Model.Category));
 
             modelReference.Remove(Category, 2);
-            resultA = modelReference.Search((item) => item?.Category?.Name == Category.Name);
+            resultA = modelReference.Search((item) => Category.Equals(item.Model.Category));
             var resultB = modelReference.Search(null);
             Assert.Zero(resultA.Length);
             Assert.AreEqual(2, resultB.Length);
-            Assert.Null(resultB[0].Category);
-            Assert.Null(resultB[1].Category);
+            Assert.Null(resultB[0].Model.Category);
+            Assert.Null(resultB[1].Model.Category);
 
             ScriptableObject.DestroyImmediate(Pants);
         }
@@ -162,28 +198,28 @@ namespace Tests.MartonioJunior.Collectables.Items
         [Test]
         public void Remove_ItemCategory_DoesNothingWhenAmountIsZeroOrNegative()
         {
-            Flag.Category = Category;
-            modelReference.InstanceMultiple(Flag, 1);
+            FlagModel.Category = Category;
+            modelReference.InstanceMultiple(FlagModel, 1);
             modelReference.Remove(Category, 0);
             modelReference.Remove(Category, -4);
             
-            var resultA = modelReference.Search((item) => item?.Category?.Name == Category.Name);
+            var resultA = modelReference.Search((item) => Category.Equals(item.Model.Category));
             Assert.AreEqual(1, resultA.Length);
-            Assert.AreEqual(Category, resultA[0].Category);
+            Assert.True(Category.Equals(resultA[0].Model.Category));
         }
 
         [Test]
         public void Search_ReturnsItemsWhichFulfillPredicate()
         {
-            EngineScrob.Instance(out ItemData_Dummy Shoes);
+            EngineScrob.Instance(out ItemModel_Dummy Shoes);
             modelReference.InstanceMultiple(Shoes, 2);
-            Flag.Category = Category;
-            modelReference.InstanceMultiple(Flag, 7);
+            FlagModel.Category = Category;
+            modelReference.InstanceMultiple(FlagModel, 7);
 
-            var result = modelReference.Search((item) => item.Category == null);
+            var result = modelReference.Search((item) => item.Model.Category == null);
             Assert.AreEqual(2, result.Length);
-            Assert.Null(result[0].Category);
-            Assert.Null(result[1].Category);
+            Assert.Null(result[0].Model.Category);
+            Assert.Null(result[1].Model.Category);
 
             ScriptableObject.DestroyImmediate(Shoes);
         }
@@ -197,15 +233,15 @@ namespace Tests.MartonioJunior.Collectables.Items
         [Test]
         public void Search_ReturnsAllItemsWhenPredicateIsNull()
         {
-            EngineScrob.Instance(out ItemData_Dummy Glove);
+            EngineScrob.Instance(out ItemModel_Dummy Glove);
             modelReference.InstanceMultiple(Glove, 1);
-            Flag.Category = Category;
-            modelReference.InstanceMultiple(Flag, 1);
+            FlagModel.Category = Category;
+            modelReference.InstanceMultiple(FlagModel, 1);
 
             var result = modelReference.Search(null);
             Assert.AreEqual(2, result.Length);
-            Assert.Null(result[0].Category);
-            Assert.AreEqual(Category, result[1].Category);
+            Assert.Null(result[0].Model.Category);
+            Assert.True(Category.Equals(result[1].Model.Category));
         }
         #endregion
     }

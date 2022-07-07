@@ -2,22 +2,22 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Items;
-using MartonioJunior.Collectables;
-using Dummy = Tests.MartonioJunior.Collectables.Items.ItemScanner_Dummy;
+using MartonioJunior.Trinkets.Items;
+using MartonioJunior.Trinkets;
+using Dummy = Tests.MartonioJunior.Trinkets.Items.ItemScanner_Dummy;
 
-namespace Tests.MartonioJunior.Collectables.Items
+namespace Tests.MartonioJunior.Trinkets.Items
 {
     public class ItemScanner_Tests: ComponentTestModel<ItemScanner_Dummy>
     {
         #region Constants
-        private ItemData_Dummy Fish;
+        private ItemModel_Dummy FishModel;
         private ItemWallet Wallet;
         #endregion
         #region TestModel Implementation
         public override void CreateTestContext()
         {
-            EngineScrob.Instance(out Fish);
+            EngineScrob.Instance(out FishModel);
             EngineScrob.Instance(out Wallet);
 
             base.CreateTestContext();
@@ -27,15 +27,15 @@ namespace Tests.MartonioJunior.Collectables.Items
         {
             modelReference.TaxWalletOnScan = true;
             
-            Wallet.Add(Fish);
+            FishModel.AddTo(Wallet);
         }
 
         public override void DestroyTestContext()
         {
-            ScriptableObject.DestroyImmediate(Fish);
+            ScriptableObject.DestroyImmediate(FishModel);
             ScriptableObject.DestroyImmediate(Wallet);
 
-            Fish = null;
+            FishModel = null;
             Wallet = null;
 
             base.DestroyTestContext();

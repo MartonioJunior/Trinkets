@@ -1,16 +1,12 @@
-using MartonioJunior.Collectables.Items;
+using MartonioJunior.Trinkets.Items;
 
-namespace Tests.MartonioJunior.Collectables.Items
+namespace Tests.MartonioJunior.Trinkets.Items
 {
     public class ItemEventListener_Dummy: ItemEventListener<int>
     {
-        public override int Convert(IItemWallet wallet)
+        public override int[] Convert(IItem[] items)
         {
-            return wallet?.AmountOf(Item) ?? 0;
+            return new int[1]{items?.Length ?? 0};
         }
-
-        public override void Reset() {}
-
-        public override void Validate() {}
     }
 }
