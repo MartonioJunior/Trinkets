@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Collectables.Currency
+namespace MartonioJunior.Trinkets.Currency
 {
-    [AddComponentMenu("Collectables/Currency/Currency Scanner")]
+    [AddComponentMenu("Trinkets/Currency/Currency Scanner")]
     public class CurrencyScannerComponent: EngineBehaviour, IResourceScanner<ICurrencyWallet>
     {
         #region Variables

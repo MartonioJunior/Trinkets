@@ -2,11 +2,11 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Collectables;
-using MartonioJunior.Collectables;
+using MartonioJunior.Trinkets.Collectables;
+using MartonioJunior.Trinkets;
 using System;
 
-namespace Tests.MartonioJunior.Collectables.Collectables
+namespace Tests.MartonioJunior.Trinkets.Collectables
 {
     public class CollectableWallet_Tests: ScrobTestModel<CollectableWallet>
     {
@@ -211,12 +211,18 @@ namespace Tests.MartonioJunior.Collectables.Collectables
         public void Remove_ICollectable_ReturnsTrueWhenCollectableIsRemovedFromWallet()
         {
             Assert.True(modelReference.Remove(StartCollectable));
+
+            modelReference.Add(NewCollectableA);
+            Assert.True(modelReference.Remove(NewCollectableA));
         }
 
         [Test]
         public void Remove_ICollectable_ReturnsFalseWhenCollectableNotOnWallet()
         {
             Assert.False(modelReference.Remove(NewCollectableB));
+
+            modelReference.Add(NewCollectableB);
+            Assert.False(modelReference.Remove(NewCollectableA));
         }
 
         [Test]

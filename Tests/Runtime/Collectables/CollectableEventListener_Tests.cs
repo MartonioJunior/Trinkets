@@ -1,11 +1,11 @@
 using System.Collections;
-using MartonioJunior.Collectables;
-using MartonioJunior.Collectables.Collectables;
+using MartonioJunior.Trinkets;
+using MartonioJunior.Trinkets.Collectables;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Tests.MartonioJunior.Collectables.Collectables
+namespace Tests.MartonioJunior.Trinkets.Collectables
 {
     public class CollectableEventListener_Tests: ComponentTestModel<CollectableEventListener>
     {
@@ -84,7 +84,7 @@ namespace Tests.MartonioJunior.Collectables.Collectables
             modelReference.onCollectableChange += (item) => triggerCount++;
             Wallet.Add(Collectable);
 
-            yield return new WaitForSeconds(CollectableEventListener.UpdateTime-0.05f);
+            yield return new WaitForSeconds(CollectableEventListener.UpdateTime/2);
 
             Assert.Zero(triggerCount);
             yield return new WaitForSeconds(0.1f);

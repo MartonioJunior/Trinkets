@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Collectables.Collectables
+namespace MartonioJunior.Trinkets.Collectables
 {
-    [AddComponentMenu("Collectables/Collectable/Collectable Giver")]
+    [AddComponentMenu("Trinkets/Collectable/Collectable Giver")]
     public class CollectableComponent: EngineBehaviour, IResourceInstancer<ICollectableWallet>
     {
         #region Variables

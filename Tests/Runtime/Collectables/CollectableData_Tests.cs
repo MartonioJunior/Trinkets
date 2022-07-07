@@ -2,22 +2,26 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Collectables;
-using MartonioJunior.Collectables;
+using MartonioJunior.Trinkets.Collectables;
+using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Collectables.Collectables
+namespace Tests.MartonioJunior.Trinkets.Collectables
 {
     public class CollectableData_Tests: ScrobTestModel<CollectableData>
     {
         #region Constants
         private CollectableCategory Category;
         private CollectableWallet Wallet;
+        private Sprite CategoryIcon;
         #endregion
         #region ScrobTestModel Implementation
         public override void CreateTestContext()
         {
             EngineScrob.Instance(out Category);
             EngineScrob.Instance(out Wallet);
+
+            CategoryIcon = Sprite.Create(Texture2D.grayTexture, new Rect(), Vector2.zero);
+            Category.Image = CategoryIcon;
             
             base.CreateTestContext();
         }
@@ -33,6 +37,7 @@ namespace Tests.MartonioJunior.Collectables.Collectables
 
             ScriptableObject.DestroyImmediate(Category);
             ScriptableObject.DestroyImmediate(Wallet);
+            Sprite.DestroyImmediate(CategoryIcon);
 
             Category = null;
             Wallet = null;
@@ -46,11 +51,35 @@ namespace Tests.MartonioJunior.Collectables.Collectables
         }
 
         [Test]
+        public void Category_SetReplacesCategory()
+        {
+            EngineScrob.Instance(out CollectableCategory OtherCategory);
+            modelReference.Category = OtherCategory;
+
+            Assert.False(Category.Contains(modelReference));
+            Assert.True(OtherCategory.Contains(modelReference));
+            ScriptableObject.DestroyImmediate(OtherCategory);
+        }
+
+        [Test]
         public void Collect_InsertsCollectableIntoWallet()
         {
             modelReference.Collect(Wallet);
 
             Assert.True(Wallet.Contains(modelReference));
+        }
+
+        [Test]
+        public void Image_ReturnsIconForCategoryOfCollectable()
+        {
+            Assert.AreEqual(CategoryIcon, modelReference.Image);
+        }
+
+        [Test]
+        public void Image_ReturnsNullWhenCategoryNotSet()
+        {
+            modelReference.Category = null;
+            Assert.Null(modelReference.Category);
         }
 
         [Test]

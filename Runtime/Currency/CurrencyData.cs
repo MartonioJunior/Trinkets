@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace MartonioJunior.Collectables.Currency
+namespace MartonioJunior.Trinkets.Currency
 {
-    [CreateAssetMenu(fileName="NewCurrencyData", menuName="Collectables/Currency/Data")]
+    [CreateAssetMenu(fileName = "NewCurrencyData", menuName = "Trinkets/Currency/Data")]
     public class CurrencyData: EngineScrob, ICurrency
     {
         #region Constants
@@ -12,7 +12,7 @@ namespace MartonioJunior.Collectables.Currency
         [SerializeField] Sprite displayIcon;
         [SerializeField] string displayName;
         [SerializeField] string symbol;
-        [SerializeField, Min(0)] int currencyRateValue;
+        [SerializeField, Min(0)] int currencyRateValue = 1;
         #endregion
         #region EngineScrob Implementation
         public override void Reset() {}
@@ -36,6 +36,7 @@ namespace MartonioJunior.Collectables.Currency
 
         public Sprite Image {
             get => displayIcon;
+            set => displayIcon = value;
         }
 
         public string Symbol {
@@ -46,6 +47,12 @@ namespace MartonioJunior.Collectables.Currency
         public int Value {
             get => currencyRateValue;
             set => currencyRateValue = Mathf.Max(0, value);
+        }
+        #endregion
+        #region Methods
+        public override string ToString()
+        {
+            return $"{displayName} ({symbol})";
         }
         #endregion
     }

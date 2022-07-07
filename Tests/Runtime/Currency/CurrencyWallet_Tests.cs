@@ -2,11 +2,11 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Currency;
+using MartonioJunior.Trinkets.Currency;
 using System.Collections.Generic;
-using MartonioJunior.Collectables;
+using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Collectables.Currency
+namespace Tests.MartonioJunior.Trinkets.Currency
 {
     public class CurrencyWallet_Tests: ScrobTestModel<CurrencyWallet>
     {
@@ -56,7 +56,7 @@ namespace Tests.MartonioJunior.Collectables.Currency
         [Test]
         public void Add_ReturnsFalseWhenCurrencyIsNull()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.False(modelReference.Add(null));
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace Tests.MartonioJunior.Collectables.Currency
         [Test]
         public void AmountOf_ReturnsZeroWhenCurrencyIsNull()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Zero(modelReference.AmountOf(null));
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace Tests.MartonioJunior.Collectables.Currency
         [Test]
         public void Remove_ReturnsFalseWhenCurrencyIsNull()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.False(modelReference.Remove(null));
         }
 
         [Test]
@@ -142,7 +142,9 @@ namespace Tests.MartonioJunior.Collectables.Currency
         [Test]
         public void Reset_DoesNothingWhenCurrencyIsNull()
         {
-            Assert.Ignore(NotImplemented);
+            modelReference.Reset(null);
+
+            Assert.NotZero(modelReference.AmountOf(Currency));
         }
 
         [Test]

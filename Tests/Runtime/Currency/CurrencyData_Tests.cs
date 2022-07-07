@@ -2,9 +2,9 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Currency;
+using MartonioJunior.Trinkets.Currency;
 
-namespace Tests.MartonioJunior.Collectables.Currency
+namespace Tests.MartonioJunior.Trinkets.Currency
 {
     public class CurrencyData_Tests: ScrobTestModel<CurrencyData>
     {
@@ -12,16 +12,32 @@ namespace Tests.MartonioJunior.Collectables.Currency
         public const string DisplayName = "Real";
         public const string Symbol = "R$";
         public const int Value = 3;
+        private Sprite Icon;
         #endregion
         #region ScrobTestModel Implementation
         public override void ConfigureValues()
         {
+            Icon = Sprite.Create(Texture2D.grayTexture, new Rect(), Vector2.zero);
+
+            modelReference.Image = Icon;
             modelReference.Name = DisplayName;
             modelReference.Value = Value;
             modelReference.Symbol = Symbol;
         }
+
+        public override void DestroyTestContext()
+        {
+            Sprite.DestroyImmediate(Icon);
+
+            base.DestroyTestContext();
+        }
         #endregion
         #region Test Methods
+        [Test]
+        public void Image_ReturnsIconOfResource()
+        {
+            Assert.AreEqual(Icon, modelReference.Image);
+        }
         [Test]
         public void Name_ReturnsNameOfResource()
         {

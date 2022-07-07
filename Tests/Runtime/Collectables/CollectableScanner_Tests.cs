@@ -1,12 +1,12 @@
 using System.Collections;
-using MartonioJunior.Collectables;
-using MartonioJunior.Collectables.Collectables;
+using MartonioJunior.Trinkets;
+using MartonioJunior.Trinkets.Collectables;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MockCollectableScanner = MartonioJunior.Collectables.Collectables.CollectableScannerComponent;
+using MockCollectableScanner = MartonioJunior.Trinkets.Collectables.CollectableScannerComponent;
 
-namespace Tests.MartonioJunior.Collectables.Collectables
+namespace Tests.MartonioJunior.Trinkets.Collectables
 {
     public class MockCollectableScanner: CollectableScanner
     {
@@ -148,10 +148,10 @@ namespace Tests.MartonioJunior.Collectables.Collectables
         {
             int taxCount = 0;
             modelReference.onTaxWallet += () => taxCount++;
-            modelReference.Tax(Wallet);
+            modelReference.TaxWallet(Wallet);
 
             Assert.AreEqual(1, taxCount);
-            modelReference.Tax(null);
+            modelReference.TaxWallet(null);
             Assert.AreEqual(1, taxCount);
         }
         #endregion

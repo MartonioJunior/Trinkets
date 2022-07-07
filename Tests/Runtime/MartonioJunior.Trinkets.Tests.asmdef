@@ -1,8 +1,8 @@
 {
-    "name": "MartonioJunior.Collectables.Tests",
+    "name": "MartonioJunior.Trinkets.Tests",
     "rootNamespace": "",
     "references": [
-        "MartonioJunior.Collectables",
+        "MartonioJunior.Trinkets",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

@@ -1,7 +1,7 @@
 {
-	"name": "MartonioJunior.Collectables.Editor.Tests",
+	"name": "MartonioJunior.Trinkets.Editor.Tests",
 	"references": [
-		"MartonioJunior.Collectables.Editor"
+		"MartonioJunior.Trinkets.Editor"
 	],
 	"optionalUnityReferences": [
 		"TestAssemblies"

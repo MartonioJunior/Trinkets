@@ -2,9 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Collectables.Collectables
+namespace MartonioJunior.Trinkets.Collectables
 {
-    [AddComponentMenu("Collectables/Collectable/Collectable Event Listener")]
+    [AddComponentMenu("Trinkets/Collectable/Collectable Event Listener")]
     public class CollectableEventListener: EngineBehaviour, IResourceProcessor<ICollectableWallet, bool>
     {
         #region Constants

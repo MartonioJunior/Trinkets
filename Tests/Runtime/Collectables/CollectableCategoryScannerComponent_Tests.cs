@@ -2,10 +2,10 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Collectables;
-using MartonioJunior.Collectables;
+using MartonioJunior.Trinkets.Collectables;
+using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Collectables.Collectables
+namespace Tests.MartonioJunior.Trinkets.Collectables
 {
     public class CollectableCategoryScannerComponent_Tests: ComponentTestModel<CollectableCategoryScannerComponent>
     {
@@ -50,6 +50,17 @@ namespace Tests.MartonioJunior.Collectables.Collectables
         }
         #endregion
         #region Method Tests
+        [Test]
+        public void Amount_ReturnsRequiredQuantity()
+        {
+            Assert.AreEqual(AmountScan, modelReference.Amount);
+        }
+        [Test]
+        public void Category_ReturnsFilterForScanner()
+        {
+            Assert.AreEqual(Category, modelReference.Category);
+        }
+
         [Test]
         public void FulfillsCriteria_ReturnsTrueWhenWalletHasAmountOfResource()
         {

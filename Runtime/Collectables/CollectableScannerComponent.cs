@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MartonioJunior.Collectables.Collectables
+namespace MartonioJunior.Trinkets.Collectables
 {
-    [AddComponentMenu("Collectables/Collectable/Collectable Scanner")]
+    [AddComponentMenu("Trinkets/Collectable/Collectable Scanner")]
     public class CollectableScannerComponent: CollectableScanner
     {
         #region Variables

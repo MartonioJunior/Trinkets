@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MartonioJunior.Collectables
+namespace MartonioJunior.Trinkets
 {
     public static partial class CollectionExtensions
     {

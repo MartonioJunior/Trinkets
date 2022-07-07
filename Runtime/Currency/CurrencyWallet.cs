@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using CurrencyLoadout = System.Collections.Generic.Dictionary<MartonioJunior.Collectables.Currency.ICurrency, int>;
+using CurrencyLoadout = System.Collections.Generic.Dictionary<MartonioJunior.Trinkets.Currency.ICurrency, int>;
 
-namespace MartonioJunior.Collectables.Currency
+namespace MartonioJunior.Trinkets.Currency
 {
-    [CreateAssetMenu(fileName = "NewWallet", menuName = "Collectables/Currency/Wallet")]
+    [CreateAssetMenu(fileName = "NewWallet", menuName = "Trinkets/Currency/Wallet")]
     public class CurrencyWallet: EngineScrob, ICurrencyWallet
     {
         #region Variables

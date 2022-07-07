@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Collectables.Collectables
+namespace MartonioJunior.Trinkets.Collectables
 {
-    [CreateAssetMenu(fileName="New Collectable", menuName="Collectables/Collectable/Data")]
+    [CreateAssetMenu(fileName = "New Collectable", menuName = "Trinkets/Collectable/Data")]
     public class CollectableData: EngineScrob, ICollectable
     {
         #region Variables
@@ -84,6 +84,12 @@ namespace MartonioJunior.Collectables.Collectables
 
         protected virtual void SetName(string name) {}
         protected virtual void SetValue(int value) {}
+        #endregion
+        #region Methods
+        public override string ToString()
+        {
+            return $"{name} ({(Category as IRepresentable).Name})";
+        }
         #endregion
     }
 }

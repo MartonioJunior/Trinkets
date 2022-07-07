@@ -1,15 +1,15 @@
 {
-    "name": "com.martonio.collectables",
-    "displayName": "Collectables (Tentative Title)",
-    "version": "0.0.0",
-    "unity": "2020.3",
-    "description": "[Important details about what the package offers]",
-    "dependencies": {},
-    "author": {
-      "name": "Martônio Júnior",
-      "url": "https://github.com/martoniojunior"
-    },
-    "repository": "https://github.com/martoniojunior/collectables.git",
-    "license": "MIT",
-    "type": "tool"
-  }
+  "name": "com.martonio.trinkets",
+  "displayName": "Trinkets",
+  "version": "0.1.0",
+  "unity": "2021.3",
+  "description": "Trinkets offers a new architecture based on ScriptableObjects for the implementation of in-game resources like collectables, items and currencies.\nFor more details, please check out the Documentation and Samples on how to implement.",
+  "dependencies": {},
+  "author": {
+    "name": "Martônio Júnior",
+    "url": "https://github.com/martoniojunior"
+  },
+  "repository": "https://github.com/MartonioJunior/Trinkets.git",
+  "license": "MIT",
+  "type": "tool"
+}

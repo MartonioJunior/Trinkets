@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MartonioJunior.Collectables.Currency
+namespace MartonioJunior.Trinkets.Currency
 {
     public interface ICurrency: IResource
     {

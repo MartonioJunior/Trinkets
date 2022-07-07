@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MartonioJunior.Collectables
+namespace MartonioJunior.Trinkets
 {
     public interface IResourceTaxer<T> where T: IWallet
     {

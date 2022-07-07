@@ -2,10 +2,10 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Collectables.Currency;
-using MartonioJunior.Collectables;
+using MartonioJunior.Trinkets.Currency;
+using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Collectables.Currency
+namespace Tests.MartonioJunior.Trinkets.Currency
 {
     public class CurrencyScannerComponent_Tests: ComponentTestModel<CurrencyScannerComponent>
     {

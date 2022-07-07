@@ -1,11 +1,11 @@
 using System.Collections;
-using MartonioJunior.Collectables;
-using MartonioJunior.Collectables.Collectables;
+using MartonioJunior.Trinkets;
+using MartonioJunior.Trinkets.Collectables;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Tests.MartonioJunior.Collectables.Collectables
+namespace Tests.MartonioJunior.Trinkets.Collectables
 {
     public class CollectableScannerComponent_Tests: ComponentTestModel<CollectableScannerComponent>
     {

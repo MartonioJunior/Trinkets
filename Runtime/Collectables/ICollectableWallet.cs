@@ -1,4 +1,4 @@
-namespace MartonioJunior.Collectables.Collectables
+namespace MartonioJunior.Trinkets.Collectables
 {
     public interface ICollectableWallet: IWallet, IResourceManager<ICollectable>, IResourceManager<ICollectableCategory>
     {

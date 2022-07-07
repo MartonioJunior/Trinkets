@@ -1,4 +1,4 @@
-namespace MartonioJunior.Collectables.Currency
+namespace MartonioJunior.Trinkets.Currency
 {
     public interface ICurrencyWallet: IResourceManager<ICurrency>, IWallet
     {

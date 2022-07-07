@@ -1,4 +1,4 @@
-namespace MartonioJunior.Collectables
+namespace MartonioJunior.Trinkets
 {
     public interface IResourceScanner<T>: IResourceSensor<T>, IResourceTaxer<T> where T: IWallet
     {

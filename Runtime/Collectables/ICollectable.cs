@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MartonioJunior.Collectables.Collectables
+namespace MartonioJunior.Trinkets.Collectables
 {
     public interface ICollectable: IResource
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MartonioJunior.Collectables
+namespace MartonioJunior.Trinkets
 {
     public interface IResourceQuantifier<T> where T: IResource
     {

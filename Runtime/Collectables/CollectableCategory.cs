@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MartonioJunior.Collectables.Collectables
+namespace MartonioJunior.Trinkets.Collectables
 {
-    [CreateAssetMenu(fileName = "New Category", menuName = "Collectables/Collectable/Category")]
+    [CreateAssetMenu(fileName = "New Category", menuName = "Trinkets/Collectable/Category")]
     public class CollectableCategory: EngineScrob, ICollectableCategory
     {
         #region Constants
@@ -41,6 +41,7 @@ namespace MartonioJunior.Collectables.Collectables
         #region ICollectableCategory Implementation
         public Sprite Image {
             get => displayIcon;
+            set => displayIcon = value;
         }
 
         public bool Add(ICollectable element)
@@ -85,6 +86,11 @@ namespace MartonioJunior.Collectables.Collectables
         public bool Contains(ICollectable element)
         {
             return elements.Contains(element);
+        }
+
+        public override string ToString()
+        {
+            return $"{displayName} (Collectable Category)";
         }
         #endregion
     }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Collectables.Collectables
+namespace MartonioJunior.Trinkets.Collectables
 {
     public abstract class CollectableScanner: EngineBehaviour, IResourceScanner<ICollectableWallet>
     {

@@ -2,9 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Collectables.Currency
+namespace MartonioJunior.Trinkets.Currency
 {
-    [AddComponentMenu("Collectables/Currency/Currency Event Listener")]
+    [AddComponentMenu("Trinkets/Currency/Currency Event Listener")]
     public class CurrencyEventListener: EngineBehaviour, IResourceProcessor<ICurrencyWallet, int>
     {
         #region Constants

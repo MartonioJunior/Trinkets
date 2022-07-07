@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace MartonioJunior.Collectables
+namespace MartonioJunior.Trinkets
 {
     public interface IResourceSearcher<T> where T: IResource
     {

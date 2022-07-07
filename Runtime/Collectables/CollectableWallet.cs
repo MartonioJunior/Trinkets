@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MartonioJunior.Collectables.Collectables
+namespace MartonioJunior.Trinkets.Collectables
 {
-    [CreateAssetMenu(fileName="NewWallet", menuName="Collectables/Collectable/Wallet")]
+    [CreateAssetMenu(fileName = "NewWallet", menuName = "Trinkets/Collectable/Wallet")]
     public class CollectableWallet: EngineScrob, ICollectableWallet
     {
         #region Variables

@@ -1,11 +1,11 @@
 using System.Collections;
-using MartonioJunior.Collectables;
-using MartonioJunior.Collectables.Collectables;
+using MartonioJunior.Trinkets;
+using MartonioJunior.Trinkets.Collectables;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Tests.MartonioJunior.Collectables.Collectables
+namespace Tests.MartonioJunior.Trinkets.Collectables
 {
     public class CollectableCategory_Tests: ScrobTestModel<CollectableCategory>
     {
@@ -13,12 +13,14 @@ namespace Tests.MartonioJunior.Collectables.Collectables
         public const string StartName = "Gems";
         private CollectableData StartCollectable;
         private CollectableData NewCollectable;
+        private Sprite CategoryIcon;
         #endregion
         #region ScrobTestModel Implementation
         public override void CreateTestContext()
         {
             EngineScrob.Instance(out StartCollectable);
             EngineScrob.Instance(out NewCollectable);
+            CategoryIcon = Sprite.Create(Texture2D.grayTexture, new Rect(), Vector2.zero);
             
             base.CreateTestContext();
 
@@ -28,12 +30,14 @@ namespace Tests.MartonioJunior.Collectables.Collectables
         public override void ConfigureValues()
         {
             modelReference.Name = StartName;
+            modelReference.Image = CategoryIcon;
         }
 
         public override void DestroyTestContext()
         {
             base.DestroyTestContext();
 
+            Sprite.DestroyImmediate(CategoryIcon);
             ScriptableObject.DestroyImmediate(StartCollectable);
             ScriptableObject.DestroyImmediate(NewCollectable);
 
@@ -88,6 +92,12 @@ namespace Tests.MartonioJunior.Collectables.Collectables
             modelReference.Clear();
 
             Assert.False(modelReference.Contains(StartCollectable));
+        }
+
+        [Test]
+        public void Image_ReturnsIconForCategory()
+        {
+            Assert.AreEqual(CategoryIcon, modelReference.Image);
         }
 
         [Test]
