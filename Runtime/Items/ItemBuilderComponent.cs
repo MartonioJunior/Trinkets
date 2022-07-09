@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.Trinkets.Items
 {
+    [AddComponentMenu("Trinkets/Item/Item Giver")]
     public class ItemBuilderComponent: EngineBehaviour, IItemBuilder
     {
         #region Variables

@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace MartonioJunior.Trinkets.Items
 {
+    [AddComponentMenu("Trinkets/Item/Item Category Scanner")]
     public class ItemCategoryScannerComponent: ItemScanner
     {
         #region Variables

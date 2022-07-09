@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MartonioJunior.Trinkets.Collectables
 {
-    [AddComponentMenu("Trinkets/Collectable/Collectable Scanner")]
+    [AddComponentMenu("Trinkets/Collectable/Collectable Category Scanner")]
     public class CollectableCategoryScannerComponent: CollectableScanner
     {
         #region Variables

@@ -7,7 +7,7 @@ namespace MartonioJunior.Trinkets.Collectables
     public class CollectableScannerComponent: CollectableScanner
     {
         #region Variables
-        [SerializeField] Field<ICollectable>[] collectables;
+        [SerializeField, HideInInspector] Field<ICollectable>[] collectables;
         #endregion
         #region Collectable Scanner Implementation
         public override bool FulfillsCriteria(ICollectableWallet wallet)

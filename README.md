@@ -44,6 +44,7 @@ With the set of tools above, we're able to create simple, yet really effective g
 * Simple trade systems that allow for exchanging, event between different resource types.
 * Simple progression gates once you have enough on a category.
 * Revealing/hiding objects if you have a certain item.
+
 and many other use cases...
 
 ## Interface-based Approach
