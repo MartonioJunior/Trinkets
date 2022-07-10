@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace MartonioJunior.Trinkets.Collectables
@@ -164,7 +165,36 @@ namespace MartonioJunior.Trinkets.Collectables
             return contents[category].Contains(collectable);
         }
 
-        public ICollectable[] ListSearch(Predicate<ICollectable> predicate, List<ICollectable> list)
+        public string DescribeContents()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(name);
+            sb.Append("\n");
+
+            sb.Append(GetDescription("No Category", nullCategoryCollectables));
+            foreach(var pair in contents) {
+                sb.Append(GetDescription((pair.Key as IRepresentable).Name, pair.Value));
+            }
+            return sb.ToString();
+        }
+
+        private string GetDescription(string categoryName, List<ICollectable> collectables)
+        {
+            if (collectables.Count == 0) return "";
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(categoryName);
+            sb.Append(": ");
+
+            foreach(var collectable in collectables) {
+                sb.Append(collectable.Name);
+                sb.Append(" | ");
+            }
+            sb.Append("\n");
+            return sb.ToString();
+        }
+
+        private ICollectable[] ListSearch(Predicate<ICollectable> predicate, List<ICollectable> list)
         {
             if (predicate == null) return list.ToArray();
 

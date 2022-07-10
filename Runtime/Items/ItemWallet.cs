@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace MartonioJunior.Trinkets.Items
@@ -159,6 +160,35 @@ namespace MartonioJunior.Trinkets.Items
             }
 
             return resultList.ToArray();
+        }
+        #endregion
+        #region Methods
+        public string DescribeContents()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(name);
+            sb.Append("\n");
+
+            foreach(var pair in contents) {
+                sb.Append(GetDescription((pair.Key as IRepresentable).Name, pair.Value));
+            }
+            return sb.ToString();
+        }
+
+        private string GetDescription(string modelName, List<IItem> items)
+        {
+            if (items.Count == 0) return "";
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(modelName);
+            sb.Append(": ");
+
+            foreach(var item in items) {
+                sb.Append(item.ToString());
+                sb.Append(" | ");
+            }
+            sb.Append("\n");
+            return sb.ToString();
         }
         #endregion
     }

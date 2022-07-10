@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using CurrencyLoadout = System.Collections.Generic.Dictionary<MartonioJunior.Trinkets.Currency.ICurrency, int>;
 
@@ -68,6 +69,24 @@ namespace MartonioJunior.Trinkets.Currency
             }
 
             return list.ToArray();
+        }
+        #endregion
+        #region Methods
+        public string DescribeContents()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(name);
+            sb.Append(": ");
+
+            if (currencyAmounts.Count == 0) {
+                sb.Append("Empty");
+            } else foreach(var pair in currencyAmounts) {
+                sb.Append(pair.Value);
+                sb.Append("(");
+                sb.Append(pair.Key.Symbol);
+                sb.Append(") | ");
+            }
+            return sb.ToString();
         }
         #endregion
     }
