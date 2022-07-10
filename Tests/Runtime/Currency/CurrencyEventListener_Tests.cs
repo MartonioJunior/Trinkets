@@ -73,10 +73,10 @@ namespace Tests.MartonioJunior.Trinkets.Currency
             modelReference.onAmountChange += (amount) => amountOnWallet = amount;
             Wallet.Change(Currency, AmountOnWallet);
 
-            yield return new WaitForSeconds(CurrencyEventListener.UpdateTime-0.05f);
+            yield return new WaitForSeconds(CurrencyEventListener.UpdateTime/2);
 
             Assert.AreEqual(AmountOnWallet, amountOnWallet);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(CurrencyEventListener.UpdateTime);
 
             const int IncreasedAmount = 2 * AmountOnWallet;
             Assert.AreEqual(IncreasedAmount, amountOnWallet);

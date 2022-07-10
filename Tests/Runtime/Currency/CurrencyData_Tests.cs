@@ -45,6 +45,12 @@ namespace Tests.MartonioJunior.Trinkets.Currency
         }
 
         [Test]
+        public void ToString_ReturnsCurrencyNameAndSymbol()
+        {
+            Assert.AreEqual($"{DisplayName} ({Symbol})", modelReference.ToString());
+        }
+
+        [Test]
         public void Value_ReturnsResourceWorth()
         {
             Assert.AreEqual(Value, modelReference.Value);

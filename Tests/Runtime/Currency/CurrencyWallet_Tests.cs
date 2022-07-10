@@ -13,19 +13,23 @@ namespace Tests.MartonioJunior.Trinkets.Currency
         #region Constants
         public const int AmountOfCurrency = 70;
         public const int ChangeAmount = 20;
+        private const string CurrencySymbol = "G";
         public const int TotalAfterChange = AmountOfCurrency+ChangeAmount;
+        private const string WalletName = "Wallet";
         private CurrencyData Currency;
         #endregion
         #region ScrobTestModel Implementation
         public override void CreateTestContext()
         {
             EngineScrob.Instance(out Currency);
+            Currency.Symbol = CurrencySymbol;
 
             base.CreateTestContext();
         }
 
         public override void ConfigureValues()
         {
+            modelReference.name = WalletName;
             modelReference.Change(Currency, AmountOfCurrency);
         }
 
@@ -101,6 +105,12 @@ namespace Tests.MartonioJunior.Trinkets.Currency
             modelReference.Clear();
 
             Assert.Zero(modelReference.AmountOf(Currency));
+        }
+
+        [Test]
+        public void DescribeContents_ShowsWalletContentsInStringFormat()
+        {
+            Assert.AreEqual($"{WalletName}: {AmountOfCurrency}({CurrencySymbol}) | ", modelReference.DescribeContents());
         }
 
         [Test]
