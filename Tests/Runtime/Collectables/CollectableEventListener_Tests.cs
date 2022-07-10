@@ -87,7 +87,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             yield return new WaitForSeconds(CollectableEventListener.UpdateTime/2);
 
             Assert.Zero(triggerCount);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(CollectableEventListener.UpdateTime);
 
             Assert.AreEqual(1, triggerCount);
         }

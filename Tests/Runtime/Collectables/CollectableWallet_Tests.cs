@@ -11,6 +11,8 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
     public class CollectableWallet_Tests: ScrobTestModel<CollectableWallet>
     {
         #region Constants
+        private const string CollectableName = "Car";
+        private const string WalletName = "Wallet";
         private CollectableCategory EmptyCategory;
         private CollectableCategory Category;
         private CollectableData StartCollectable;
@@ -25,6 +27,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             EngineScrob.Instance(out NewCollectableB);
 
             EngineScrob.Instance(out Category);
+            StartCollectable.name = CollectableName;
             NewCollectableA.Category = Category;
             NewCollectableB.Category = Category;
 
@@ -35,6 +38,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
         public override void ConfigureValues()
         {
+            modelReference.name = WalletName;
             modelReference.Add(StartCollectable);
         }
 
@@ -138,6 +142,12 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             modelReference.Clear();
 
             Assert.False(modelReference.Contains(StartCollectable));
+        }
+
+        [Test]
+        public void DescribeContents_ShowsWalletContents()
+        {
+            Assert.AreEqual($"{WalletName}\nNo Category: {CollectableName}() | \n", modelReference.DescribeContents());
         }
 
         [Test]

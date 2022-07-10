@@ -165,6 +165,12 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         }
 
         [Test]
+        public void ToString_ReturnsCategoryName()
+        {
+            Assert.AreEqual($"{StartName} (Collectable Category)", modelReference.ToString());
+        }
+
+        [Test]
         public void Value_ReturnsWorthOfCategory()
         {
             Assert.AreEqual(1, modelReference.Value);

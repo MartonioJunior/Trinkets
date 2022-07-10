@@ -88,7 +88,7 @@ namespace MartonioJunior.Trinkets.Collectables
         #region Methods
         public override string ToString()
         {
-            return $"{name} ({(Category as IRepresentable).Name})";
+            return $"{name}({Name})";
         }
         #endregion
     }

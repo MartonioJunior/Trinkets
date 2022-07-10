@@ -10,6 +10,8 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
     public class CollectableData_Tests: ScrobTestModel<CollectableData>
     {
         #region Constants
+        private const string CollectableName = "Unique Item";
+        private const string CategoryName = "Food";
         private CollectableCategory Category;
         private CollectableWallet Wallet;
         private Sprite CategoryIcon;
@@ -21,6 +23,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             EngineScrob.Instance(out Wallet);
 
             CategoryIcon = Sprite.Create(Texture2D.grayTexture, new Rect(), Vector2.zero);
+            Category.Name = CategoryName;
             Category.Image = CategoryIcon;
             
             base.CreateTestContext();
@@ -28,6 +31,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
         public override void ConfigureValues()
         {
+            modelReference.name = CollectableName;
             modelReference.Category = Category;
         }
 
@@ -112,6 +116,12 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             modelReference.TearDown();
 
             Assert.False(Category.Contains(modelReference));
+        }
+
+        [Test]
+        public void ToString_ReturnsCollectableNameAndCategory()
+        {
+            Assert.AreEqual($"{CollectableName}({CategoryName})", modelReference.ToString());
         }
 
         [Test]
