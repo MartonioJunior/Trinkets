@@ -170,7 +170,7 @@ namespace MartonioJunior.Trinkets.Items
             sb.Append("\n");
 
             foreach(var pair in contents) {
-                sb.Append(GetDescription((pair.Key as IRepresentable).Name, pair.Value));
+                sb.Append(GetDescription(pair.Key.Name, pair.Value));
             }
             return sb.ToString();
         }

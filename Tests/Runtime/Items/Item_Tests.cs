@@ -24,9 +24,9 @@ namespace Tests.MartonioJunior.Trinkets.Items
 
             EngineScrob.Instance(out Model);
             Model.Category = Category;
+            Model.Name = ItemName;
 
             modelReference = Model.New;
-            modelReference.Name = ItemName;
             modelReference.Image = Image;
             modelReference.Value = ItemValue;
         }

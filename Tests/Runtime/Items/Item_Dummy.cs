@@ -17,7 +17,7 @@ namespace Tests.MartonioJunior.Trinkets.Items
         #endregion
         #region IItem Implementation
         public int Value {get; set;}
-        public string Name {get; set;}
+        public string Name => dummy.Name;
         public Sprite Image {get; set;}
         public IItemModel Model => dummy;
 
@@ -30,7 +30,6 @@ namespace Tests.MartonioJunior.Trinkets.Items
         {
             var newItem = new Item_Dummy(dummy);
             newItem.Value = this.Value+1;
-            newItem.Name = this.Name;
             newItem.Image = this.Image;
             return newItem;
         }

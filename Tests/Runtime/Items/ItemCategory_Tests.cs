@@ -53,6 +53,12 @@ namespace Tests.MartonioJunior.Trinkets.Items
         {
             Assert.AreEqual(CategoryIcon, modelReference.Image);
         }
+
+        [Test]
+        public void ToString_ReturnsCategoryName()
+        {
+            Assert.AreEqual($"{CategoryName} (Item Category)", modelReference.ToString());
+        }
         #endregion
     }
 }

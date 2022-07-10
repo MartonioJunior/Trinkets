@@ -11,24 +11,31 @@ namespace Tests.MartonioJunior.Trinkets.Items
     {
         #region Constants
         private ItemModel_Dummy Model;
+        private ItemWallet Wallet;
         #endregion
         #region TestModel Implementation
         public override void CreateTestContext()
         {
             EngineScrob.Instance(out Model);
+            EngineScrob.Instance(out Wallet);
             
             base.CreateTestContext();
         }
 
         public override void ConfigureValues()
         {
+            Wallet.InstanceMultiple(Model, 3);
             modelReference.Model = Model;
+            modelReference.ListenerIndex = 1;
         }
 
         public override void DestroyTestContext()
         {
             ScriptableObject.DestroyImmediate(Model);
+            ScriptableObject.DestroyImmediate(Wallet);
+
             Model = null;
+            Wallet = null;
 
             base.DestroyTestContext();
         }
@@ -41,27 +48,40 @@ namespace Tests.MartonioJunior.Trinkets.Items
         }
 
         [Test]
-        public void Convert_IItemWallet_ReturnsResultForProcessing()
+        public void ListenerIndex_ReturnsIndexOfComponent()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.AreEqual(1, modelReference.ListenerIndex);
         }
 
         [Test]
-        public void Convert_IItemArray_CapturesValueForItemAtListenerIndex()
+        public void ProcessArray_CapturesValueForItemAtListenerIndex()
         {
-            Assert.Ignore(NotImplemented);
+            var results = Wallet.SearchOn(Model, null);
+
+            Assert.AreEqual(results[modelReference.ListenerIndex].Value, modelReference.ProcessArray(results));
         }
 
         [Test]
-        public void Convert_IItemArray_ReturnsDefaultWhenArrayIsNull()
+        public void ProcessArray_ReturnsDefaultWhenArrayIsNull()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.AreEqual(default(int), modelReference.ProcessArray(null));
         }
 
         [Test]
-        public void Convert_IItemArray_ReturnsDefaultWhenListenerIndexOutOfRange()
+        public void ProcessArray_ReturnsDefaultWhenListenerIndexOutOfRange()
         {
-            Assert.Ignore(NotImplemented);
+            var results = Wallet.SearchOn(Model, null);
+
+            modelReference.ListenerIndex = 6;
+            Assert.AreEqual(default(int), modelReference.ProcessArray(results));
+        }
+
+        [Test]
+        public void ConvertWallet_ReturnsResultForProcessing()
+        {
+            var results = Wallet.SearchOn(Model, null);
+
+            Assert.AreEqual(results[modelReference.ListenerIndex].Value, modelReference.Convert(Wallet));
         }
         #endregion
     }

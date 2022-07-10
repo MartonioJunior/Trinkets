@@ -70,6 +70,7 @@ namespace Tests.MartonioJunior.Trinkets.Items
         [Test]
         public void Model_ReturnsReferenceForBuildingItems()
         {
+            Assert.AreEqual(GemModel, modelReference.Model);
             Assert.AreEqual(GemModel, modelReference.Builder);
         }
 

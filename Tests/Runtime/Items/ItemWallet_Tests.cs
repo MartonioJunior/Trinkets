@@ -10,6 +10,8 @@ namespace Tests.MartonioJunior.Trinkets.Items
     public class ItemWallet_Tests: ScrobTestModel<ItemWallet>
     {
         #region Constants
+        private const string WalletName = "Wallet";
+        private const string ItemName = "Flag";
         private ItemCategory Category;
         private ItemModel_Dummy FlagModel;
         #endregion
@@ -18,11 +20,15 @@ namespace Tests.MartonioJunior.Trinkets.Items
         {
             EngineScrob.Instance(out FlagModel);
             EngineScrob.Instance(out Category);
+            FlagModel.Name = ItemName;
 
             base.CreateTestContext();
         }
 
-        public override void ConfigureValues() {}
+        public override void ConfigureValues()
+        {
+            modelReference.name = WalletName;
+        }
 
         public override void DestroyTestContext()
         {
@@ -127,6 +133,14 @@ namespace Tests.MartonioJunior.Trinkets.Items
             Assert.AreEqual(ItemValue, result[0].Value);
             Assert.AreEqual(ItemValue, result[1].Value);
             Assert.AreEqual(ItemValue, result[2].Value);
+        }
+
+        [Test]
+        public void DescribeContents_ShowsWalletContentsInStringFormat()
+        {
+            var Flag = FlagModel.New;
+            modelReference.Add(Flag);
+            Assert.AreEqual($"{WalletName}\n{ItemName}: {Flag.ToString()} | \n", modelReference.DescribeContents());
         }
 
         [Test]

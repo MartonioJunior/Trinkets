@@ -6,7 +6,7 @@ namespace MartonioJunior.Trinkets.Items
     {
         #region Variables
         [SerializeField] Field<IItemModel> model = new Field<IItemModel>();
-        [SerializeField] int listenerIndex;
+        [SerializeField, Min(0)] int listenerIndex = 0;
         #endregion
         #region Properties
         public IItemModel Model {
@@ -14,6 +14,11 @@ namespace MartonioJunior.Trinkets.Items
             set {
                 model.Set(value);
             }
+        }
+
+        public int ListenerIndex {
+            get => listenerIndex;
+            set => listenerIndex = Mathf.Max(value, 0);
         }
         #endregion
         #region Abstract Methods
@@ -25,12 +30,12 @@ namespace MartonioJunior.Trinkets.Items
         public TResult Convert(IItemWallet wallet)
         {
             var array = wallet.SearchOn(Model, null);
-            return Convert(array);
+            return ProcessArray(array);
         }
 
-        public TResult Convert(IItem[] items)
+        public TResult ProcessArray(IItem[] items)
         {
-            if (items == null || (listenerIndex < 0 || listenerIndex >= items.Length)) {
+            if (items == null || (listenerIndex >= items.Length)) {
                 return default;
             } else {
                 var item = items[listenerIndex] as TItem;
