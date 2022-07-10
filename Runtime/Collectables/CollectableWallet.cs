@@ -187,7 +187,7 @@ namespace MartonioJunior.Trinkets.Collectables
             sb.Append(": ");
 
             foreach(var collectable in collectables) {
-                sb.Append(collectable.Name);
+                sb.Append(collectable.ToString());
                 sb.Append(" | ");
             }
             sb.Append("\n");
