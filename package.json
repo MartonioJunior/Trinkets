@@ -3,7 +3,7 @@
   "displayName": "Trinkets",
   "version": "0.1.0",
   "unity": "2021.3",
-  "description": "Trinkets offers a new architecture based on ScriptableObjects for the implementation of in-game resources like collectables, items and currencies.\nFor more details, please check out the Documentation and Samples on how to implement.",
+  "description": "Trinkets offers a new architecture based on ScriptableObjects for the implementation of in-game resources like collectables, items and currencies.\nFor more details, please check out the Documentation and Samples",
   "dependencies": {},
   "author": {
     "name": "Martônio Júnior",
