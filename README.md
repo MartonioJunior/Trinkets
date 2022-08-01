@@ -34,7 +34,7 @@ The architecture of the package centers around 2 main elements:
 
 While the types of resources available do have different ways to handle the architecture, there's a set of tools that's constant throughout the package:
 
-* **Categories**, which allow for better grouping and categorization of resources. Available for Collectables and Items.
+* **Categories**, which allow for better grouping and categorization of resources. Available for Collectables.
 * **Instancers**, components that insert resources into wallets. Available for all types.
 * **Scanners**, which check if the wallet has hit a certain threshold of resources. Available for all types.
 * **EventListeners**, components that allow to check for certain elements in a wallet. Available for all types.
