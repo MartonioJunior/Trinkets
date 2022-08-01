@@ -32,11 +32,11 @@ namespace MartonioJunior.Trinkets
 
         public bool Get(out T value)
         {
-            if (unityObject != null) {
-                value = unityObject.UnsafeCast<T>();
+            if (unityObject is T validObject) {
+                value = validObject;
                 return true;
-            } else if (csharpObject != null) {
-                value = csharpObject.UnsafeCast<T>();
+            } else if (csharpObject is T obj) {
+                value = obj;
                 return true;
             } else {
                 value = default(T);
@@ -53,8 +53,8 @@ namespace MartonioJunior.Trinkets
         {
             if (obj == null) {
                 Clear();
-            } else if (obj is Object) {
-                unityObject = obj.UnsafeCast<Object>();
+            } else if (obj is Object unityObj) {
+                unityObject = unityObj;
                 csharpObject = null;
             } else {
                 csharpObject = obj;
