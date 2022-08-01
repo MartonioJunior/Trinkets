@@ -21,11 +21,10 @@ Via Unity Package Manager:
 The descriptions below are a simple overview of what the package has, so you can know what you get by installing Trinkets. For a more detailed breakdown about the features, as well how to use the package, please check the documentation (coming soon).
 
 ## Types of Resources Available
-Trinkets offers 3 types of resources for you right off the bat:
+Trinkets offers 2 types of resources for you right off the bat:
 
 * Currencies: Resources that are exclusively measured by a numerical quantity.
 * Collectables: Instances that are considered unique inside the game.
-* Items: Resources instanced by model that can contain unique instance data, as well as general information.
 
 ## Architecture
 The architecture of the package centers around 2 main elements:
