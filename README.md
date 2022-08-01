@@ -9,6 +9,8 @@ Trinkets is a custom Unity Package which proposes a solution for traditional gam
 * Programmers have the tools to extend and create their own custom resources and components with ease.
 * Both types of users can work together to create games better and faster.
 
+Currently the package supports Unity 2021 LTS during it's preview phase.
+
 # How to Install
 
 Via Unity Package Manager:
@@ -50,7 +52,7 @@ and many other use cases...
 
 If you're looking to create a new resource type, a new variant or your own custom component, there are interfaces for creating all of the component types above, as well as specific interfaces for each type of resource.
 
-For more details, please check the documentation.
+For more details, please check the documentation (coming soon).
 
 # Considerations
 This project is still in a experimental phase, where I'm discovering what works and what doesn't before moving into the next steps. As such, some aspects of the API may change over time. That said, feel free to drop an issue or feedback about the project in the Issues Tab.

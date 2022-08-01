@@ -1,6 +1,6 @@
 [Unreleased]
 
-## [0.0.1] - 2022-08-XX
+## [0.0.1] - 2022-08-01
 ### Added
 - New module: Currencies
     - New object: Currency Data
