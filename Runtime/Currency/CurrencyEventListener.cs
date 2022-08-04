@@ -32,8 +32,6 @@ namespace MartonioJunior.Trinkets.Currency
         public event Change onAmountChange;
         #endregion
         #region EngineScrob Implementation
-        public override void Reset() {}
-
         public override void Setup()
         {
             onAmountChange += OnAmountChange;
@@ -43,7 +41,6 @@ namespace MartonioJunior.Trinkets.Currency
         {
             onAmountChange -= OnAmountChange;
         }
-        public override void Validate() {}
         #endregion
         #region IResourceProcessor Implementation
         public int Convert(ICurrencyWallet wallet)

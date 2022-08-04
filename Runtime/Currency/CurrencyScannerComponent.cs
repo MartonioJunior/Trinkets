@@ -31,8 +31,6 @@ namespace MartonioJunior.Trinkets.Currency
         public event TaxEvent onTaxWallet;
         #endregion
         #region EngineScrob Implementation
-        public override void Reset() {}
-
         public override void Setup()
         {
             onScanWallet += OnScanWallet;
@@ -44,8 +42,6 @@ namespace MartonioJunior.Trinkets.Currency
             onScanWallet -= OnScanWallet;
             onTaxWallet -= OnTaxWallet;
         }
-
-        public override void Validate() {}
         #endregion
         #region IResourceScanner Implementation
         public bool TaxWalletOnScan {

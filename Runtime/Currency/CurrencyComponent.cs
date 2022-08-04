@@ -27,8 +27,6 @@ namespace MartonioJunior.Trinkets.Currency
         public event Event onCollectedCurrency;
         #endregion
         #region EngineScrob Implementation
-        public override void Reset() {}
-
         public override void Setup()
         {
             onCollectedCurrency += OnCollectedCurrency;
@@ -38,8 +36,6 @@ namespace MartonioJunior.Trinkets.Currency
         {
             onCollectedCurrency -= OnCollectedCurrency;
         }
-
-        public override void Validate() {}
         #endregion
         #region IResourceInstancer Implementation
         public void AddTo(ICurrencyWallet wallet)

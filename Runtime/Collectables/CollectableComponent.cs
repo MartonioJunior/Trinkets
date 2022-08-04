@@ -22,7 +22,6 @@ namespace MartonioJunior.Trinkets.Collectables
         public event Event onCollected;
         #endregion
         #region EngineBehaviour Implementation
-        public override void Reset() {}
         public override void Setup()
         {
             onCollected += OnCollected;
@@ -32,8 +31,6 @@ namespace MartonioJunior.Trinkets.Collectables
         {
             onCollected -= OnCollected;
         }
-
-        public override void Validate() {}
         #endregion
         #region IResourceInstancer Implementation
         public void AddTo(ICollectableWallet wallet)

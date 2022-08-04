@@ -23,8 +23,6 @@ namespace MartonioJunior.Trinkets.Collectables
         public abstract bool PerformTax(ICollectableWallet wallet);
         #endregion
         #region EngineBehaviour Implementation
-        public override void Reset() {}
-
         public override void Setup()
         {
             onScanWallet += OnScanWallet;
@@ -36,8 +34,6 @@ namespace MartonioJunior.Trinkets.Collectables
             onScanWallet -= OnScanWallet;
             onTaxWallet -= OnTaxWallet;
         }
-
-        public override void Validate() {}
         #endregion
         #region IResourceScanner Implementation
         public bool TaxWalletOnScan {
