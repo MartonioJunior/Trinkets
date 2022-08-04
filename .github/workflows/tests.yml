@@ -21,8 +21,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        packageName:
+          - Trinkets
         projectPath:
-          - YarnSpinner
+          - Trinkets
         unityVersion:
           - 2019.4.31f1
           - 2020.3.31f1
@@ -43,11 +45,11 @@ jobs:
       
       # Add and Configure Dependencies
       
-      - name: Check out to Packages/YarnSpinner
+      - name: Check out to Packages/${{ matrix.packageName }}
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          path: ${{ matrix.projectPath }}/Packages/YarnSpinner
+          path: ${{ matrix.projectPath }}/Packages/${{ matrix.packageName }}
           
       - name: Fetch from Cache
         uses: actions/cache@v2
