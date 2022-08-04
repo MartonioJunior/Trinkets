@@ -1,0 +1,23 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  defineVersionNumber:
+    name: Define Version Number
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+      - name: Determine Version for branch
+        uses: gittools/actions/gitversion/execute@v0.9.7
+        with:
+          useConfigFile: true
+      - name: Display version
+        run: |
+          echo SemVer: $SEMVER
