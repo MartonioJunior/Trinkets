@@ -41,8 +41,7 @@ jobs:
           mkdir -p ${{ matrix.projectPath }}/ProjectSettings 
           mkdir -p ${{ matrix.projectPath }}/Packages
       
-      # Add the Unity Input System package, and configure the new project to use
-      # both the Input System and the legacy Input Manager.
+      # Add and Configure Dependencies
       
       - name: Check out to Packages/YarnSpinner
         uses: actions/checkout@v2
