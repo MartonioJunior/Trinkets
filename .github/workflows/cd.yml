@@ -15,17 +15,8 @@ jobs:
         with:
           versionSpec: '5.x'
       - name: Determine Version for branch
+        id: gitVersion
         uses: gittools/actions/gitversion/execute@v0.9.7
-        with:
-          assembly-versioning-scheme: MajorMinorPatchTag
-          mode: ContinuousDelivery
-          branches:
-            develop:
-              mode: ContinuousDelivery
-              tag: beta
-          ignore:
-            sha: []
-          merge-message-formats: {}
       - name: Display version
         run: |
-          echo SemVer: $SEMVER
+          echo SemVer: ${{ steps.gitVersion.outputs.semVer }}
