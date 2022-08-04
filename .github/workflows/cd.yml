@@ -17,8 +17,15 @@ jobs:
       - name: Determine Version for branch
         uses: gittools/actions/gitversion/execute@v0.9.7
         with:
-          useConfigFile: true
-          configFilePath: .github/workflows/GitVersion.yml
+          assembly-versioning-scheme: MajorMinorPatchTag
+          mode: ContinuousDelivery
+          branches:
+            develop:
+              mode: ContinuousDelivery
+              tag: beta
+          ignore:
+            sha: []
+          merge-message-formats: {}
       - name: Display version
         run: |
           echo SemVer: $SEMVER
