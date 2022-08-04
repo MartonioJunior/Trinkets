@@ -1,1 +1,1 @@
-[insert info about any dependencies/assets used and their copyright usage]
+Currently, there are no 3rd-party dependencies to the project
