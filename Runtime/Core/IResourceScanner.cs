@@ -6,9 +6,10 @@ namespace MartonioJunior.Trinkets
     public interface IResourceScanner<T>: IResourceSensor<T>, IResourceTaxer<T> where T: IWallet
     {
         /**
-        <summary>Checks whether a scanner is allowed to tax the scanned resources.
-        <c>true</c>: Scan removes the resources from a wallet.
-        <c>false</c>: Scan maintains the wallet's resources intact.</summary>
+        <summary>Checks whether a scanner is allowed to remove resources from the
+        wallet after a scan operation.</summary>
+        <returns><c>true</c>: Scan removes the resources from a wallet.<br/>
+        <c>false</c>: Scan maintains the wallet's resources intact.</returns>
         */
         bool TaxWalletOnScan {get; set;}
     }
@@ -19,8 +20,8 @@ namespace MartonioJunior.Trinkets
         <summary>Checks whether a wallet fulfills the specified criteria
         of a <cref>IResourceScanner</cref></summary>
         <param name="wallet">The wallet to be scanned.</param>
-        <returns><code>true</code> when the wallet passes a scan.
-        <code>false</code> when the wallet does not fulfill the criteria.</returns>
+        <returns><c>true</c> when the wallet passes a scan.<br/>
+        <c>false</c> when the wallet does not fulfill the criteria.</returns>
         */
         public static bool Scan<T>(this IResourceScanner<T> self, T wallet) where T: IWallet
         {

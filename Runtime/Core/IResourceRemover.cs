@@ -9,8 +9,9 @@ namespace MartonioJunior.Trinkets
     {
         /**
         <summary>Removes a resource from the object.</summary>
-        <returns><code>true</code> when the resource is removed successfully.
-        <code>false</code> when the removal fails.</returns>
+        <param name="resource">The resource to be removed.</param>
+        <returns><c>true</c> when the removal is successful.<br/>
+        <c>false</c> when the removal fails.</returns>
         */
         bool Remove(T resource);
     }

@@ -7,9 +7,15 @@ namespace MartonioJunior.Trinkets.Collectables
     public class CollectableScannerComponent: CollectableScanner
     {
         #region Variables
+        /**
+        <summary>List of collectables to be checked for.</summary>
+        */
         [SerializeField, HideInInspector] Field<ICollectable>[] collectables;
         #endregion
         #region Collectable Scanner Implementation
+        /**
+        <inheritdoc />
+        */
         public override bool FulfillsCriteria(ICollectableWallet wallet)
         {
             if (collectables == null) return true;
@@ -23,7 +29,9 @@ namespace MartonioJunior.Trinkets.Collectables
 
             return true;
         }
-
+        /**
+        <inheritdoc />
+        */
         public override bool PerformTax(ICollectableWallet wallet)
         {
             if (collectables == null || collectables.Length == 0) return false;
@@ -39,6 +47,11 @@ namespace MartonioJunior.Trinkets.Collectables
         }
         #endregion
         #region Methods
+        /**
+        <summary>Sets the collectables to be used as the criteria for the
+        component.</summary>
+        <param name="requirements">List of collectables required.</param>
+        */
         public void SetCriteria(params ICollectable[] requirements)
         {
             int size = requirements?.Length ?? 0;

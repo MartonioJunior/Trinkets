@@ -10,7 +10,7 @@ namespace MartonioJunior.Trinkets
     {
         /**
         <summary>Inserts resources into a wallet.</summary>
-        <param name="wallet">The wallet that will receive the resources.</param>
+        <param name="wallet">The receiving wallet.</param>
         */
         void AddTo(T wallet);
     }

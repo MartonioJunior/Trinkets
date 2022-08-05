@@ -9,7 +9,7 @@ namespace MartonioJunior.Trinkets
     public interface IResourceQuantifier<T> where T: IResource
     {
         /**
-        <summary>Returns the amount of a resource inside.</summary>
+        <summary>Checks the amount of a resource inside.</summary>
         <param name="searchItem">The resource to check for.</param>
         <returns>The amount of resource available.</returns>
         */

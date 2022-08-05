@@ -8,8 +8,8 @@ namespace MartonioJunior.Trinkets
         /**
         <summary>Evaluates a wallet's contents.</summary>
         <param name="wallet">The wallet to be analyzed.</param>
-        <returns><code>true</code> when the wallet is approved.
-        <code>false</code> when the wallet is rejected.</returns>
+        <returns><c>true</c> when the wallet is approved.<br/>
+        <c>false</c> when the wallet is rejected.</returns>
         */
         bool Check(T wallet);
     }

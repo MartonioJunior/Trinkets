@@ -5,20 +5,48 @@ using UnityEngine;
 
 namespace MartonioJunior.Trinkets.Collectables
 {
+    /**
+    <summary>Class used to store in-game collectables.</summary>
+    */
     [CreateAssetMenu(fileName = "NewWallet", menuName = "Trinkets/Collectable/Wallet")]
     public class CollectableWallet: EngineScrob, ICollectableWallet
     {
         #region Variables
+        /**
+        <summary>List of collectables in the wallet which does not belong
+        to a category.</summary>
+        */
         List<ICollectable> nullCategoryCollectables = new List<ICollectable>();
+        /**
+        <summary>Dictionary table of the collectables in the wallet, organized by
+        the category that they belong to.</summary>
+        */
         Dictionary<ICollectableCategory, List<ICollectable>> contents = new Dictionary<ICollectableCategory, List<ICollectable>>();
         #endregion
         #region EngineScrob Implementation
+        /**
+        <inheritdoc />
+        */
         public override void Reset() {}
+        /**
+        <inheritdoc />
+        */
         public override void Setup() {}
+        /**
+        <inheritdoc />
+        */
         public override void TearDown() {}
+        /**
+        <inheritdoc />
+        */
         public override void Validate() {}
         #endregion
         #region ICollectableWallet Implementation
+        /**
+        <summary>Adds a collectable to the wallet.</summary>
+        <param name="collectable">The collectable to be added.</param>
+        <inheritdoc />
+        */
         public bool Add(ICollectable collectable)
         {
             ICollectableCategory category = collectable.Category;
@@ -41,16 +69,24 @@ namespace MartonioJunior.Trinkets.Collectables
             contents[category].Add(collectable);
             return true;
         }
-
-        public bool Add(ICollectableCategory resource)
+        /**
+        <summary>Adds a collectable category to the wallet.</summary>
+        <param name="category">The category to be added.</param>
+        <remarks>This will also add all of the active collectables belonging to
+        the category.</remarks>
+        <inheritdoc />
+        */
+        public bool Add(ICollectableCategory category)
         {
             bool wasSuccessful = false;
-            foreach (var item in resource?.Search(null)) {
+            foreach (var item in category?.Search(null)) {
                 if (Add(item)) wasSuccessful = true;
             }
             return wasSuccessful;
         }
-
+        /**
+        <inheritdoc />
+        */
         public void Add(ICollectableCategory category, int amount)
         {
             if (amount <= 0) return;
@@ -60,37 +96,54 @@ namespace MartonioJunior.Trinkets.Collectables
                 if (amount <= 0) break;
             }
         }
-
-        public int AmountOf(ICollectable searchItem)
+        /**
+        <summary>Checks the amount of a collectable inside a wallet.</summary>
+        <param name="collectable">The collectable to be checked.</param>
+        <returns><c>0</c> when there's no collectable in the wallet.<br/>
+        <c>1</c> when there's a collectable in the wallet.</returns>
+        <inheritdoc />
+        */
+        public int AmountOf(ICollectable collectable)
         {
-            ICollectableCategory category = searchItem.Category;
+            ICollectableCategory category = collectable.Category;
 
-            bool foundInDictionary = category != null && contents.ContainsKey(category) && contents[category].Contains(searchItem);
+            bool foundInDictionary = category != null && contents.ContainsKey(category) && contents[category].Contains(collectable);
     
-            if (foundInDictionary || nullCategoryCollectables.Contains(searchItem)) {
+            if (foundInDictionary || nullCategoryCollectables.Contains(collectable)) {
                 return 1;
             } else {
                 return 0;
             }
         }
-
-        public int AmountOf(ICollectableCategory searchItem)
+        /**
+        <summary>Gives the number of collectables on a wallet that belong to a
+        category.</summary>
+        <returns>The amount of collectables from a category.</returns>
+        <param name="category">The category to be checked.</param>
+        <inheritdoc />
+        */
+        public int AmountOf(ICollectableCategory category)
         {
-            if (searchItem == null) {
+            if (category == null) {
                 return nullCategoryCollectables.Count;
-            } else if (!contents.ContainsKey(searchItem)) {
+            } else if (!contents.ContainsKey(category)) {
                 return 0;
             } else {
-                return contents[searchItem].Count;
+                return contents[category].Count;
             }
         }
-
+        /**
+        <inheritdoc />
+        */
         public void Clear()
         {
             contents.Clear();
             nullCategoryCollectables.Clear();
         }
-
+        /**
+        <summary>Searches for collectables inside of a wallet.</summary>
+        <inheritdoc />
+        */
         public ICollectable[] Search(Predicate<ICollectable> predicate)
         {
             var resultList = new List<ICollectable>();
@@ -102,7 +155,11 @@ namespace MartonioJunior.Trinkets.Collectables
 
             return resultList.ToArray();
         }
-
+        /**
+        <summary>Searches all the collectable categories inside a collectable wallet.</summary>
+        <returns>An array of collectable categories.</returns>
+        <inheritdoc />
+        */
         public ICollectableCategory[] Search(Predicate<ICollectableCategory> predicate)
         {
             var resultList = new List<ICollectableCategory>();
@@ -115,7 +172,11 @@ namespace MartonioJunior.Trinkets.Collectables
 
             return resultList.ToArray();
         }
-
+        /**
+        <summary>Removes a collectable from the wallet.</summary>
+        <param name="collectable">The collectable to be removed.</param>
+        <inheritdoc />
+        */
         public bool Remove(ICollectable collectable)
         {
             ICollectableCategory category = collectable.Category;
@@ -128,12 +189,20 @@ namespace MartonioJunior.Trinkets.Collectables
 
             return contents[category].Remove(collectable);
         }
-
-        public bool Remove(ICollectableCategory resource)
+        /**
+        <summary>Removes a collectable category from the wallet.</summary>
+        <remarks>This will also remove all of the active collectables belonging
+        to the category.</remarks>
+        <param name="category">The category to be removed.</param>
+        <inheritdoc />
+        */
+        public bool Remove(ICollectableCategory category)
         {
-            return contents.Remove(resource);
+            return contents.Remove(category);
         }
-
+        /**
+        <inheritdoc />
+        */
         public void Remove(ICollectableCategory category, int amount)
         {
             if (!contents.ContainsKey(category)) return;
@@ -152,6 +221,12 @@ namespace MartonioJunior.Trinkets.Collectables
         }
         #endregion
         #region Methods
+        /**
+        <summary>Checks whether a collectable is part of a wallet.</summary>
+        <param name="collectable">The collectable to be checked.</param>
+        <returns><c>true</c> when the collectable is found.<br/>
+        <c>false</c> when the collectable is not found.</returns>
+        */
         public bool Contains(ICollectable collectable)
         {
             ICollectableCategory category = collectable?.Category;
@@ -164,7 +239,11 @@ namespace MartonioJunior.Trinkets.Collectables
 
             return contents[category].Contains(collectable);
         }
-
+        /**
+        <summary>Describes the list of collectables that are part of the
+        wallet.</summary>
+        <returns>A string describing the contents of the wallet by category.</returns>
+        */
         public string DescribeContents()
         {
             StringBuilder sb = new StringBuilder();
@@ -177,7 +256,14 @@ namespace MartonioJunior.Trinkets.Collectables
             }
             return sb.ToString();
         }
-
+        /**
+        <summary>Provides a formatted string for a category and the respective
+        collectables.</summary>
+        <param name="categoryName">The name of the category.</param>
+        <param name="collectables">The list of collectables to display.</param>
+        <returns>A string with the name of the category and it's
+        collectables.</returns>
+        */
         private string GetDescription(string categoryName, List<ICollectable> collectables)
         {
             if (collectables.Count == 0) return "";
@@ -193,7 +279,12 @@ namespace MartonioJunior.Trinkets.Collectables
             sb.Append("\n");
             return sb.ToString();
         }
-
+        /**
+        <summary>Allows to search for collectables inside a specified list.</summary>
+        <param name="predicate">The function used as a filter.</param>
+        <param name="list">The list of collectables.</param>
+        <returns>An array of collectables.</returns>
+        */
         private ICollectable[] ListSearch(Predicate<ICollectable> predicate, List<ICollectable> list)
         {
             if (predicate == null) return list.ToArray();

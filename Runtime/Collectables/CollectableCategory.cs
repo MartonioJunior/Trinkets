@@ -1,24 +1,60 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace MartonioJunior.Trinkets.Collectables
 {
+    /**
+    <summary>Defines a category of collectable, used as a reference point to mark
+    collectables.</summary>
+    */
     [CreateAssetMenu(fileName = "New Category", menuName = "Trinkets/Collectable/Category")]
     public class CollectableCategory: EngineScrob, ICollectableCategory
     {
         #region Constants
+        /** <summary>Default Name used when the name of a
+        <cref>CollectableCategory</cref> is empty or null.</summary>
+        */
         public const string DefaultDisplayName = "Unnamed Category";
         #endregion
         #region Variables
+        /**
+        <summary>A visual representation for a <cref>CollectableCategory</cref>,
+        accessible via the <c>Image</c> Property.</summary>
+        */
         [SerializeField] Sprite displayIcon;
+        /**
+        <summary>A textual representation for a <cref>CollectableCategory</cref>,
+        accessible via the <c>Image</c> Property.</summary>
+        */
         [SerializeField] string displayName;
+        /**
+        <summary>List of collectables that belong to the category.</summary>
+        <remarks> Currently only receives initialized collectables. </remarks>
+        */
         [SerializeField] List<ICollectable> elements = new List<ICollectable>();
+        /**
+        <summary>Determines the total worth of the collectables stored by the
+        category.</summary>
+        */
         int valueCount;
         #endregion
         #region EngineScrob Implementation
+        /**
+        <inheritdoc />
+        */
         public override void Reset() {}
+        /**
+        <inheritdoc />
+        */
         public override void Setup() {}
+        /**
+        <inheritdoc />
+        */
         public override void TearDown() {}
+        /**
+        <inheritdoc />
+        */
         public override void Validate()
         {
             if (string.IsNullOrEmpty(displayName)) {
@@ -27,9 +63,15 @@ namespace MartonioJunior.Trinkets.Collectables
         }
         #endregion
         #region IResource Implementation
+        /**
+        <inheritdoc />
+        */
         public int Value => valueCount;
         #endregion
         #region IResourceCategory Implementation
+        /**
+        <inheritdoc />
+        */
         public string Name {
             get => displayName;
             set {
@@ -39,26 +81,43 @@ namespace MartonioJunior.Trinkets.Collectables
         }
         #endregion
         #region ICollectableCategory Implementation
+        /**
+        <inheritdoc />
+        */
         public Sprite Image {
             get => displayIcon;
             set => displayIcon = value;
         }
-
-        public bool Add(ICollectable element)
+        /**
+        <summary>Adds a collectable to the category</summary>
+        <param name="collectable">The collectable to be added.</param>
+        <inheritdoc />
+        */
+        public bool Add(ICollectable collectable)
         {
-            if (elements.Contains(element)) return false;
+            if (elements.Contains(collectable)) return false;
 
-            elements.Add(element);
-            valueCount += element.Value;
+            elements.Add(collectable);
+            valueCount += collectable.Value;
             return true;
         }
-
-        public int AmountOf(ICollectable searchItem)
+        /**
+        <summary>Returns the number of collectables linked to a category.</summary>
+        <param name="collectable">The collectable to search for.</param>
+        <returns><c>0</c> when the collectable is not linked to the category.<br/>
+        <c>1</c> when the collectable is linked to the category.</returns>
+        <inheritdoc />
+        */
+        public int AmountOf(ICollectable collectable)
         {
-            return Contains(searchItem) ? 1 : 0;
+            return Contains(collectable) ? 1 : 0;
         }
-
-        public ICollectable[] Search(System.Predicate<ICollectable> predicate)
+        /**
+        <summary>Searches for resources linked to the category.</summary>
+        <returns>An array of collectables.</returns>
+        <inheritdoc />
+        */
+        public ICollectable[] Search(Predicate<ICollectable> predicate)
         {
             if (predicate == null) return elements.ToArray();
 
@@ -68,26 +127,43 @@ namespace MartonioJunior.Trinkets.Collectables
             }
             return resultList.ToArray();
         }
-
-        public bool Remove(ICollectable element)
+        /**
+        <summary>Removes a collectable from the category.</summary>
+        <param name="collectable">The collectable to be removed.</param>
+        <inheritdoc />
+        */
+        public bool Remove(ICollectable collectable)
         {
-            var wasInCollection = elements.Remove(element);
-            if (wasInCollection) valueCount -= element.Value;
+            var wasInCollection = elements.Remove(collectable);
+            if (wasInCollection) valueCount -= collectable.Value;
             return wasInCollection;
         }
         #endregion
         #region Methods
+        /**
+        <summary>Removes all collectables from a category.</summary>
+        */
         public void Clear()
         {
             elements.Clear();
             valueCount = 0;
         }
-
-        public bool Contains(ICollectable element)
+        /**
+        <summary>Checks whether a collectable belongs to a category.</summary>
+        <param name="collectable">The collectable to check.</param>
+        <returns><c>true</c> when the collectable is in a Category. <c>false</c>
+        when it's not.</returns>
+        */
+        public bool Contains(ICollectable collectable)
         {
-            return elements.Contains(element);
+            return elements.Contains(collectable);
         }
-
+        /**
+        <summary>Returns a visual description of the category</summary>
+        <returns>The category's name"</returns>
+        <example>A <c>CollectableCategory</c> named "Lollipop" returns
+        "Lollipop (Collectable Category)"</example>
+        */
         public override string ToString()
         {
             return $"{displayName} (Collectable Category)";
