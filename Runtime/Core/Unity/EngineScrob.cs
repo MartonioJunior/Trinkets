@@ -5,7 +5,6 @@ namespace MartonioJunior.Trinkets
     public abstract class EngineScrob: ScriptableObject
     {
         #region Abstract Methods
-        public abstract void Reset();
         public abstract void Setup();
         public abstract void TearDown();
         public abstract void Validate();
@@ -14,7 +13,6 @@ namespace MartonioJunior.Trinkets
         private void Awake()
         {
             Validate();
-            Reset();
             Setup();
         }
 

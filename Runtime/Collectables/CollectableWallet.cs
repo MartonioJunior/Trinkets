@@ -27,10 +27,6 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <inheritdoc />
         */
-        public override void Reset() {}
-        /**
-        <inheritdoc />
-        */
         public override void Setup() {}
         /**
         <inheritdoc />

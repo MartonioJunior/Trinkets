@@ -22,10 +22,6 @@ namespace MartonioJunior.Trinkets.Currency
         /**
         <inheritdoc />
         */
-        public override void Reset() {}
-        /**
-        <inheritdoc />
-        */
         public override void Setup() {}
         /**
         <inheritdoc />
