@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace MartonioJunior.Trinkets
 {
+    /**
+    <summary>Interface which describes representations for an object.</summary>
+    */
     public interface IRepresentable
     {
         /**
