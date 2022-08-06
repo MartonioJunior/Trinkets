@@ -132,7 +132,7 @@ namespace MartonioJunior.Trinkets.Collectables
         }
         /**
         <summary>Scans a specified wallet.</summary>
-        <param name="wallet">The wallet to remove from.</param>
+        <param name="wallet">The wallet to be scanned.</param>
         */
         public void Scan(ICollectableWallet wallet)
         {

@@ -107,7 +107,7 @@ namespace MartonioJunior.Trinkets.Collectables
             }
         }
         /**
-        <summary>Method that invokes the <c>onCollectableChange</c> event.</summary>
+        <summary>Method that invokes the <c>collectableChanged</c> event.</summary>
         <param name="wasCollected">Is the collectable part of the wallet?</param>
         <remarks>Used to subscribe the UnityEvent to the C# version of the event.</remarks>
         */

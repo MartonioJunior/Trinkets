@@ -5,6 +5,7 @@ namespace MartonioJunior.Trinkets.Collectables
     */
     public interface ICollectableWallet: IWallet, IResourceManager<ICollectable>, IResourceManager<ICollectableCategory>
     {
+        #region Methods
         /**
         <summary>Adds N collectables belonging to a category to the wallet.</summary>
         <param name="category">The category of which the collectables belong to.</param>
@@ -17,6 +18,7 @@ namespace MartonioJunior.Trinkets.Collectables
         <param name="amount">The amount of collectables to be removed.</param>
         */
         void Remove(ICollectableCategory category, int amount);
+        #endregion
     }
 
     public static partial class ICollectableWalletExtensions

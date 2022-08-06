@@ -13,19 +13,17 @@ namespace MartonioJunior.Trinkets.Collectables
     {
         #region Constants
         /** <summary>Default Name used when the name of a
-        <cref>CollectableCategory</cref> is empty or null.</summary>
+        <c>CollectableCategory</c> is empty or null.</summary>
         */
         public const string DefaultDisplayName = "Unnamed Category";
         #endregion
         #region Variables
         /**
-        <summary>A visual representation for a <cref>CollectableCategory</cref>,
-        accessible via the <c>Image</c> Property.</summary>
+        <inheritdoc cref="IRepresentable.Image"/>
         */
         [SerializeField] Sprite displayIcon;
         /**
-        <summary>A textual representation for a <cref>CollectableCategory</cref>,
-        accessible via the <c>Image</c> Property.</summary>
+        <inheritdoc cref="IRepresentable.Name"/>
         */
         [SerializeField] string displayName;
         /**

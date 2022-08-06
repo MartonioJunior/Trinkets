@@ -242,7 +242,8 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <summary>Describes the list of collectables that are part of the
         wallet.</summary>
-        <returns>A string describing the contents of the wallet by category.</returns>
+        <returns>A string describing the contents of the wallet by
+        category.</returns>
         */
         public string DescribeContents()
         {
