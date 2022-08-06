@@ -6,36 +6,18 @@ namespace MartonioJunior.Trinkets
 {
     public static partial class CollectionExtensions
     {
-        #region Dictionary
+        /**
+        <summary>Changes the value on a dictionary by a certain amount</summary>
+        <param name="self">The dictionary being used.</param>
+        <param name="key">The key where the change should be performed.</param>
+        <param name="delta">The amount to be changed.</param>
+        <remarks>If the key is not on the dictionary, it is added in with the
+        starting value of delta.</remarks>
+        */
         public static void Delta<K>(this Dictionary<K, int> self, K key, int delta)
         {
             if (!self.ContainsKey(key)) self[key] = delta;
             else self[key] += delta;
         }
-        #endregion
-        #region List
-        public static int CountMatches<T>(this List<T> self, Predicate<T> predicate)
-        {
-            int count = 0;
-            if(predicate == null) return count;
-
-			for(var iterator = self.GetEnumerator(); iterator.MoveNext();) {
-				if(predicate(iterator.Current)) count++;
-			}
-
-			return count;
-        }
-
-        public static bool HasAll<T>(this List<T> self, Predicate<T> predicate)
-        {
-            if(predicate == null) return false;
-
-			for(var iterator = self.GetEnumerator(); iterator.MoveNext();) {
-				if(!predicate(iterator.Current)) return false;
-			}
-
-			return true;
-        }
-        #endregion
     }
 }
