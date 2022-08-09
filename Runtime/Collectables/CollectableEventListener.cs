@@ -1,3 +1,4 @@
+// #define ENABLE_INTERFACE_FIELDS
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,27 +19,35 @@ namespace MartonioJunior.Trinkets.Collectables
         #endregion
         #region Variables
         /**
-        <inheritdoc cref="CollectableEventListener.Collectable"/>
-        */
-        [SerializeField] Field<ICollectable> collectable = new Field<ICollectable>();
-        /**
-        <inheritdoc cref="CollectableEventListener.Wallet"/>
-        */
-        [SerializeField] Field<ICollectableWallet> wallet = new Field<ICollectableWallet>();
-        /**
         <summary>The collectable to be checked for.</summary>
         */
+        #if ENABLE_INTERFACE_FIELDS
         public ICollectable Collectable {
             get => collectable.Unwrap();
             set => collectable.Set(value);
         }
         /**
+        <inheritdoc cref="CollectableEventListener.Collectable"/>
+        */
+        [SerializeField] Field<ICollectable> collectable = new Field<ICollectable>();
+        #else
+        [field: SerializeField] public CollectableData Collectable {get; set;}
+        #endif
+        /**
         <summary>The wallet that will be checked by the listener.</summary>
         */
+        #if ENABLE_INTERFACE_FIELDS
         public ICollectableWallet Wallet {
             get => wallet.Unwrap();
             set => wallet.Set(value);
         }
+        /**
+        <inheritdoc cref="CollectableEventListener.Wallet"/>
+        */
+        [SerializeField] Field<ICollectableWallet> wallet = new Field<ICollectableWallet>();
+        #else
+        [field: SerializeField] public CollectableWallet Wallet;
+        #endif
         #endregion
         #region Delegates
         /**
@@ -87,7 +96,7 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         public bool Convert(ICollectableWallet wallet)
         {
-            if (wallet == null || !collectable.HasValue()) return false;
+            if (wallet == null || Collectable == null) return false;
 
             return wallet.Contains(Collectable);
         }

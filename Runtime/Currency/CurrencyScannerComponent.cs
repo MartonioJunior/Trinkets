@@ -1,19 +1,31 @@
+// #define ENABLE_INTERFACE_FIELDS
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace MartonioJunior.Trinkets.Currency
 {
     /**
-    <summary></summary>
+    <summary>Component able to scan currencies inside a wallet.</summary>
     */
     [AddComponentMenu("Trinkets/Currency/Currency Scanner")]
     public class CurrencyScannerComponent: EngineBehaviour, IResourceScanner<ICurrencyWallet>
     {
         #region Variables
         /**
+        <summary>The currency to be checked.</summary>
+        */
+        #if ENABLE_INTERFACE_FIELDS
+        public ICurrency Currency {
+            get => currency.Unwrap();
+            set => currency.Set(value);
+        }
+        /**
         <inheritdoc cref="CurrencyScannerComponent.Currency"/>
         */
         [SerializeField] Field<ICurrency> currency = new Field<ICurrency>();
+        #else
+        [field: SerializeField] public CurrencyData Currency {get; set;}
+        #endif
         /**
         <inheritdoc cref="CurrencyScannerComponent.Amount"/>
         */
@@ -22,13 +34,6 @@ namespace MartonioJunior.Trinkets.Currency
         <inheritdoc cref="IResourceScanner{T}.TaxWalletOnScan"/>
         */
         [SerializeField] bool taxWallet;
-        /**
-        <summary>The currency to be checked.</summary>
-        */
-        public ICurrency Currency {
-            get => currency.Unwrap();
-            set => currency.Set(value);
-        }
         /**
         <summary>The amount of currency required for a scan to be successful.</summary>
         */

@@ -108,7 +108,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         [Test]
         public void SetCriteria_ClearsCriteriaWhenArrayNullOrEmpty()
         {
-            modelReference.SetCriteria(new ICollectable[0]);
+            modelReference.SetCriteria(null);
 
             Assert.True(modelReference.FulfillsCriteria(Wallet));
         }

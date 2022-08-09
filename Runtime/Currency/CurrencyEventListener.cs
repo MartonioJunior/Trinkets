@@ -1,3 +1,4 @@
+// #define ENABLE_INTERFACE_FIELDS
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,27 +13,35 @@ namespace MartonioJunior.Trinkets.Currency
         #endregion
         #region Variables
         /**
-        <inheritdoc cref="CurrencyEventListener.Wallet"/>
-        */
-        [SerializeField] Field<ICurrencyWallet> wallet = new Field<ICurrencyWallet>();
-        /**
-        <inheritdoc cref="CurrencyEventListener.Currency"/>
-        */
-        [SerializeField] Field<ICurrency> currency = new Field<ICurrency>();
-        /**
         <summary>The type of currency to be listened out by the component.</summary>
         */
+        #if ENABLE_INTERFACE_FIELDS
         public ICurrency Currency {
             get => currency.Unwrap();
             set => currency.Set(value);
         }
         /**
+        <inheritdoc cref="CurrencyEventListener.Currency"/>
+        */
+        [SerializeField] Field<ICurrency> currency = new Field<ICurrency>();
+        #else
+        [field: SerializeField] public CurrencyData Currency {get; set;}
+        #endif
+        /**
         <summary>The wallet that will be checked by the listener.</summary>
         */
+        #if ENABLE_INTERFACE_FIELDS
         public ICurrencyWallet Wallet {
             get => wallet.Unwrap();
             set => wallet.Set(value);
         }
+        /**
+        <inheritdoc cref="CurrencyEventListener.Wallet"/>
+        */
+        [SerializeField] Field<ICurrencyWallet> wallet = new Field<ICurrencyWallet>();
+        #else
+        [field: SerializeField] public CurrencyWallet Wallet {get; set;}
+        #endif
         #endregion
         #region Delegate
         /**

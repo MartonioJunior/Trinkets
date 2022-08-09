@@ -1,3 +1,4 @@
+// #define ENABLE_INTERFACE_FIELDS
 using UnityEngine;
 
 namespace MartonioJunior.Trinkets.Collectables
@@ -11,27 +12,24 @@ namespace MartonioJunior.Trinkets.Collectables
     {
         #region Variables
         /**
-        <inheritdoc cref="CollectableCategoryScannerComponent.Category" />
-        */
-        [SerializeField] Field<ICollectableCategory> category = new Field<ICollectableCategory>();
-        /**
-        <inheritdoc cref="CollectableCategoryScannerComponent.Amount"/>
-        */
-        [SerializeField] int amount;
-        /**
         <summary>The category used as the scan criteria.</summary>
         */
+        #if ENABLE_INTERFACE_FIELDS
         public ICollectableCategory Category {
             get => category.Unwrap();
             set => category.Set(value);
         }
         /**
+        <inheritdoc cref="CollectableCategoryScannerComponent.Category" />
+        */
+        [SerializeField] Field<ICollectableCategory> category = new Field<ICollectableCategory>();
+        #else
+        [field: SerializeField] public CollectableCategory Category {get; set;}
+        #endif
+        /**
         <summary>The amount of collectables required for a scan to pass.</summary>
         */
-        public int Amount {
-            get => amount;
-            set => amount = value;
-        }
+        [field: SerializeField, Min(0f)] public int Amount {get; set;}
         #endregion
         #region ScannerComponent Implementation
         /**
@@ -39,21 +37,29 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         public override bool FulfillsCriteria(ICollectableWallet wallet)
         {
-            if (!category.HasValue()) return false;
-
-            return wallet.AmountOf(category.Unwrap()) >= amount;
+            #if ENABLE_INTERFACE_FIELDS
+            if (category.Get(out var validCategory))
+            #else
+            if (Category is CollectableCategory validCategory)
+            #endif
+                return wallet.AmountOf(validCategory) >= Amount;
+            else
+                return false;
         }
         /**
         <inheritdoc />
         */
         public override bool PerformTax(ICollectableWallet wallet)
         {
-            if (amount > 0 && category.HasValue()) {
-                wallet.Remove(category.Unwrap());
-                return true;
-            } else {
+            #if ENABLE_INTERFACE_FIELDS
+            if (!category.Get(out var validCategory))
+            #else
+            if (!(Category is CollectableCategory validCategory))
+            #endif
                 return false;
-            }
+
+            wallet.Remove(validCategory, Amount);
+            return true;
         }
         #endregion
     }

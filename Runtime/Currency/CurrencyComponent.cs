@@ -1,3 +1,4 @@
+// #define ENABLE_INTERFACE_FIELDS
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,20 +12,20 @@ namespace MartonioJunior.Trinkets.Currency
     {
         #region Variables
         /**
-        <inheritdoc cref="CurrencyComponent.Currency"/>
-        */
-        [SerializeField] Field<ICurrency> currency = new Field<ICurrency>();
-        /**
-        <inheritdoc cref="CurrencyComponent.Amount"/>
-        */
-        [SerializeField, Min(0)] int amount;
-        /**
         <summary>The type of currency to be given out by the component.</summary>
         */
+        #if ENABLE_INTERFACE_FIELDS
         public ICurrency Currency {
             get => currency.Unwrap();
             set => currency.Set(value);
         }
+        /**
+        <inheritdoc cref="CurrencyComponent.Currency"/>
+        */
+        [SerializeField] Field<ICurrency> currency = new Field<ICurrency>();
+        #else
+        [field: SerializeField] public CurrencyData Currency {get; set;}
+        #endif
         /**
         <summary>The amount to be added into a wallet.</summary>
         <remarks>This value never returns a value lower than zero.</remarks>
@@ -33,6 +34,10 @@ namespace MartonioJunior.Trinkets.Currency
             get => amount;
             set => amount = Mathf.Max(0,value);
         }
+        /**
+        <inheritdoc cref="CurrencyComponent.Amount"/>
+        */
+        [SerializeField, Min(0)] int amount;
         #endregion
         #region Delegates
         /**

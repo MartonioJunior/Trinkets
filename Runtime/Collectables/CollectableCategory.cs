@@ -30,7 +30,7 @@ namespace MartonioJunior.Trinkets.Collectables
         <summary>List of collectables that belong to the category.</summary>
         <remarks> Currently only receives initialized collectables. </remarks>
         */
-        [SerializeField] List<ICollectable> elements = new List<ICollectable>();
+        [SerializeField, HideInInspector] List<ICollectable> elements = new List<ICollectable>();
         /**
         <summary>Determines the total worth of the collectables stored by the
         category.</summary>

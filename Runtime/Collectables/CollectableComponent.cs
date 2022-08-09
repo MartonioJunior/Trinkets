@@ -1,3 +1,4 @@
+// #define ENABLE_INTERFACE_FIELDS
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,16 +12,20 @@ namespace MartonioJunior.Trinkets.Collectables
     {
         #region Variables
         /**
-        <inheritdoc cref="CollectableComponent.Collectable" />
-        */
-        [SerializeField] Field<ICollectable> collectable = new Field<ICollectable>();
-        /**
         <summary>The collectable to be given out when AddTo is called.</summary>
         */
+        #if ENABLE_INTERFACE_FIELDS
         public ICollectable Collectable {
             get => collectable.Unwrap();
             set => collectable.Set(value);
         }
+        /**
+        <inheritdoc cref="CollectableComponent.Collectable" />
+        */
+        [SerializeField] Field<ICollectable> collectable = new Field<ICollectable>();
+        #else
+        [field: SerializeField] public CollectableData Collectable {get; set;}
+        #endif
         #endregion
         #region Delegate
         /**
@@ -70,10 +75,16 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         public void AddTo(ICollectableWallet wallet)
         {
-            if (enabled && collectable.HasValue()) {
-                bool newAddition = wallet.Add(Collectable);
-                onCollected?.Invoke(newAddition);
-            }
+            if (!enabled) return;
+            #if ENABLE_INTERFACE_FIELDS
+            if (!collectable.Get(out var validCollectable))
+            #else
+            if (!(Collectable is CollectableData validCollectable))
+            #endif
+                return;
+
+            bool newAddition = wallet.Add(Collectable);
+            onCollected?.Invoke(newAddition);
         }
         #endregion
         #region Methods
