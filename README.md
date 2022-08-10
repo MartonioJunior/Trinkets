@@ -9,7 +9,7 @@ Trinkets is a custom Unity Package which proposes a solution for traditional gam
 * Programmers have the tools to extend and create their own custom resources and components with ease.
 * Both types of users can work together to create games better and faster.
 
-Currently the package supports Unity 2021 LTS during it's preview phase.
+Currently the package supports Unity 2019 LTS onwards during it's preview phase.
 
 # How to Install
 
@@ -25,8 +25,8 @@ The descriptions below are a simple overview of what the package has, so you can
 ## Types of Resources Available
 Trinkets offers 2 types of resources for you right off the bat:
 
-* Currencies: Resources that are exclusively measured by a numerical quantity.
-* Collectables: Instances that are considered unique inside the game.
+* **Currencies**: Resources that are exclusively measured by a numerical quantity.
+* **Collectables**: Instances that are considered unique inside the game.
 
 ## Architecture
 The architecture of the package centers around 2 main elements:
@@ -48,11 +48,28 @@ With the set of tools above, we're able to create simple, yet really effective g
 
 and many other use cases...
 
-## Interface-based Approach
+## Quick Start
 
-If you're looking to create a new resource type, a new variant or your own custom component, there are interfaces for creating all of the component types above, as well as specific interfaces for each type of resource.
+To start using Trinkets in your project, follow these X steps:
+1. Right-click in the project page and select "Create -> Trinkets" to create any of the following objects:
+- Currency
+- Collectable
+- Collectable Category (classifies Collectables)
+- Currency Wallet (stores Currencies)
+- Collectable Wallet (stores Collectables)
 
-For more details, please check the documentation (coming soon).
+2. On any GameObject, select "Add Component -> Trinkets" and select any of the following components:
+- Currency Giver (adds Currency to a Currency Wallet)
+- Currency Scanner (checks and/or taxes a Currency Wallet)
+- Currency Event Listener (invokes an event for the amount of Currency in a Currency Wallet)
+- Collectable Giver (adds a Collectable to a Wallet)
+- Collectable Scanner (checks and/or taxes a Collectable Wallet by the specified Collectables)
+- Collectable Category Scanner (checks and/or taxes a Collectable Wallet by the Collectable Category)
+- Collectable Event Listener (invokes an event for whether there's a Collectable inside a Currency Wallet)
+
+3. Inside the code or using Unity Events, call the methods of the component and pass the wallet as a parameter.
+
+And there ya go, it's already part of your project.
 
 # Considerations
 This project is still in a experimental phase, where I'm discovering what works and what doesn't before moving into the next steps. As such, some aspects of the API may change over time. That said, feel free to drop an issue or feedback about the project in the Issues Tab.

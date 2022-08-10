@@ -59,7 +59,7 @@ namespace MartonioJunior.Trinkets.Collectables
                 return false;
 
             wallet.Remove(validCategory, Amount);
-            return true;
+            return Amount > 0;
         }
         #endregion
     }

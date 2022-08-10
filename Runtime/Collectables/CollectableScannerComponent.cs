@@ -50,8 +50,10 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         public override bool PerformTax(ICollectableWallet wallet)
         {
+            int amountToRemove;
             #if ENABLE_INTERFACE_FIELDS
-            if (collectables == null || collectables.Length == 0) return false;
+            if (collectables == null) return false;
+            amountToRemove = collectables.Length;
 
             foreach(var field in collectables) {
                 if (!field.HasValue()) continue;
@@ -61,10 +63,11 @@ namespace MartonioJunior.Trinkets.Collectables
             }
             #else
             if (!(Collectables is List<CollectableData> collectableList)) return false;
+            amountToRemove = collectableList.Count;
 
             collectableList.ForEach((item) => wallet.Remove(item));
             #endif
-            return true;
+            return amountToRemove > 0;
         }
         #endregion
         #region Methods
