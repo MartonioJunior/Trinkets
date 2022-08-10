@@ -1,20 +1,22 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Trinkets.Collectables
-{
-/**
-<summary>Component used as the basis for scanners of collectable wallets.</summary>
-*/
-public abstract class CollectableScanner: EngineBehaviour, IResourceScanner<ICollectableWallet>
-{
-    #region Variables
+namespace MartonioJunior.Trinkets.Collectables {
+  /**
+  <summary>Component used as the basis for scanners of collectable
+  wallets.</summary>
+  */
+  public abstract class CollectableScanner
+      : EngineBehaviour,
+        IResourceScanner<ICollectableWallet> {
+#region Variables
     /**
     <inheritdoc cref="CollectableScanner.TaxWalletOnScan"/>
     */
-    [SerializeField] bool taxWallet;
-    #endregion
-    #region Delegates
+    [SerializeField]
+    bool taxWallet;
+#endregion
+#region Delegates
     /**
     <summary>Delegate used to describe a scanning event.</summary>
     <param name="scanResult">The result of the scan operation:<br/>
@@ -26,20 +28,22 @@ public abstract class CollectableScanner: EngineBehaviour, IResourceScanner<ICol
     <summary>Delegate used to describe a tax event.</summary>
     */
     public delegate void TaxEvent();
-    #endregion
-    #region Events
+#endregion
+#region Events
     /**
     <remarks>Meant as a event gateway for designers to use in the inspector.
     </remarks>
     <inheritdoc cref="CollectableScanner.onScanWallet"/>
     */
-    [SerializeField] UnityEvent<bool> scannedWallet;
+    [SerializeField]
+    UnityEvent<bool> scannedWallet;
     /**
     <remarks>Meant as a event gateway for designers to use in the inspector.
     </remarks>
     <inheritdoc cref="CollectableScanner.onTaxWallet"/>
     */
-    [SerializeField] UnityEvent taxedWallet;
+    [SerializeField]
+    UnityEvent taxedWallet;
     /**
     <summary>Event invoked when the component scans a wallet.</summary>
     <remarks>Meant as a event gateway for programmers to listen for events.
@@ -53,8 +57,8 @@ public abstract class CollectableScanner: EngineBehaviour, IResourceScanner<ICol
     </remarks>
     */
     public event TaxEvent onTaxWallet;
-    #endregion
-    #region Abstract Implementation
+#endregion
+#region Abstract Implementation
     /**
     <summary>Checks whether the wallet fulfills the criteria specified by
     the component.</summary>
@@ -70,74 +74,65 @@ public abstract class CollectableScanner: EngineBehaviour, IResourceScanner<ICol
     <c>false</c> when the operation fails.</returns>
     */
     public abstract bool PerformTax(ICollectableWallet wallet);
-    #endregion
-    #region EngineBehaviour Implementation
+#endregion
+#region EngineBehaviour Implementation
     /**
     <inheritdoc />
     */
-    public override void Setup()
-    {
-        onScanWallet += OnScanWallet;
-        onTaxWallet += OnTaxWallet;
+    public override void Setup() {
+      onScanWallet += OnScanWallet;
+      onTaxWallet += OnTaxWallet;
     }
     /**
     <inheritdoc />
     */
-    public override void TearDown()
-    {
-        onScanWallet -= OnScanWallet;
-        onTaxWallet -= OnTaxWallet;
+    public override void TearDown() {
+      onScanWallet -= OnScanWallet;
+      onTaxWallet -= OnTaxWallet;
     }
-    #endregion
-    #region IResourceScanner Implementation
+#endregion
+#region IResourceScanner Implementation
     /**
     <inheritdoc />
     */
     public bool TaxWalletOnScan {
-        get => taxWallet;
-        set => taxWallet = value;
+      get => taxWallet;
+      set => taxWallet = value;
     }
     /**
     <inheritdoc />
     */
-    public bool Check(ICollectableWallet wallet)
-    {
-        return enabled && FulfillsCriteria(wallet);
+    public bool Check(ICollectableWallet wallet) {
+      return enabled && FulfillsCriteria(wallet);
     }
     /**
     <inheritdoc />
     */
-    public void Tax(ICollectableWallet wallet)
-    {
-        if (PerformTax(wallet)) {
-            onTaxWallet?.Invoke();
-        }
+    public void Tax(ICollectableWallet wallet) {
+      if (PerformTax(wallet)) {
+        onTaxWallet?.Invoke();
+      }
     }
-    #endregion
-    #region Methods
+#endregion
+#region Methods
     /**
     <summary>Method used to invoke the <c>scannedWallet</c> event.</summary>
     <param name="scanResult">Was the scan successful?</param>
     */
-    private void OnScanWallet(bool scanResult)
-    {
-        scannedWallet?.Invoke(scanResult);
+    private void OnScanWallet(bool scanResult) {
+      scannedWallet?.Invoke(scanResult);
     }
     /**
     <summary>Method used to invoke the <c>taxedWallet</c> event.</summary>
     */
-    private void OnTaxWallet()
-    {
-        taxedWallet?.Invoke();
-    }
+    private void OnTaxWallet() { taxedWallet?.Invoke(); }
     /**
     <summary>Scans a specified wallet.</summary>
     <param name="wallet">The wallet to be scanned.</param>
     */
-    public void Scan(ICollectableWallet wallet)
-    {
-        bool scanResult = IResourceScannerExtensions.Scan(this, wallet);
-        onScanWallet?.Invoke(scanResult);
+    public void Scan(ICollectableWallet wallet) {
+      bool scanResult = IResourceScannerExtensions.Scan(this, wallet);
+      onScanWallet?.Invoke(scanResult);
     }
     /**
     <remarks>Works the same as the Scan method, but uses a
@@ -145,10 +140,7 @@ public abstract class CollectableScanner: EngineBehaviour, IResourceScanner<ICol
     in the Unity inspector.</remarks>
     <inheritdoc cref="CollectableScanner.Scan(ICollectableWallet)"/>
     */
-    public void ScanWallet(CollectableWallet wallet)
-    {
-        Scan(wallet);
-    }
+    public void ScanWallet(CollectableWallet wallet) { Scan(wallet); }
 
     /**
     <remarks>Works the same as the Tax method, but uses a
@@ -156,10 +148,7 @@ public abstract class CollectableScanner: EngineBehaviour, IResourceScanner<ICol
     in the Unity inspector.</remarks>
     <inheritdoc cref="CollectableScanner.Tax(ICollectableWallet)"/>
     */
-    public void TaxWallet(CollectableWallet wallet)
-    {
-        Tax(wallet);
-    }
-    #endregion
-}
+    public void TaxWallet(CollectableWallet wallet) { Tax(wallet); }
+#endregion
+  }
 }

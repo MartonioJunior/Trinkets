@@ -1,11 +1,9 @@
-namespace MartonioJunior.Trinkets.Currency
-{
-/**
-<summary>Interface which describes a wallet for currencies.</summary>
-*/
-public interface ICurrencyWallet: IResourceManager<ICurrency>, IWallet
-{
-    #region Methods
+namespace MartonioJunior.Trinkets.Currency {
+  /**
+  <summary>Interface which describes a wallet for currencies.</summary>
+  */
+  public interface ICurrencyWallet : IResourceManager<ICurrency>, IWallet {
+#region Methods
     /**
     <summary>Adjusts the amount of a currency in the wallet.</summary>
     <param name="currency">The currency to be adjusted.</param>
@@ -19,6 +17,6 @@ public interface ICurrencyWallet: IResourceManager<ICurrency>, IWallet
     <param name="currency">The currency to be reset.</param>
     */
     void Reset(ICurrency currency);
-    #endregion
-}
+#endregion
+  }
 }

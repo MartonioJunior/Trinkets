@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace MartonioJunior.Trinkets.Currency
-{
-/**
-<summary>ScriptableObject used to store in-game currencies.</summary>
-*/
-[CreateAssetMenu(fileName = "NewWallet", menuName = "Trinkets/Currency/Wallet")]
-public class CurrencyWallet: EngineScrob, ICurrencyWallet
-{
-    #region Variables
+namespace MartonioJunior.Trinkets.Currency {
+  /**
+  <summary>ScriptableObject used to store in-game currencies.</summary>
+  */
+  [CreateAssetMenu(fileName = "NewWallet",
+                   menuName = "Trinkets/Currency/Wallet")]
+  public class CurrencyWallet : EngineScrob, ICurrencyWallet {
+#region Variables
     /**
-    <summary>Collection responsible to store the amounts for each currency.</summary>
+    <summary>Collection responsible to store the amounts for each
+    currency.</summary>
     */
 
-    [SerializeField] Dictionary<ICurrency, int> currencyAmounts = new Dictionary<ICurrency, int>();
-    #endregion
-    #region EngineScrob Implementation
+    [SerializeField]
+    Dictionary<ICurrency, int> currencyAmounts =
+        new Dictionary<ICurrency, int>();
+#endregion
+#region EngineScrob Implementation
     /**
     <inheritdoc />
     */
@@ -31,8 +33,8 @@ public class CurrencyWallet: EngineScrob, ICurrencyWallet
     <inheritdoc />
     */
     public override void Validate() {}
-    #endregion
-    #region ICurrencyWallet Implementation
+#endregion
+#region ICurrencyWallet Implementation
     /**
     <summary>Adds a currency to the wallet.</summary>
     <remarks>When a currency is added via this method, the initial amount is
@@ -40,37 +42,35 @@ public class CurrencyWallet: EngineScrob, ICurrencyWallet
     method instead.</remarks>
     <inheritdoc />
     */
-    public bool Add(ICurrency currency)
-    {
-        if (currency == null || currencyAmounts.ContainsKey(currency)) return false;
+    public bool Add(ICurrency currency) {
+      if (currency == null || currencyAmounts.ContainsKey(currency))
+        return false;
 
-        currencyAmounts[currency] = 0;
-        return true;
+      currencyAmounts[currency] = 0;
+      return true;
     }
     /**
     <summary>Checks how much of a currency is on a wallet.</summary>
     <param name="currency">The currency to be checked.</param>
     <inheritdoc />
     */
-    public int AmountOf(ICurrency currency)
-    {
-        if (currency != null && currencyAmounts.TryGetValue(currency, out int value)) return value;
-        else return 0;
+    public int AmountOf(ICurrency currency) {
+      if (currency != null &&
+          currencyAmounts.TryGetValue(currency, out int value))
+        return value;
+      else
+        return 0;
     }
     /**
     <inheritdoc />
     */
-    public void Change(ICurrency currency, int delta)
-    {
-        currencyAmounts.Delta(currency, delta);
+    public void Change(ICurrency currency, int delta) {
+      currencyAmounts.Delta(currency, delta);
     }
     /**
     <inheritdoc />
     */
-    public void Clear()
-    {
-        currencyAmounts.Clear();
-    }
+    public void Clear() { currencyAmounts.Clear(); }
     /**
     <summary>Removes a currency from the wallet.</summary>
     <param name="currency">The currency to be removed.</param>
@@ -78,22 +78,22 @@ public class CurrencyWallet: EngineScrob, ICurrencyWallet
     appear on the database.</remarks>
     <inheritdoc />
     */
-    public bool Remove(ICurrency currency)
-    {
-        if (currency == null) return false;
+    public bool Remove(ICurrency currency) {
+      if (currency == null)
+        return false;
 
-        return currencyAmounts.Remove(currency);
+      return currencyAmounts.Remove(currency);
     }
     /**
     <remarks>Maintains the currency as a key in the wallet, still appearing
     when using the <c>DescribeContents</c> method.</remarks>
     <inheritdoc />
     */
-    public void Reset(ICurrency currency)
-    {
-        if (currency == null) return;
+    public void Reset(ICurrency currency) {
+      if (currency == null)
+        return;
 
-        currencyAmounts[currency] = 0;
+      currencyAmounts[currency] = 0;
     }
     /**
     <summary>Searches for currencies inside a wallet</summary>
@@ -102,43 +102,44 @@ public class CurrencyWallet: EngineScrob, ICurrencyWallet
     use the <c>Reset</c> method instead</remarks>
     <inheritdoc />
     */
-    public ICurrency[] Search(Predicate<ICurrency> predicate)
-    {
-        var list = new List<ICurrency>();
+    public ICurrency[] Search(Predicate<ICurrency> predicate) {
+      var list = new List<ICurrency>();
 
-        if (predicate == null) {
-            list.AddRange(currencyAmounts.Keys);
-        } else foreach(var pair in currencyAmounts) {
-                var currency = pair.Key;
-                if (predicate(currency)) list.Add(currency);
-            }
+      if (predicate == null) {
+        list.AddRange(currencyAmounts.Keys);
+      } else
+        foreach (var pair in currencyAmounts) {
+          var currency = pair.Key;
+          if (predicate(currency))
+            list.Add(currency);
+        }
 
-        return list.ToArray();
+      return list.ToArray();
     }
-    #endregion
-    #region Methods
+#endregion
+#region Methods
     /**
     <summary>Describes the list of currencies present in the
     wallet.</summary>
     <returns>A string describing the contents of the wallet by
     category.</returns>
     */
-    public string DescribeContents()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.Append(name);
-        sb.Append(": ");
+    public string DescribeContents() {
+      StringBuilder sb = new StringBuilder();
+      sb.Append(name);
+      sb.Append(": ");
 
-        if (currencyAmounts.Count == 0) {
-            sb.Append("Empty");
-        } else foreach(var pair in currencyAmounts) {
-                sb.Append(pair.Value);
-                sb.Append("(");
-                sb.Append(pair.Key.Symbol);
-                sb.Append(") | ");
-            }
-        return sb.ToString();
+      if (currencyAmounts.Count == 0) {
+        sb.Append("Empty");
+      } else
+        foreach (var pair in currencyAmounts) {
+          sb.Append(pair.Value);
+          sb.Append("(");
+          sb.Append(pair.Key.Symbol);
+          sb.Append(") | ");
+        }
+      return sb.ToString();
     }
-    #endregion
-}
+#endregion
+  }
 }
