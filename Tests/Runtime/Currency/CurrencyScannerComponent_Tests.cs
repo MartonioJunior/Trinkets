@@ -16,7 +16,7 @@ namespace Tests.MartonioJunior.Trinkets.Currency
         public const int FinalAmount = AmountOnWallet-AmountRemoved;
         #endregion
         #region Variables
-        private ICurrency Currency;
+        private CurrencyData Currency;
         private CurrencyWallet Wallet;
         #endregion
         #region TestModel Implementation

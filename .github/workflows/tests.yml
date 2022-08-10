@@ -64,14 +64,13 @@ jobs:
         uses: game-ci/unity-test-runner@v2
         id: testRunner
         env:
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           checkName: 'Test Results ${{ matrix.unityVersion }}-${{ matrix.targetPlatform }}'
+          coverageOptions: 'generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+com.martoniojunior.*'
       
       - name: Upload test results
         uses: actions/upload-artifact@v2
