@@ -2,59 +2,55 @@ using MartonioJunior.Trinkets.Currency;
 using UnityEditor;
 using UnityEngine;
 
-namespace MartonioJunior.Trinkets.Editor
-{
-[CustomEditor(typeof(CurrencyWallet))]
-public class CurrencyWalletEditor: UnityEditor.Editor
-{
-    #region Variables
+namespace MartonioJunior.Trinkets.Editor {
+  [CustomEditor(typeof(CurrencyWallet))]
+  public class CurrencyWalletEditor : UnityEditor.Editor {
+#region Variables
     CurrencyWallet wallet;
-    #endregion
-    #region Editor Implementation
-    private void OnEnable()
-    {
-        wallet = target as CurrencyWallet;
-    }
+#endregion
+#region Editor Implementation
+    private void OnEnable() { wallet = target as CurrencyWallet; }
 
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
+    public override void OnInspectorGUI() {
+      base.OnInspectorGUI();
 
-        var currencyList = wallet.Search(null);
+      var currencyList = wallet.Search(null);
 
-        var headerStyle = Style.BasedOn(EditorStyles.whiteLargeLabel)
-                          .BG(Theme.H1.BGColor).TextColor(Theme.H1.TextColor);
-        GUILayout.Label("Contents", headerStyle);
+      var headerStyle = Style.BasedOn(EditorStyles.whiteLargeLabel)
+                            .BG(Theme.H1.BGColor)
+                            .TextColor(Theme.H1.TextColor);
+      GUILayout.Label("Contents", headerStyle);
 
-        if (currencyList.Length <= 0) {
-            GUILayout.Label("Wallet is Empty");
-        } else foreach(var currency in currencyList) {
-                DisplayCurrency(currency, wallet.AmountOf(currency));
-            }
-    }
-    #endregion
-    #region Methods
-    public void DisplayCurrency(ICurrency currency, int amount)
-    {
-        const int WidgetHeight = 32;
-        const int LabelHeight = WidgetHeight/2;
-        const int RightSpacing = 20;
-
-        var texture = AssetPreview.GetAssetPreview(currency.Image);
-
-        using (Present.Horizontal(GUILayout.Height(WidgetHeight))) {
-            GUILayout.Label(texture, GUILayout.MaxWidth(WidgetHeight), GUILayout.MaxHeight(WidgetHeight));
-            using (Present.Vertical()) {
-                Present.FlexibleLabel(currency.Name, GUILayout.Height(LabelHeight));
-            }
-            GUILayout.FlexibleSpace();
-            using (Present.Vertical()) {
-                Present.FlexibleLabel($"{amount}", GUILayout.Height(LabelHeight));
-            }
-
-            GUILayout.Space(RightSpacing);
+      if (currencyList.Length <= 0) {
+        GUILayout.Label("Wallet is Empty");
+      } else
+        foreach (var currency in currencyList) {
+          DisplayCurrency(currency, wallet.AmountOf(currency));
         }
     }
-    #endregion
-}
+#endregion
+#region Methods
+    public void DisplayCurrency(ICurrency currency, int amount) {
+      const int WidgetHeight = 32;
+      const int LabelHeight = WidgetHeight / 2;
+      const int RightSpacing = 20;
+
+      var texture = AssetPreview.GetAssetPreview(currency.Image);
+
+      using (Present.Horizontal(GUILayout.Height(WidgetHeight))) {
+        GUILayout.Label(texture, GUILayout.MaxWidth(WidgetHeight),
+                        GUILayout.MaxHeight(WidgetHeight));
+        using (Present.Vertical()) {
+          Present.FlexibleLabel(currency.Name, GUILayout.Height(LabelHeight));
+        }
+        GUILayout.FlexibleSpace();
+        using (Present.Vertical()) {
+          Present.FlexibleLabel($"{amount}", GUILayout.Height(LabelHeight));
+        }
+
+        GUILayout.Space(RightSpacing);
+      }
+    }
+#endregion
+  }
 }
