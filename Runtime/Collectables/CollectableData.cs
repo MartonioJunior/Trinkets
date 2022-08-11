@@ -13,12 +13,20 @@ namespace MartonioJunior.Trinkets.Collectables
     {
         #region Variables
         /**
+        <summary>The description of the collectable.</summary>
+        */
+        [SerializeField] string displayName;
+        /**
+        <summary>The icon of the collectable.</summary>
+        */
+        [SerializeField] Sprite displayImage;
+        /**
         <inheritdoc cref="ICollectable.Category"/>
         */
         #if ENABLE_INTERFACE_FIELDS
         [SerializeField] Field<ICollectableCategory> category = new Field<ICollectableCategory>();
         #else
-        [field: SerializeField] public CollectableCategory Category {get; set;}
+        [SerializeField] CollectableCategory category;
         #endif
         #endregion
         #region EngineScrob Implementation
@@ -52,10 +60,10 @@ namespace MartonioJunior.Trinkets.Collectables
         public override void Validate() {}
         #endregion
         #region ICollectable Implementation
+        #if ENABLE_INTERFACE_FIELDS
         /**
         <inheritdoc />
         */
-        #if ENABLE_INTERFACE_FIELDS
         public ICollectableCategory Category {
             get => category.Unwrap();
             set {
@@ -63,6 +71,17 @@ namespace MartonioJunior.Trinkets.Collectables
                 category.Set(value);
             }
         #else
+        /**
+        <inheritdoc cref="ICollectable.Category"/>
+        */
+        public CollectableCategory Category {
+            get => category;
+            set {
+                LinkToCategory(value);
+                category = value;
+            }
+        }
+
         ICollectableCategory ICollectable.Category {
             get => Category;
             #endif
@@ -78,11 +97,8 @@ namespace MartonioJunior.Trinkets.Collectables
         <inheritdoc />
         */
         public Sprite Image {
-            #if ENABLE_INTERFACE_FIELDS
-            get => category.Unwrap()?.Image;
-            #else
-            get => Category?.Image;
-            #endif
+            get => GetImage();
+            set => SetImage(value);
         }
         /**
         <inheritdoc />
@@ -108,15 +124,24 @@ namespace MartonioJunior.Trinkets.Collectables
         #endregion
         #region Methods
         /**
+        <summary>Returns the image of the collectable.</summary>
+        */
+        protected virtual Sprite GetImage()
+        {
+            if (displayImage is Sprite DisplayImage)
+                return DisplayImage;
+            else
+                return Category?.Image;
+        }
+        /**
         <summary>Returns the name of the collectable.</summary>
         */
         protected virtual string GetName()
         {
-            #if ENABLE_INTERFACE_FIELDS
-            return (category.Unwrap() as IResourceCategory)?.Name;
-            #else
-            return Category?.Name;
-            #endif
+            if (string.IsNullOrEmpty(displayName))
+                return $"{name} ({Category?.Name ?? "No Category"})";
+            else
+                return displayName;
         }
         /**
         <summary>Returns the value of the collectable.</summary>
@@ -145,9 +170,19 @@ namespace MartonioJunior.Trinkets.Collectables
             value?.Add(this);
         }
         /**
+        <summary>Sets the icon of the collectable.</summary>
+        */
+        protected virtual void SetImage(Sprite sprite)
+        {
+            displayImage = sprite;
+        }
+        /**
         <summary>Sets the name of the collectable.</summary>
         */
-        protected virtual void SetName(string name) {}
+        protected virtual void SetName(string name)
+        {
+            displayName = name;
+        }
         /**
         <summary>Sets the value of the collectable.</summary>
         */
@@ -156,7 +191,7 @@ namespace MartonioJunior.Trinkets.Collectables
         #region Methods
         public override string ToString()
         {
-            return $"{name}({Name})";
+            return $"{name}({Category?.Name})";
         }
         #endregion
     }
