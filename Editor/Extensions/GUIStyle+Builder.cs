@@ -16,6 +16,12 @@ namespace MartonioJunior.Trinkets.Editor
             style.normal.background = result;
             return style;
         }
+
+        public static GUIStyle TextColor(this GUIStyle style, Color color)
+        {
+            style.normal.textColor = color;
+            return style;
+        }
         #endregion
     }
 }
