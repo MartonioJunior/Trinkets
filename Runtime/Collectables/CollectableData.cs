@@ -128,8 +128,8 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         protected virtual Sprite GetImage()
         {
-            if (displayImage is Sprite DisplayImage)
-                return DisplayImage;
+            if (displayImage != null)
+                return displayImage;
             else
                 return Category?.Image;
         }
