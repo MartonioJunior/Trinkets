@@ -1,3 +1,4 @@
+// #define ENABLE_INTERFACE_FIELDS
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,7 +15,11 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <inheritdoc cref="ICollectable.Category"/>
         */
+        #if ENABLE_INTERFACE_FIELDS
         [SerializeField] Field<ICollectableCategory> category = new Field<ICollectableCategory>();
+        #else
+        [field: SerializeField] public CollectableCategory Category {get; set;}
+        #endif
         #endregion
         #region EngineScrob Implementation
         /**
@@ -22,18 +27,24 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         public override void Setup()
         {
-            if (category.HasValue()) {
+            #if ENABLE_INTERFACE_FIELDS
+            if (category.HasValue())
+            #else
+            if (Category != null)
+            #endif
                 Category.Add(this);
-            }
         }
         /**
         <inheritdoc />
         */
         public override void TearDown()
         {
-            if (category.HasValue()) {
+            #if ENABLE_INTERFACE_FIELDS
+            if (category.HasValue())
+            #else
+            if (Category != null)
+            #endif
                 Category.Remove(this);
-            }
         }
         /**
         <inheritdoc />
@@ -44,12 +55,17 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <inheritdoc />
         */
+        #if ENABLE_INTERFACE_FIELDS
         public ICollectableCategory Category {
             get => category.Unwrap();
             set {
                 LinkToCategory(value);
                 category.Set(value);
             }
+        #else
+        ICollectableCategory ICollectable.Category {
+            get => Category;
+            #endif
         }
         /**
         <inheritdoc />
@@ -62,7 +78,11 @@ namespace MartonioJunior.Trinkets.Collectables
         <inheritdoc />
         */
         public Sprite Image {
+            #if ENABLE_INTERFACE_FIELDS
             get => category.Unwrap()?.Image;
+            #else
+            get => Category?.Image;
+            #endif
         }
         /**
         <inheritdoc />
@@ -92,7 +112,11 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         protected virtual string GetName()
         {
+            #if ENABLE_INTERFACE_FIELDS
             return (category.Unwrap() as IResourceCategory)?.Name;
+            #else
+            return Category?.Name;
+            #endif
         }
         /**
         <summary>Returns the value of the collectable.</summary>
@@ -111,10 +135,12 @@ namespace MartonioJunior.Trinkets.Collectables
         private void LinkToCategory(ICollectableCategory value)
         {
             if (object.Equals(value, Category)) return;
-
-            if (category.HasValue()) {
+            #if ENABLE_INTERFACE_FIELDS
+            if (category.HasValue())
+            #else
+            if (Category != null)
+            #endif
                 Category.Remove(this);
-            }
 
             value?.Add(this);
         }
