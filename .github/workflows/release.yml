@@ -15,13 +15,6 @@ jobs:
       - name: Extract release notes
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v1
-      - name: Read release notes preface
-        id: release_preface
-        uses: bluwy/substitute-string-action@v1
-        with:
-          _input-file: .github/ISSUE_TEMPLATE/RELEASE_TEMPLATE.md
-          _format-key: '{key}'
-          RELEASE_TAG: ${{ github.ref_name }}
       - name: Create release
         uses: actions/create-release@v1
         env:
