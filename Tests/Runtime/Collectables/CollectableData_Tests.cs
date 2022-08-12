@@ -14,6 +14,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         private const string CategoryName = "Food";
         private CollectableCategory Category;
         private CollectableWallet Wallet;
+        private Sprite CollectableIcon;
         private Sprite CategoryIcon;
         #endregion
         #region ScrobTestModel Implementation
@@ -23,6 +24,8 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             EngineScrob.Instance(out Wallet);
 
             CategoryIcon = Sprite.Create(Texture2D.grayTexture, new Rect(), Vector2.zero);
+            CollectableIcon = Sprite.Create(Texture2D.grayTexture, new Rect(), Vector2.zero);
+
             Category.Name = CategoryName;
             Category.Image = CategoryIcon;
             
@@ -32,6 +35,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         public override void ConfigureValues()
         {
             modelReference.name = CollectableName;
+            modelReference.Image = CollectableIcon;
             modelReference.Category = Category;
         }
 
@@ -41,6 +45,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
             ScriptableObject.DestroyImmediate(Category);
             ScriptableObject.DestroyImmediate(Wallet);
+            Sprite.DestroyImmediate(CollectableIcon);
             Sprite.DestroyImmediate(CategoryIcon);
 
             Category = null;
@@ -74,31 +79,47 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         }
 
         [Test]
-        public void Image_ReturnsIconForCategoryOfCollectable()
+        public void Image_ReturnsIconForDisplayImage()
         {
+            Assert.AreEqual(CollectableIcon, modelReference.Image);
+        }
+
+        [Test]
+        public void Image_ReturnsIconForCategoryOfCollectableWhenDisplayImageIsNull()
+        {
+            modelReference.Image = null;
             Assert.AreEqual(CategoryIcon, modelReference.Image);
         }
 
         [Test]
-        public void Image_ReturnsNullWhenCategoryNotSet()
+        public void Image_ReturnsNullWhenCategoryAndDisplayImageNotSet()
         {
+            modelReference.Image = null;
             modelReference.Category = null;
             Assert.Null(modelReference.Category);
         }
 
         [Test]
-        public void Name_ReturnsNameOfCollectableCategory()
+        public void Name_ReturnsDisplayNameOfCollectable()
         {
-            Assert.AreEqual(Category.Name, modelReference.Name);
+            const string NewName = "Tunic";
+            modelReference.Name = NewName;
+            Assert.AreEqual(NewName, modelReference.Name);
         }
 
         [Test]
-        public void Name_CannotBeAlteredByDefault()
+        public void Name_ReturnsObjectNameAndCategoryNameForCollectable()
+        {
+            Assert.AreEqual($"{CollectableName} ({Category.Name})", modelReference.Name);
+        }
+
+        [Test]
+        public void Name_ChangesNameOfCollectable()
         {
             const string NewName = "Lollipop";
             modelReference.Name = NewName;
 
-            Assert.AreNotEqual(NewName, modelReference.Name);
+            Assert.AreEqual(NewName, modelReference.Name);
         }
 
         [Test]
