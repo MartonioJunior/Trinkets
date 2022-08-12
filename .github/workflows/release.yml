@@ -19,7 +19,7 @@ jobs:
         id: release_preface
         uses: bluwy/substitute-string-action@v1
         with:
-          _input-file: .github/RELEASE_TEMPLATE.md
+          _input-file: .github/ISSUE_TEMPLATE/RELEASE_TEMPLATE.md
           _format-key: '{key}'
           RELEASE_TAG: ${{ github.ref_name }}
       - name: Create release
