@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace MartonioJunior.Trinkets.Currency
+namespace MartonioJunior.Trinkets.Currencies
 {
     /**
     <summary>ScriptableObject used to store in-game currencies.</summary>

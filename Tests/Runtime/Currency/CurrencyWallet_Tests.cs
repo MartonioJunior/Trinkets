@@ -2,11 +2,11 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Trinkets.Currency;
+using MartonioJunior.Trinkets.Currencies;
 using System.Collections.Generic;
 using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Trinkets.Currency
+namespace Tests.MartonioJunior.Trinkets.Currencies
 {
     public class CurrencyWallet_Tests: ScrobTestModel<CurrencyWallet>
     {

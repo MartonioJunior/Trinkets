@@ -1,4 +1,4 @@
-namespace MartonioJunior.Trinkets.Currency
+namespace MartonioJunior.Trinkets.Currencies
 {
     /**
     <summary>Interface which describes a wallet for currencies.</summary>

@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Trinkets.Currency
+namespace MartonioJunior.Trinkets.Currencies
 {
     [AddComponentMenu("Trinkets/Currency/Currency Event Listener")]
     public class CurrencyEventListener: EngineBehaviour, IResourceProcessor<ICurrencyWallet, int>
