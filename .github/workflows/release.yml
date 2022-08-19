@@ -2,8 +2,8 @@ name: Create Release 📦
 
 on:
   push:
-    tags:
-      - "*.*.*"
+    branches:
+      - main
 
 jobs:
   build:
@@ -12,18 +12,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Extract release notes
-        id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v1
-      - name: Create release
-        uses: actions/create-release@v1
+      - name: Semantic release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
+          branch: master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          draft: true
-          prerelease: true
-          body: |
-            ${{ steps.release_preface.outputs.result }}
-            ${{ steps.extract-release-notes.outputs.release_notes }}
+      # - name: Extract release notes
+      #   id: extract-release-notes
+      #   uses: ffurrer2/extract-release-notes@v1
+      # - name: Create release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ github.ref }}
+      #     release_name: ${{ github.ref }}
+      #     draft: true
+      #     prerelease: true
+      #     body: |
+      #       ${{ steps.release_preface.outputs.result }}
+      #       ${{ steps.extract-release-notes.outputs.release_notes }}

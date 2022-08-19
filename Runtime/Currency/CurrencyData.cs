@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MartonioJunior.Trinkets.Currency
+namespace MartonioJunior.Trinkets.Currencies
 {
     /**
     <summary>ScriptableObject which defines a Currency.</summary>

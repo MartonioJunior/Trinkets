@@ -1,4 +1,4 @@
-using MartonioJunior.Trinkets.Currency;
+using MartonioJunior.Trinkets.Currencies;
 using UnityEditor;
 using UnityEngine;
 

@@ -2,12 +2,12 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using MartonioJunior.Trinkets.Currency;
+using MartonioJunior.Trinkets.Currencies;
 using UnityEngine.Events;
 using System;
 using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Trinkets.Currency
+namespace Tests.MartonioJunior.Trinkets.Currencies
 {
     public class CurrencyComponent_Tests: ComponentTestModel<CurrencyComponent>
     {

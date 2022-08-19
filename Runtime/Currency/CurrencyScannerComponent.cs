@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Trinkets.Currency
+namespace MartonioJunior.Trinkets.Currencies
 {
     /**
     <summary>Component able to scan currencies inside a wallet.</summary>

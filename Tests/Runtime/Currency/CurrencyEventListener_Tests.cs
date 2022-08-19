@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 using MartonioJunior.Trinkets;
-using MartonioJunior.Trinkets.Currency;
+using MartonioJunior.Trinkets.Currencies;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.TestTools;
 
-namespace Tests.MartonioJunior.Trinkets.Currency
+namespace Tests.MartonioJunior.Trinkets.Currencies
 {
     public class CurrencyEventListener_Tests: ComponentTestModel<CurrencyEventListener>
     {

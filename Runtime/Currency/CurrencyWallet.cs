@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace MartonioJunior.Trinkets.Currency
+namespace MartonioJunior.Trinkets.Currencies
 {
     /**
     <summary>ScriptableObject used to store in-game currencies.</summary>
@@ -15,7 +15,6 @@ namespace MartonioJunior.Trinkets.Currency
         /**
         <summary>Collection responsible to store the amounts for each currency.</summary>
         */
-
         [SerializeField] Dictionary<ICurrency, int> currencyAmounts = new Dictionary<ICurrency, int>();
         #endregion
         #region EngineScrob Implementation

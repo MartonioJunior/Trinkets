@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MartonioJunior.Trinkets.Currency
+namespace MartonioJunior.Trinkets.Currencies
 {
     /**
     <summary>Component that gives currency to a wallet.</summary>
