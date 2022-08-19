@@ -1,0 +1,112 @@
+{
+    "tagFormat": "v${version}",
+    "plugins": [
+        ["@semantic-release/commit-analyzer", {
+            "releaseRules": [
+                {
+                    "type": "milestone",
+                    "release": "major"
+                },
+                {
+                    "type": "feat",
+                    "release": "minor"
+                },
+                {
+                    "type": "change",
+                    "release": "patch"
+                },
+                {
+                    "type": "fix",
+                    "release": "patch"
+                },
+                {
+                    "type": "obsolete",
+                    "release": false
+                },
+                {
+                    "type": "remove",
+                    "release": false
+                },
+                {
+                    "type": "ci",
+                    "release": false
+                },
+                {
+                    "type": "docs",
+                    "release": false
+                },
+                {
+                    "type": "build",
+                    "release": false
+                },
+                {
+                    "type": "chore",
+                    "release": false
+                }
+            ]
+        }],
+        ["@semantic-release/release-notes-generator", {
+            "preset": "angular",
+            "presetConfig": {
+                "types": [
+                    {
+                        "type": "build",
+                        "section": "📰 Notices",
+                        "hidden": false
+                    },
+                    {
+                        "type": "milestone",
+                        "section": "🚀 Features",
+                        "hidden": false
+                    },
+                    {
+                        "type": "feat",
+                        "section": "✨ Added",
+                        "hidden": false
+                    },
+                    {
+                        "type": "change",
+                        "section": "🔄 Changed",
+                        "hidden": false
+                    },
+                    {
+                        "type": "fix",
+                        "section": "🔧 Fixed",
+                        "hidden": false
+                    },
+                    {
+                        "type": "obsolete",
+                        "section": "⚠️ Deprecated",
+                        "hidden": false
+                    },
+                    {
+                        "type": "remove",
+                        "section": "🗑️ Removed",
+                        "hidden": false
+                    },
+                    {
+                        "type": "docs",
+                        "section": "📚 Documentation",
+                        "hidden": false
+                    },
+                    {
+                        "type": "ci",
+                        "section": "🧑‍💻 Continuous Integration",
+                        "hidden": true
+                    },
+                    {
+                        "type": "chore",
+                        "section": "✔️ Tasks",
+                        "hidden": true
+                    }
+                ]
+            }
+        }],
+        ["@semantic-release/npm", { "npmPublish": false }],
+        ["@semantic-release/git", {
+            "assets": ["package.json", "CHANGELOG.md"],
+            "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }],
+        "@semantic-release/github"
+    ]
+}

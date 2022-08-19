@@ -3,15 +3,15 @@ name: Run Tests 🧪
 
 on: 
   push:
-      branches:
-          - main
-          - develop
-          - 'feature/**'
-      paths:
-        - 'Editor/**'
-        - 'Runtime/**'
-        - 'Samples~/**'
-        - 'Tests/**'
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+    paths:
+      - 'Editor/**'
+      - 'Runtime/**'
+      - 'Samples~/**'
+      - 'Tests/**'
   workflow_dispatch:
 
 jobs:

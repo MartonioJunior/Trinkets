@@ -1,5 +1,4 @@
 * **Please check if the pull request fulfills these requirements**
-- [ ] CHANGELOG.md has been updated to describe the change
 - For Bug Fixes, Features and Improvements
     - [ ] The changes all have tests to validate them
     - [ ] The test has code coverage at 70% of the main business logic
