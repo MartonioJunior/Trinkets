@@ -15,7 +15,6 @@ namespace MartonioJunior.Trinkets.Currencies
         /**
         <summary>Collection responsible to store the amounts for each currency.</summary>
         */
-
         [SerializeField] Dictionary<ICurrency, int> currencyAmounts = new Dictionary<ICurrency, int>();
         #endregion
         #region EngineScrob Implementation
