@@ -75,6 +75,14 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         }
 
         [Test]
+        public void AddTo_DoesNothingWithNullWallet()
+        {
+            Assert.DoesNotThrow(() => {
+                modelReference.AddTo(null);
+            });
+        }
+
+        [Test]
         public void AddToWallet_WorksLikeAddToMethod()
         {
             modelReference.AddToWallet(Wallet);

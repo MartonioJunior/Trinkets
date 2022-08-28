@@ -2,8 +2,6 @@
 
 Based on the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
-## [Unreleased]
-
 ## [0.0.3] - 2022-08-12
 ### Added
 - Wallets now show their contents in the inspector
@@ -44,15 +42,3 @@ Based on the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
     - New component: Collectable Scanner
     - New component: Collectable Category Scanner
     - New component: Collectable Event Listener
-
-### Changed
-Nothing on this release
-
-### Deprecated
-Nothing on this release
-
-### Removed
-Nothing on this release
-
-### Fixed
-Nothing on this release

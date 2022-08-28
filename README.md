@@ -72,4 +72,4 @@ To start using Trinkets in your project, follow these X steps:
 And there ya go, it's already part of your project.
 
 # Considerations
-This project is still in a experimental phase, where I'm discovering what works and what doesn't before moving into the next steps. As such, some aspects of the API may change over time. That said, feel free to drop an issue or feedback about the project in the Issues Tab.
+This project is in a preview phase, where I'm discovering what works and what doesn't before moving into the next steps, making breaking changes to the API along the way until the scope is perfected to 1.0.0. The project is already usable in the current state, but please note that upgrading into a newer version is likely to have breaking changes. Feel free to drop an issue or feedback about the project in the Issues Tab.
