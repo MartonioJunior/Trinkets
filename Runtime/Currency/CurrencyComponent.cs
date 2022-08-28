@@ -84,7 +84,7 @@ namespace MartonioJunior.Trinkets.Currencies
         */
         public void AddTo(ICurrencyWallet wallet)
         {
-            if (enabled) {
+            if (enabled && wallet != null) {
                 wallet.Change(Currency, amount);
                 onCollectedCurrency?.Invoke();
             }
