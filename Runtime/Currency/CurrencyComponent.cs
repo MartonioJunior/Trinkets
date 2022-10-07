@@ -1,4 +1,5 @@
 // #define ENABLE_INTERFACE_FIELDS
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,8 +8,9 @@ namespace MartonioJunior.Trinkets.Currencies
     /**
     <summary>Component that gives currency to a wallet.</summary>
     */
+    [Obsolete("Functionality replaced by the ResourceInstancerComponent")]
     [AddComponentMenu("Trinkets/Currency/Currency Giver")]
-    public class CurrencyComponent: EngineBehaviour, IResourceInstancer<ICurrencyWallet>
+    public class CurrencyComponent: EngineBehaviour
     {
         #region Variables
         /**

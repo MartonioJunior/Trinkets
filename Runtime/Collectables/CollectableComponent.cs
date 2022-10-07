@@ -1,4 +1,5 @@
 // #define ENABLE_INTERFACE_FIELDS
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,8 +8,9 @@ namespace MartonioJunior.Trinkets.Collectables
     /**
     <summary>Component used to give resources to a wallet.</summary>
     */
+    [Obsolete("Functionality replaced by the ResourceInstancerComponent")]
     [AddComponentMenu("Trinkets/Collectable/Collectable Giver")]
-    public class CollectableComponent: EngineBehaviour, IResourceInstancer<ICollectableWallet>
+    public class CollectableComponent: EngineBehaviour
     {
         #region Variables
         /**
@@ -83,7 +85,7 @@ namespace MartonioJunior.Trinkets.Collectables
             #endif
                 return;
 
-            bool newAddition = wallet.Add(Collectable);
+            bool newAddition = wallet.Add((ResourceData)Collectable);
             onCollected?.Invoke(newAddition);
         }
         #endregion
