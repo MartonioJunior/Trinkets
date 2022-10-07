@@ -1,4 +1,5 @@
 // #define ENABLE_INTERFACE_FIELDS
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace MartonioJunior.Trinkets.Collectables
     /**
     <summary>Component that scans a wallet for collectables inside of it.</summary>
     */
+    [Obsolete("Functionality replaced by the ResourceScannerComponent")]
     [AddComponentMenu("Trinkets/Collectable/Collectable Scanner")]
     [System.Serializable]
     public class CollectableScannerComponent: CollectableScanner
@@ -25,7 +27,7 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <inheritdoc />
         */
-        public override bool FulfillsCriteria(ICollectableWallet wallet)
+        public override bool FulfillsCriteria(IResourceGroup wallet)
         {
             bool criteriaIsFulfilled = true;
             #if !ENABLE_INTERFACE_FIELDS
@@ -48,7 +50,7 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <inheritdoc />
         */
-        public override bool PerformTax(ICollectableWallet wallet)
+        public override bool PerformTax(IResourceGroup wallet)
         {
             int amountToRemove;
             #if ENABLE_INTERFACE_FIELDS
@@ -65,7 +67,7 @@ namespace MartonioJunior.Trinkets.Collectables
             if (!(Collectables is List<CollectableData> collectableList)) return false;
             amountToRemove = collectableList.Count;
 
-            collectableList.ForEach((item) => wallet.Remove(item));
+            collectableList.ForEach((item) => wallet.Remove((ResourceData)item));
             #endif
             return amountToRemove > 0;
         }

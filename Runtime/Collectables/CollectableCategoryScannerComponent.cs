@@ -1,4 +1,5 @@
 // #define ENABLE_INTERFACE_FIELDS
+using System;
 using UnityEngine;
 
 namespace MartonioJunior.Trinkets.Collectables
@@ -7,6 +8,7 @@ namespace MartonioJunior.Trinkets.Collectables
     <summary>Component that scans a wallet for collectables that belong to a
     specified category.</summary>
     */
+    [Obsolete("Functionality replaced by ResourceScannerComponent")]
     [AddComponentMenu("Trinkets/Collectable/Collectable Category Scanner")]
     public class CollectableCategoryScannerComponent: CollectableScanner
     {
@@ -35,7 +37,7 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <inheritdoc />
         */
-        public override bool FulfillsCriteria(ICollectableWallet wallet)
+        public override bool FulfillsCriteria(IResourceGroup wallet)
         {
             #if ENABLE_INTERFACE_FIELDS
             if (category.Get(out var validCategory))
@@ -49,7 +51,7 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <inheritdoc />
         */
-        public override bool PerformTax(ICollectableWallet wallet)
+        public override bool PerformTax(IResourceGroup wallet)
         {
             #if ENABLE_INTERFACE_FIELDS
             if (!category.Get(out var validCategory))
@@ -58,7 +60,7 @@ namespace MartonioJunior.Trinkets.Collectables
             #endif
                 return false;
 
-            wallet.Remove(validCategory, Amount);
+            wallet.Remove(new ResourceData(validCategory, Amount));
             return Amount > 0;
         }
         #endregion

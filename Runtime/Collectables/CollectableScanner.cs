@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,11 +7,12 @@ namespace MartonioJunior.Trinkets.Collectables
     /**
     <summary>Component used as the basis for scanners of collectable wallets.</summary>
     */
-    public abstract class CollectableScanner: EngineBehaviour, IResourceScanner<ICollectableWallet>
+    [Obsolete("Functionality replaced by the ResourceScannerComponent")]
+    public abstract class CollectableScanner: EngineBehaviour, IResourceScanner
     {
         #region Variables
         /**
-        <inheritdoc cref="CollectableScanner.TaxWalletOnScan"/>
+        <inheritdoc cref="CollectableScanner.TaxGroupOnScan"/>
         */
         [SerializeField] bool taxWallet;
         #endregion
@@ -62,14 +64,14 @@ namespace MartonioJunior.Trinkets.Collectables
         <returns><c>true</c> when the wallet fulfills the criteria.<br/>
         <c>false</c> when the wallet fails the criteria.</returns>
         */
-        public abstract bool FulfillsCriteria(ICollectableWallet wallet);
+        public abstract bool FulfillsCriteria(IResourceGroup wallet);
         /**
         <summary>Removes elements from the wallet.</summary>
         <param name="wallet">The wallet to remove elements from</param>
         <returns><c>true</c> when the operation is successful.<br/>
         <c>false</c> when the operation fails.</returns>
         */
-        public abstract bool PerformTax(ICollectableWallet wallet);
+        public abstract bool PerformTax(IResourceGroup wallet);
         #endregion
         #region EngineBehaviour Implementation
         /**
@@ -93,21 +95,21 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <inheritdoc />
         */
-        public bool TaxWalletOnScan {
+        public bool TaxGroupOnScan {
             get => taxWallet;
             set => taxWallet = value;
         }
         /**
         <inheritdoc />
         */
-        public bool Check(ICollectableWallet wallet)
+        public bool Check(IResourceGroup wallet)
         {
             return enabled && FulfillsCriteria(wallet);
         }
         /**
         <inheritdoc />
         */
-        public void Tax(ICollectableWallet wallet)
+        public void Tax(IResourceGroup wallet)
         {
             if (PerformTax(wallet)) {
                 onTaxWallet?.Invoke();

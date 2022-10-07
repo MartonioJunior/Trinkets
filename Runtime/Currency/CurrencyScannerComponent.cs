@@ -1,4 +1,5 @@
 // #define ENABLE_INTERFACE_FIELDS
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,8 +8,9 @@ namespace MartonioJunior.Trinkets.Currencies
     /**
     <summary>Component able to scan currencies inside a wallet.</summary>
     */
+    [Obsolete("Functionality replaced by ResourceScannerComponent")]
     [AddComponentMenu("Trinkets/Currency/Currency Scanner")]
-    public class CurrencyScannerComponent: EngineBehaviour, IResourceScanner<ICurrencyWallet>
+    public class CurrencyScannerComponent: EngineBehaviour, IResourceScanner
     {
         #region Variables
         /**
@@ -104,24 +106,24 @@ namespace MartonioJunior.Trinkets.Currencies
         /**
         <inheritdoc />
         */
-        public bool TaxWalletOnScan {
+        public bool TaxGroupOnScan {
             get => taxWallet;
             set => taxWallet = value;
         }
         /**
         <inheritdoc />
         */
-        public bool Check(ICurrencyWallet wallet)
+        public bool Check(IResourceGroup wallet)
         {
             return enabled && Mathf.Abs(amount) <= wallet.AmountOf(Currency);
         }
         /**
         <inheritdoc />
         */
-        public void Tax(ICurrencyWallet wallet)
+        public void Tax(IResourceGroup wallet)
         {
-            if (amount > 0) {
-                wallet.Change(Currency, -amount);
+            if (amount > 0 && wallet is ICurrencyWallet Wallet) {
+                Wallet.Change(Currency, -amount);
                 onTaxWallet?.Invoke();
             }
         }
