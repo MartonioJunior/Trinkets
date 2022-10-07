@@ -8,7 +8,7 @@ namespace MartonioJunior.Trinkets
     */
     public abstract class EngineBehaviour: MonoBehaviour
     {
-        #region Abstract Methods
+        #region Abstract
         /**
         <summary>Called when the component is awoken.</summary>
         <remarks>Ideal for linking events and defining base values.</remarks>
