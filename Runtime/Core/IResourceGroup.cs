@@ -93,7 +93,7 @@ namespace MartonioJunior.Trinkets
             return true;
         }
         /**
-        <summary>.</summary>
+        <summary>Returns all of the resources that are not present in the specified group.</summary>
         <param name="self">The extension object used by the operation.</param>
         <param name="group">Other group to be used in the operation.</param>
         <returns>A new resource group.</returns>
