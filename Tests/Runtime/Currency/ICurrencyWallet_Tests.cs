@@ -1,4 +1,5 @@
 using System.Collections;
+using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -9,52 +10,37 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
 {
     public class ICurrencyWallet_Tests: TestModel<ICurrencyWallet>
     {
-        #region Constants
-        public const int AmountOfCurrency = 20;
-        public const int ChangeAmount = 50;
-        private const string CurrencySymbol = "z";
-        public const int TotalAfterChange = AmountOfCurrency+ChangeAmount;
-        private CurrencyData Currency;
-        #endregion
         #region TestModel Implementation
         public override void CreateTestContext()
         {
-            EngineScrob.Instance(out Currency);
-            Currency.Symbol = CurrencySymbol;
-
-            modelReference = EngineScrob.CreateInstance<CurrencyWallet>();
-            modelReference.Change(Currency, AmountOfCurrency);
+            modelReference = Substitute.For<ICurrencyWallet>();
         }
         public override void DestroyTestContext()
         {
-            ScriptableObject.DestroyImmediate((Object)modelReference);
-            ScriptableObject.DestroyImmediate(Currency);
-
-            Currency = null;
             modelReference = null;
         }
         #endregion
         #region Method Tests
-        [Test]
-        public void With_ChangesTheAmountOnWallet()
+        public static IEnumerable UseCases_With()
         {
-            modelReference.With(Currency,ChangeAmount);
+            const int Limit = 10000;
+            var currency = Substitute.For<ICurrency>();
+            var positiveValue = Random.Range(0, Limit);
+            var negativeValue = Random.Range(-Limit, 0);
+            var anyValue = Random.Range(-Limit, Limit);
 
-            Assert.AreEqual(TotalAfterChange, modelReference.AmountOf(Currency));
+            yield return new object[]{ currency, positiveValue, positiveValue };
+            yield return new object[]{ currency, negativeValue, 0 };
+            yield return new object[]{ null, anyValue, 0 };
         }
-
-        [Test]
-        public void With_DoesNothingWhenCurrencyIsNull()
+        [TestCaseSource(nameof(UseCases_With))]
+        public void With_ChangesTheAmountOnWallet(ICurrency currency, int addedAmount, int resultAmount)
         {
-            modelReference.With(null,ChangeAmount);
+            modelReference.Add(Arg.Any<IResourceData>()).Returns(true);
+            modelReference.AmountOf(Arg.Any<ICurrency>()).Returns(resultAmount);
 
-            Assert.AreEqual(AmountOfCurrency, modelReference.AmountOf(Currency));
-        }
-
-        [Test]
-        public void With_ReturnsTheWalletWhereTheChangeHappened()
-        {
-            Assert.AreEqual(modelReference, modelReference.With(Currency,ChangeAmount));
+            Assert.AreEqual(modelReference, modelReference.With(currency, addedAmount));
+            Assert.AreEqual(resultAmount, modelReference.AmountOf(currency));
         }
         #endregion
     }
