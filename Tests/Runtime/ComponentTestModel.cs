@@ -7,25 +7,19 @@ namespace Tests
         #region Constants
         protected const string ComponentEmptyInitialization = "Component is initialized without parameters";
         #endregion
-        #region Variables
-        protected GameObject gameObject;
-        #endregion
-        #region Abstract Methods
+        #region Abstract
         public abstract void ConfigureValues();
         #endregion
         #region TestModel Implementation
         public override void CreateTestContext()
         {
-            gameObject = new GameObject($"{typeof(T)}-Test");
-            modelReference = gameObject.AddComponent<T>();
+            modelReference = Mock.GameObject($"{typeof(T)}").AddComponent<T>();
             ConfigureValues();
         }
         
         public override void DestroyTestContext()
         {
             modelReference = null;
-            GameObject.DestroyImmediate(gameObject);
-            gameObject = null;
         }
         #endregion
     }
