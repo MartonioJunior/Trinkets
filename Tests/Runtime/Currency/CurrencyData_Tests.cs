@@ -8,75 +8,80 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
 {
     public class CurrencyData_Tests: ScrobTestModel<CurrencyData>
     {
-        #region Constants
-        public const string DisplayName = "Real";
-        public const string Symbol = "R$";
-        public const int Value = 3;
-        private Sprite Icon;
-        #endregion
         #region ScrobTestModel Implementation
-        public override void ConfigureValues()
-        {
-            Icon = Sprite.Create(Texture2D.grayTexture, new Rect(), Vector2.zero);
-
-            modelReference.Image = Icon;
-            modelReference.Name = DisplayName;
-            modelReference.Value = Value;
-            modelReference.Symbol = Symbol;
-        }
-
-        public override void DestroyTestContext()
-        {
-            Sprite.DestroyImmediate(Icon);
-
-            base.DestroyTestContext();
-        }
+        public override void ConfigureValues() {}
         #endregion
         #region Test Methods
         [Test]
         public void Image_ReturnsIconOfResource()
         {
+            modelReference.Image = Value(Mock.Sprite, out var Icon);
+
             Assert.AreEqual(Icon, modelReference.Image);
         }
-        [Test]
-        public void Name_ReturnsNameOfResource()
+
+        [TestCase("Lollipop", "Lollipop")]
+        [TestCase("", CurrencyData.DefaultCurrencyName)]
+        [TestCase(null, CurrencyData.DefaultCurrencyName)]
+        public void Name_ReturnsNameOfResource(string input, string output)
         {
-            Assert.AreEqual(DisplayName, modelReference.Name);
+            modelReference.Name = input;
+
+            Assert.AreEqual(output, modelReference.Name);
         }
 
-        [Test]
-        public void ToString_ReturnsCurrencyNameAndSymbol()
+        public static IEnumerable UseCases_Value()
         {
-            Assert.AreEqual($"{DisplayName} ({Symbol})", modelReference.ToString());
+            var positiveAmount = Random.Range(0,1000);
+            var negativeAmount = Random.Range(-1000,-1);
+
+            yield return new object[]{positiveAmount, positiveAmount};
+            yield return new object[]{negativeAmount, 0};
+        }
+        [TestCaseSource(nameof(UseCases_Value))]
+        public void Value_ReturnsResourceWorth(int input, int output)
+        {
+            modelReference.Value = input;
+
+            Assert.AreEqual(output, modelReference.Value);
         }
 
-        [Test]
-        public void Value_ReturnsResourceWorth()
+        [TestCase("R$")]
+        [TestCase("z")]
+        [TestCase("🟩")]
+        public void Symbol_ReturnsCurrencyIndicator(string symbol)
         {
-            Assert.AreEqual(Value, modelReference.Value);
+            modelReference.Symbol = symbol;
+
+            Assert.AreEqual(symbol, modelReference.Symbol);
         }
 
-        [Test]
-        public void Value_CannotBeNegative()
+        [TestCase("Real", "R$", "Real (R$)")]
+        [TestCase("Gold", "g", "Gold (g)")]
+        [TestCase("Emerald", "🟩", "Emerald (🟩)")]
+        public void ToString_ReturnsCurrencyNameAndSymbol(string name, string symbol, string output)
         {
-            modelReference.Value = -Value;
+            modelReference.Name = name;
+            modelReference.Symbol = symbol;
 
-            Assert.False(modelReference.Value < 0);
+            Assert.AreEqual(output, modelReference.ToString());
         }
 
-        [Test]
-        public void Symbol_ReturnsCurrencyIndicator()
+        public static IEnumerable UseCases_Multiply()
         {
-            Assert.AreEqual(Symbol, modelReference.Symbol);
+            var positiveAmount = Random.Range(0,1000);
+            var negativeAmount = Random.Range(-1000,-1);
+
+            yield return new object[]{ positiveAmount, positiveAmount };
+            yield return new object[]{ negativeAmount, 0 };
         }
-
-        [Test]
-        public void Validate_UsesDefaultDisplayNameOnEmptyString()
+        [TestCaseSource(nameof(UseCases_Multiply))]
+        public void Multiply_CurrencyData_int_CreatesResourceData(int input, int output)
         {
-            modelReference.Name = null;
-            modelReference.Validate();
+            var result = modelReference * input;
 
-            Assert.AreEqual(CurrencyData.DefaultDisplayName, modelReference.Name);
+            Assert.AreEqual(modelReference, result.Resource);
+            Assert.AreEqual(output, result.Amount);
         }
         #endregion
     }
