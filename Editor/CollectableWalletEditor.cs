@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using MartonioJunior.Trinkets.Collectables;
+using System.Linq;
 
 namespace MartonioJunior.Trinkets.Editor
 {
@@ -20,30 +21,32 @@ namespace MartonioJunior.Trinkets.Editor
         {
             base.OnInspectorGUI();
 
-            var categoryManager = wallet as IResourceManager<ICollectableCategory>;
-            var categoryList = categoryManager.Search(null);
+            var collectableCollection = wallet.Search(null);
+            var categoryQuery = collectableCollection.GroupBy(item => {
+                return (item.Resource as ICollectable)?.Category;
+            });
 
             var headerStyle = Style.BasedOn(EditorStyles.whiteLargeLabel)
                 .BG(Theme.H1.BGColor).TextColor(Theme.H1.TextColor);
             GUILayout.Label("Contents", headerStyle);
-            if (categoryList.Length + categoryManager.AmountOf(null) <= 0) {
+            if (collectableCollection.Count <= 0) {
                 GUILayout.Label("Wallet is Empty");
                 return;
-            } else foreach(var category in categoryList) {
-                DisplayCategoryList(category);
+            } else foreach(var collectableGroup in categoryQuery) {
+                Display(collectableGroup);
             }
-            DisplayCategoryList(null);
+            // Display(null);
         }
         #endregion
         #region Methods
-        public void DisplayCategoryList(ICollectableCategory category)
+        public void Display(IGrouping<ICollectableCategory, IResourceData> group)
         {
-            var collectableList = wallet.Search((item) => item.Category == category);
-            if (collectableList.Length <= 0) return;
+            if (group == null) return;
 
+            var category = group.Key;
             using (Present.Vertical()) {
                 DisplayCategoryHeader(category);
-                foreach(var collectable in collectableList) {
+                foreach(var collectable in group) {
                     DisplayCollectable(collectable);
                 }
             }
@@ -61,14 +64,16 @@ namespace MartonioJunior.Trinkets.Editor
             using (Present.Horizontal(categoryStyle, GUILayout.Height(WidgetHeight))) {
                 GUILayout.Label(texture, GUILayout.MaxWidth(WidgetHeight), GUILayout.MaxHeight(WidgetHeight));
                 using (Present.Vertical()) {
-                    Present.FlexibleLabel((category as IResourceCategory)?.Name ?? "Other Collectables", GUILayout.Height(LabelHeight));
+                    Present.FlexibleLabel(category?.Name ?? "Other Collectables", GUILayout.Height(LabelHeight));
                 }
                 GUILayout.FlexibleSpace();
             }
         }
 
-        public void DisplayCollectable(ICollectable collectable)
+        public void DisplayCollectable(IResourceData data)
         {
+            if (!(data.Resource is ICollectable collectable)) return;
+
             const int WidgetHeight = 24;
             const int LabelHeight = WidgetHeight/2;
 

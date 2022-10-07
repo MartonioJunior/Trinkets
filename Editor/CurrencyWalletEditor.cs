@@ -26,16 +26,18 @@ namespace MartonioJunior.Trinkets.Editor
                 .BG(Theme.H1.BGColor).TextColor(Theme.H1.TextColor);
             GUILayout.Label("Contents", headerStyle);
 
-            if (currencyList.Length <= 0) {
+            if (currencyList.Count <= 0) {
                 GUILayout.Label("Wallet is Empty");
             } else foreach(var currency in currencyList) {
-                DisplayCurrency(currency, wallet.AmountOf(currency));
+                DisplayCurrency(currency.Resource as ICurrency, currency.Amount);
             }
         }
         #endregion
         #region Methods
         public void DisplayCurrency(ICurrency currency, int amount)
         {
+            if (currency == null) return;
+
             const int WidgetHeight = 32;
             const int LabelHeight = WidgetHeight/2;
             const int RightSpacing = 20;
