@@ -1,12 +1,14 @@
 // #define ENABLE_INTERFACE_FIELDS
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace MartonioJunior.Trinkets.Currencies
 {
+    [Obsolete("Functionality replaced by the WalletListenerComponent")]
     [AddComponentMenu("Trinkets/Currency/Currency Event Listener")]
-    public class CurrencyEventListener: EngineBehaviour, IResourceProcessor<ICurrencyWallet, int>
+    public class CurrencyEventListener: EngineBehaviour
     {
         #region Constants
         public const float UpdateTime = 0.5f;

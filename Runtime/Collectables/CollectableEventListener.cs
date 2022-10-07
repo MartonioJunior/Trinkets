@@ -1,4 +1,5 @@
 // #define ENABLE_INTERFACE_FIELDS
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,8 +9,9 @@ namespace MartonioJunior.Trinkets.Collectables
     /**
     <summary>Component responsible for listening for changes on a Collectable</summary>
     */
+    [Obsolete("Functionality replaced by WalletListenerComponent")]
     [AddComponentMenu("Trinkets/Collectable/Collectable Event Listener")]
-    public class CollectableEventListener: EngineBehaviour, IResourceProcessor<ICollectableWallet, bool>
+    public class CollectableEventListener: EngineBehaviour
     {
         #region Constants
         /**
