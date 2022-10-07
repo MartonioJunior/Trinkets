@@ -5,14 +5,14 @@ namespace MartonioJunior.Trinkets
     /**
     <summary>Interface used to allow adding resources into an object.</summary>
     */
-    public interface IResourceAdder<T> where T: IResource
+    public interface IResourceAdder
     {
         /**
         <summary>Adds a resource to the object.</summary>
-        <param name="resource">The resource to be added.</param>
+        <param name="data">The data to be added.</param>
         <returns><c>true</c> when the addition is successful.<br/>
         <c>false</c> when the addition fails.</returns>
         */
-        bool Add(T resource);
+        bool Add(IResourceData data);
     }
 }
