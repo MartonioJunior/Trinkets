@@ -7,11 +7,11 @@ namespace MartonioJunior.Trinkets
     <remarks>To add management capabilities, use it together with
     the <c>IResourceManager</c> interface.</remarks>
     */
-    public interface IWallet
+    public interface IWallet: IResourceGroup
     {
         /**
-        <summary>Returns a wallet to it's empty state.</summary>
+        <summary>Describes the contents inside a wallet.</summary>
         */
-        void Clear();
+        IResourceGroup Contents {get;}
     }
 }
