@@ -4,14 +4,14 @@ namespace MartonioJunior.Trinkets
 {
     /**
     <summary>Interface used to describe an object capable of inserting
-    resources into a wallet.</summary>
+    resources into a group.</summary>
     */
-    public interface IResourceInstancer<T> where T: IWallet
+    public interface IResourceInstancer
     {
         /**
-        <summary>Inserts resources into a wallet.</summary>
-        <param name="wallet">The receiving wallet.</param>
+        <summary>Inserts resources into a group.</summary>
+        <param name="group">The receiving group.</param>
         */
-        void AddTo(T wallet);
+        void AddTo(IResourceGroup group);
     }
 }
