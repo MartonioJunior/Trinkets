@@ -3,22 +3,9 @@ namespace MartonioJunior.Trinkets.Collectables
     /**
     <summary>Interface that describes a wallet of collectables.</summary>
     */
-    public interface ICollectableWallet: IWallet, IResourceManager<ICollectable>, IResourceManager<ICollectableCategory>
+    public interface ICollectableWallet: IWallet, ICollectableOperator
     {
-        #region Methods
-        /**
-        <summary>Adds N collectables belonging to a category to the wallet.</summary>
-        <param name="category">The category of which the collectables belong to.</param>
-        <param name="amount">The amount of collectables to be added.</param>
-        */
-        void Add(ICollectableCategory category, int amount);
-        /**
-        <summary>Removes N collectables belonging to a category from the wallet.</summary>
-        <param name="category">The category of which the collectables belong to.</param>
-        <param name="amount">The amount of collectables to be removed.</param>
-        */
-        void Remove(ICollectableCategory category, int amount);
-        #endregion
+        
     }
 
     public static partial class ICollectableWalletExtensions
@@ -33,6 +20,19 @@ namespace MartonioJunior.Trinkets.Collectables
         public static bool Contains(this ICollectableWallet self, ICollectable collectable)
         {
             return self.AmountOf(collectable) > 0;
+        }
+        /**
+        <summary>Adds a collectable to the wallet</summary>
+        <param name="self">The extension object used by the operation.</param>
+        <param name="collectable">The collectable to be added.</param>
+        <returns>Wallet where the collectable was added.</returns>
+        */
+        public static ICollectableWallet With(this ICollectableWallet self, params ICollectable[] collectables)
+        {
+            foreach(var collectable in collectables) {
+                self.Add(new ResourceData(collectable));
+            }
+            return self;
         }
     }
 }

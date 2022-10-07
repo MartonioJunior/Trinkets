@@ -5,292 +5,163 @@ using UnityEngine.TestTools;
 using MartonioJunior.Trinkets.Collectables;
 using MartonioJunior.Trinkets;
 using System;
+using System.Collections.Generic;
+using NSubstitute;
+using Random = UnityEngine.Random;
 
 namespace Tests.MartonioJunior.Trinkets.Collectables
 {
     public class CollectableWallet_Tests: ScrobTestModel<CollectableWallet>
     {
-        #region Constants
-        private const string CollectableName = "Car";
-        private const string WalletName = "Wallet";
-        private CollectableCategory EmptyCategory;
-        private CollectableCategory Category;
-        private CollectableData StartCollectable;
-        private CollectableData NewCollectableA;
-        private CollectableData NewCollectableB;
-        #endregion
         #region TestModel Implementation
-        public override void CreateTestContext()
-        {
-            EngineScrob.Instance(out StartCollectable);
-            EngineScrob.Instance(out NewCollectableA);
-            EngineScrob.Instance(out NewCollectableB);
-
-            EngineScrob.Instance(out Category);
-            StartCollectable.name = CollectableName;
-            NewCollectableA.Category = Category;
-            NewCollectableB.Category = Category;
-
-            EngineScrob.Instance(out EmptyCategory);
-
-            base.CreateTestContext();
-        }
-
-        public override void ConfigureValues()
-        {
-            modelReference.name = WalletName;
-            modelReference.Add(StartCollectable);
-        }
-
-        public override void DestroyTestContext()
-        {
-            base.DestroyTestContext();
-
-            ScriptableObject.DestroyImmediate(EmptyCategory);
-            ScriptableObject.DestroyImmediate(Category);
-            ScriptableObject.DestroyImmediate(StartCollectable);
-            ScriptableObject.DestroyImmediate(NewCollectableA);
-            ScriptableObject.DestroyImmediate(NewCollectableB);
-
-            EmptyCategory = null;
-            Category = null;
-            StartCollectable = null;
-            NewCollectableA = null;
-            NewCollectableB = null;
-        }
+        public override void ConfigureValues() {}
         #endregion
         #region Method Tests
-        [Test]
-        public void Add_ICollectable_ReturnsTrueWhenCollectableNotInWallet()
+        public static IEnumerable UseCases_Add()
         {
-            Assert.True(modelReference.Add(NewCollectableA));
+            yield return new object[]{ Substitute.For<ICollectable>(), true, false };
+            yield return new object[]{ null, false, false };
+        }
+        [TestCaseSource(nameof(UseCases_Add))]
+        public void Add_InsertsCollectablesIntoGroup(ICollectable collectable, bool firstOutput, bool secondOutput)
+        {
+            var resourceData = new ResourceData(collectable);
+
+            Assert.AreEqual(firstOutput, modelReference.Add(resourceData));
+            Assert.AreEqual(secondOutput, modelReference.Add(resourceData));
+        }
+
+        public static IEnumerable UseCases_AmountOf()
+        {
+            yield return new object[]{ Substitute.For<ICollectable>(), Random.Range(-10000,10000), 1 };
+            yield return new object[]{ null, Random.Range(-10000,10000), 0 };
+        }
+        [TestCaseSource(nameof(UseCases_AmountOf))]
+        public void AmountOf_ReturnsCollectablePresenceInGroup(ICollectable collectable, int amount, int output)
+        {
+            modelReference.Add(new ResourceData(collectable, amount));
+
+            Assert.AreEqual(output, modelReference.AmountOf(collectable));
         }
 
         [Test]
-        public void Add_ICollectable_ReturnsFalseWhenCollectableIsAlreadyInWallet()
+        public void Clear_RemovesAllResourcesFromGroup()
         {
-            Assert.False(modelReference.Add(StartCollectable));
-        }
+            modelReference.Add(new ResourceData(ValueSubstitute(out ICollectable collectable)));
 
-        [Test]
-        public void Add_ICollectableCategory_ReturnsTrueWhenAnyCollectableInCategoryIsAdded()
-        {
-            Assert.True(modelReference.Add(Category));
-        }
-
-        [Test]
-        public void Add_ICollectableCategory_ReturnsFalseWhenAllCollectablesAlreadyInWallet()
-        {
-            modelReference.Add(NewCollectableA);
-            modelReference.Add(NewCollectableB);
-
-            Assert.False(modelReference.Add(Category));
-        }
-
-        [Test]
-        public void Add_ICollectableCategory_ReturnsFalseWhenCategoryHasNoCollectables()
-        {
-            Assert.False(modelReference.Add(EmptyCategory));
-        }
-
-        [Test]
-        public void Add_AmountOfICollectableCategory_InsertsNElementsOfCategoryIntoWallet()
-        {
-            modelReference.Add(Category, 1);
-
-            Assert.AreNotEqual(modelReference.Contains(NewCollectableA), modelReference.Contains(NewCollectableB));
-        }
-
-        [Test]
-        public void Add_AmountOfICollectableCategory_InsertsNothingWhenAmountIsNegativeOrZero()
-        {
-            modelReference.Add(Category, 0);
-
-            Assert.False(modelReference.Contains(NewCollectableA));
-            Assert.False(modelReference.Contains(NewCollectableB));
-        }
-
-        [Test]
-        public void AmountOf_ICollectable_ReturnsOneWhenCollectableInWallet()
-        {
-            Assert.AreEqual(1, modelReference.AmountOf(StartCollectable));
-        }
-
-        [Test]
-        public void AmountOf_ICollectable_ReturnsZeroWhenCollectableNotInWallet()
-        {
-            Assert.Zero(modelReference.AmountOf(NewCollectableB));
-        }
-
-        [Test]
-        public void AmountOf_ICollectableCategory_ReturnsElementCountOnWalletBelongingToCategory()
-        {
-            modelReference.Add(NewCollectableB);
-
-            Assert.AreEqual(1, modelReference.AmountOf(Category));
-        }
-
-        [Test]
-        public void AmountOf_ICollectableCategory_ReturnsZeroWhenCategoryIsNotOnWallet()
-        {
-            Assert.Zero(modelReference.AmountOf(EmptyCategory));
-        }
-
-        [Test]
-        public void Clear_RemovesAllContentsOfWallet()
-        {
             modelReference.Clear();
 
-            Assert.False(modelReference.Contains(StartCollectable));
+            Assert.Zero(modelReference.AmountOf(collectable));
         }
 
-        [Test]
-        public void DescribeContents_ShowsWalletContents()
+        public static IEnumerable UseCases_Remove()
         {
-            Assert.AreEqual($"{WalletName}\nNo Category: {CollectableName}() | \n", modelReference.DescribeContents());
+            var collectableA = Substitute.For<ICollectable>();
+            var collectableB = Substitute.For<ICollectable>();
+
+            yield return new object[]{ collectableA, collectableA, true, false };
+            yield return new object[]{ collectableA, collectableB, false, true };
+            yield return new object[]{ collectableA, null, false, true };
+            yield return new object[]{ null, collectableA, false, false };
+            yield return new object[]{ null, collectableB, false, false };
+            yield return new object[]{ null, null, false, false };
+        }
+        [TestCaseSource(nameof(UseCases_Remove))]
+        public void Remove_TakesAwayResourcesFromGroup(ICollectable startingCollectable, ICollectable collectableToRemove, bool output, bool stillAvailable)
+        {
+            modelReference.Add(new ResourceData(startingCollectable));
+
+            Assert.AreEqual(output, modelReference.Remove(new ResourceData(collectableToRemove)));
+
+            Assert.AreEqual(stillAvailable, modelReference.Contains(startingCollectable));
         }
 
-        [Test]
-        public void Search_ICollectable_ReturnsListOfCollectablesWhichFulfillPredicate()
+        public static IEnumerable UseCases_Search()
         {
-            modelReference.Add(NewCollectableA);
-            Predicate<ICollectable> predicate = (item) => Category.Contains(item);
+            var emptySource = Parameter.Array<ResourceData>(0, null);
+            var filledSource = Parameter.Array<ResourceData>(Random.Range(1,10), Mock.Collectables);
+
+            Predicate<IResourceData> predicate = (item) => item.Amount == 1;
+            List<ResourceData> filteredData = new List<ResourceData>();
+            foreach(var item in filledSource)
+                if (predicate(item)) filteredData.Add(item);
+
+            yield return new object[]{ emptySource, predicate, emptySource };
+            yield return new object[]{ emptySource, null, emptySource };
+            yield return new object[]{ filledSource, predicate, filteredData };
+            yield return new object[]{ filledSource, null, filledSource };
+        }
+        [TestCaseSource(nameof(UseCases_Search))]
+        public void Search_ReturnsResourcesWhichFulfillThePredicate(ICollection<ResourceData> resources, Predicate<IResourceData> predicate, ICollection<ResourceData> output)
+        {
+            foreach (var resource in resources) {
+                modelReference.Add(resource);
+            }
+
             var result = modelReference.Search(predicate);
 
-            Assert.AreEqual(1, result.Length);
-            Assert.AreEqual(NewCollectableA, result[0]);
+            CollectionAssert.AreEquivalent(output, result);
         }
 
-        [Test]
-        public void Search_ICollectable_ReturnsEmptyArrayWhenNoneFulfillPredicate()
+        public static IEnumerable UseCases_AddFrom()
         {
-            modelReference.Add(Category);
-            Predicate<ICollectable> predicate = (item) => EmptyCategory.Contains(item);
-            var result = modelReference.Search(predicate);
+            yield return new object[]{ Parameter.Array<ResourceData>(0, null), UnityEngine.Random.Range(-10000,10000), 0 };
+            yield return new object[]{ Parameter.Array<ResourceData>(Random.Range(1,10), Mock.Collectables), Random.Range(-10000,-1), 0};
+            yield return new object[]{ Parameter.Array<ResourceData>(3, Mock.Collectables), 2, 2 };
+            yield return new object[]{ Parameter.Array<ResourceData>(10, Mock.Currencies), Random.Range(4,10), 4};
+        }
+        [TestCaseSource(nameof(UseCases_AddFrom))]
+        public void AddFrom_InsertResourcesFromSourceIntoGroup(ICollection<ResourceData> sourceData, int amountToAdd, int amountAdded)
+        {
+            var group = new CollectableGroup();
+            foreach(var item in sourceData) group.Add(item);
 
-            Assert.Zero(result.Length);
+            Assert.AreEqual(amountAdded, modelReference.AddFrom(group, amountToAdd));
+
+            int count = 0;
+            foreach(var item in sourceData) {
+                count += modelReference.Contains(item.Resource) ? 1 : 0;
+            }
+            Assert.AreEqual(amountAdded, count);
         }
 
-        [Test]
-        public void Search_ICollectable_ReturnsAllCollectablesWhenPredicateIsNull()
+        public static IEnumerable UseCases_RemoveFrom()
         {
-            modelReference.Add(Category);
-            Predicate<ICollectable> predicate = null;
-            var result = modelReference.Search(predicate);
+            var sizeA = 10;
+            var sizeB = 6;
+            var listA = Parameter.Array<ResourceData>(sizeA, Mock.Collectables);
+            var listB = Parameter.Array<ResourceData>(sizeB, Mock.Collectables);
 
-            Assert.AreEqual(3, result.Length);
-            Assert.AreEqual(StartCollectable, result[0]);
-            Assert.AreEqual(NewCollectableA, result[1]);
-            Assert.AreEqual(NewCollectableB, result[2]);
+            var overlapAmount = Random.Range(0, Mathf.Min(sizeA,sizeB));
+            var anyAmount = Random.Range(-10000,10000);
+            var amountInOverlapRange = Random.Range(0,overlapAmount);
+            var amountInListRange = Random.Range(0,sizeA);
+            var higherAmount = sizeA+sizeB;
+
+            for(int i = 0; i < overlapAmount; i++) listB[i] = listA[i];
+
+            yield return new object[]{ listA, null, anyAmount, 0 };
+            yield return new object[]{ null, null, anyAmount, 0 };
+            yield return new object[]{ null, listA, anyAmount, 0 };
+            yield return new object[]{ listA, listB, amountInOverlapRange, amountInOverlapRange };
+            yield return new object[]{ listA, listB, higherAmount, overlapAmount };
+            yield return new object[]{ listA, listA, amountInListRange, amountInListRange };
+            yield return new object[]{ listA, listA, higherAmount, sizeA };
         }
-
-        [Test]
-        public void Search_ICollectableCategory_ReturnsListOfCategoriesWhichFulfillPredicate()
+        [TestCaseSource(nameof(UseCases_RemoveFrom))]
+        public void RemoveFrom_RemoveResourcesFromGroupPresentInSource(ICollection<ResourceData> modelData, ICollection<ResourceData> sourceData, int amountToRemove, int amountRemoved)
         {
-            modelReference.Add(NewCollectableA);
+            foreach(var item in modelData) modelReference.Add(item);
+            var group = new CollectableGroup();
+            foreach(var element in sourceData) group.Add(element);
 
-            Predicate<ICollectableCategory> predicate = (category) => category.AmountOf(NewCollectableA) > 0;
-            var result = modelReference.Search(predicate);
+            Assert.AreEqual(amountRemoved, modelReference.RemoveFrom(group, amountToRemove));
 
-            Assert.AreEqual(1, result.Length);
-            Assert.AreEqual(Category, result[0]);
-        }
-
-        [Test]
-        public void Search_ICollectableCategory_ReturnsEmptyArrayWhenNoneFulfillPredicate()
-        {
-            Predicate<ICollectableCategory> predicate = (category) => category.Equals(EmptyCategory);
-            var result = modelReference.Search(predicate);
-
-            Assert.Zero(result.Length);
-        }
-
-        [Test]
-        public void Search_ICollectableCategory_ReturnsAllCategoriesWithCollectablesInWalletWhenPredicateIsNull()
-        {
-            modelReference.Add(NewCollectableB);
-
-            Predicate<ICollectableCategory> predicate = null;
-            var result = modelReference.Search(predicate);
-
-            Assert.AreEqual(1, result.Length);
-            Assert.AreEqual(Category, result[0]);
-        }
-
-        [Test]
-        public void Remove_ICollectable_ReturnsTrueWhenCollectableIsRemovedFromWallet()
-        {
-            Assert.True(modelReference.Remove(StartCollectable));
-
-            modelReference.Add(NewCollectableA);
-            Assert.True(modelReference.Remove(NewCollectableA));
-        }
-
-        [Test]
-        public void Remove_ICollectable_ReturnsFalseWhenCollectableNotOnWallet()
-        {
-            Assert.False(modelReference.Remove(NewCollectableB));
-
-            modelReference.Add(NewCollectableB);
-            Assert.False(modelReference.Remove(NewCollectableA));
-        }
-
-        [Test]
-        public void Remove_ICollectable_RemovesFalseWhenCategoryOfCollectableNotOnWallet()
-        {
-            Assert.False(modelReference.Remove(NewCollectableA));
-        }
-
-        [Test]
-        public void Remove_ICollectableCategory_ReturnsTrueWhenCategoryInWallet()
-        {
-            modelReference.Add(NewCollectableA);
-
-            Assert.True(modelReference.Remove(Category));
-        }
-
-        [Test]
-        public void Remove_ICollectableCategory_ReturnsFalseWhenCategoryNotOnWallet()
-        {
-            Assert.False(modelReference.Remove(EmptyCategory));
-        }
-
-        [Test]
-        public void Remove_AmountOfICollectableCategory_RemovesNElementsOfCategoryFromWallet()
-        {
-            modelReference.Add(Category);
-            modelReference.Remove(Category, 1);
-
-            Assert.AreEqual(1, modelReference.AmountOf(Category));
-        }
-
-        [Test]
-        public void Remove_AmountOfICollectableCategory_DoesNothingWhenCategoryNotOnWallet()
-        {
-            modelReference.Remove(EmptyCategory, 5);
-
-            Assert.True(modelReference.Contains(StartCollectable));
-        }
-
-        [Test]
-        public void Remove_AmountOfICollectableCategory_ClearsCategoryFromWalletWhenAmountEqualOrBigger()
-        {
-            modelReference.Add(NewCollectableA);
-            modelReference.Remove(Category, 5);
-
-            Assert.Zero(modelReference.AmountOf(Category));
-        }
-
-        [Test]
-        public void Contains_ReturnsTrueWhenCollectableOnWallet()
-        {
-            Assert.True(modelReference.Contains(StartCollectable));
-        }
-
-        [Test]
-        public void Contains_ReturnsFalseWhenCollectableNotOnWallet()
-        {
-            Assert.False(modelReference.Contains(NewCollectableA));
+            int count = 0;
+            foreach(var item in modelData) {
+                count += modelReference.Contains(item.Resource) ? 1 : 0;
+            }
+            Assert.AreEqual(modelData.Count, count+amountRemoved);
         }
         #endregion
     }
