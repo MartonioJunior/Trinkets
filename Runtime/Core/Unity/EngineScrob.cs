@@ -8,7 +8,7 @@ namespace MartonioJunior.Trinkets
     */
     public abstract class EngineScrob: ScriptableObject
     {
-        #region Abstract Methods
+        #region Abstract
         /**
         <summary>Configures the object after being awoken.</summary>
         <remarks>Ideal for linking events and defining base values.</remarks>
@@ -19,12 +19,6 @@ namespace MartonioJunior.Trinkets
         <remarks>Ideal for disposing of objects and unlinking events.</remarks>
         */
         public abstract void TearDown();
-        /**
-        <summary>Called when the object goes out of scope.</summary>
-        <remarks>Ideal for validating data before the <c>Setup</c> method
-        is called.</remarks>
-        */
-        public abstract void Validate();
         #endregion
         #region Methods
         /**
@@ -49,6 +43,12 @@ namespace MartonioJunior.Trinkets
         {
             TearDown();
         }
+        /**
+        <summary>Called when the object goes out of scope.</summary>
+        <remarks>Ideal for validating data before the <c>Setup</c> method
+        is called.</remarks>
+        */
+        public virtual void Validate() {}
         #endregion
         #region Static Methods
         /**
