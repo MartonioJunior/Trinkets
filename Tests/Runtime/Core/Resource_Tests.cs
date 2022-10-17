@@ -7,23 +7,17 @@ using MartonioJunior.Trinkets;
 
 namespace Tests.MartonioJunior.Trinkets
 {
-    public class Resource_Tests: TestModel<Resource>
+    public class Resource_Tests: ScrobTestModel<Mock.MockResource>
     {
         #region Constants
         public const string DefaultName = "Default Name";
         private Sprite DefaultSprite;
         #endregion
-        #region TestModel Implementation
-        public override void CreateTestContext()
+        #region ScrobTestModel Implementation
+        public override void ConfigureValues()
         {
-            modelReference = Substitute.For<Resource>();
-            modelReference.DefaultName.Returns(DefaultName);
-            modelReference.DefaultImage.Returns(Value(Mock.Sprite, out DefaultSprite));
-        }
-
-        public override void DestroyTestContext()
-        {
-            modelReference = null;
+            modelReference.defaultName = DefaultName;
+            modelReference.defaultImage = Value(Mock.Sprite, out DefaultSprite);
         }
         #endregion
         #region Method Tests
@@ -56,7 +50,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Quantifiable_DefinesIfResourceIsCumulative([Values] bool value)
         {
-            modelReference.Quantifiable.Returns(value);
+            modelReference.quantifiable = value;
 
             Assert.AreEqual(value, modelReference.Quantifiable);
         }
@@ -65,12 +59,12 @@ namespace Tests.MartonioJunior.Trinkets
         {
             var randomValue = Random.Range(1,1000);
 
-            return new object[]{ randomValue, randomValue };
+            yield return new object[]{ randomValue, randomValue };
         }
         [TestCaseSource(nameof(UseCase_Value))]
         public void Value_ReturnsResourceWorth(int input, int output)
         {
-            modelReference.Value.Returns(input);
+            modelReference.value = input;
 
             Assert.AreEqual(output, modelReference.Value);
         }

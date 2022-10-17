@@ -37,7 +37,7 @@ namespace MartonioJunior.Trinkets
         <inheritdoc cref="IRepresentable.Name"/>
         */
         public virtual string Name {
-            get => string.IsNullOrEmpty(displayName) ? DefaultName : displayName;
+            get => GetName();
             set => displayName = value;
         }
         /**
@@ -46,6 +46,19 @@ namespace MartonioJunior.Trinkets
         public Sprite Image {
             get => displayIcon != null ? displayIcon : DefaultImage;
             set => displayIcon = value;
+        }
+        #endregion
+        #region Methods
+        /**
+        <summary>Returns the name of resource.</summary>
+        */
+        private string GetName()
+        {
+            if (string.IsNullOrEmpty(displayName)) {
+                return DefaultName;
+            } else {
+                return displayName;
+            }
         }
         #endregion
     }
