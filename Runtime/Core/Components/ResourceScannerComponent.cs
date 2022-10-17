@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.Trinkets
 {
+    [AddComponentMenu("Trinkets/Resource Scanner")]
     public class ResourceScannerComponent: EngineBehaviour, IResourceScanner
     {
         #region Variables
@@ -73,6 +74,8 @@ namespace MartonioJunior.Trinkets
         */
         public bool Check(IResourceGroup group)
         {
+            if (!enabled) return false;
+
             foreach(var item in Data) {
                 if (group.AmountOf(item.Resource) < item.Amount) return false;
             }
@@ -80,13 +83,30 @@ namespace MartonioJunior.Trinkets
             return true;
         }
         /**
+        <summary>Checks whether a group fulfills the specified criteria
+        of a <cref>IResourceScanner</cref></summary>
+        <param name="group">The group to be scanned.</param>
+        <returns><c>true</c> when the group passes a scan.<br/>
+        <c>false</c> when the group does not fulfill the criteria.</returns>
+        */
+        public bool Scan(IResourceGroup group)
+        {
+            bool scanResult = IResourceScannerExtensions.Scan(this, group);
+            OnScan?.Invoke(scanResult);
+            return scanResult;
+        }
+        /**
         <inheritdoc />
         */
         public void Tax(IResourceGroup group)
         {
+            if (!enabled) return;
+
             foreach(var item in Data) {
                 group.Remove(item);
             }
+
+            OnTax?.Invoke();
         }
         #endregion
         #region Methods
@@ -96,7 +116,7 @@ namespace MartonioJunior.Trinkets
         <remarks>Uses a <c>Wallet</c> instead to allow for use with events
         in the Unity inspector.</remarks>
         */
-        public void Scan(Wallet wallet)
+        public void ScanWallet(Wallet wallet)
         {
             bool scanResult = IResourceScannerExtensions.Scan(this, wallet);
             OnScan?.Invoke(scanResult);

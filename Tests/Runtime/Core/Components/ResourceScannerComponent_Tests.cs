@@ -22,6 +22,19 @@ namespace Tests.MartonioJunior.Trinkets
         {
             return Mock.ResourceDataCases();
         }
+
+        public IResourceGroup CreateGroup(ResourceData[] data)
+        {
+            var group = new ResourceGroup();
+            foreach(var item in data) group.Add(item);
+            return group;
+        }
+
+        public void SetModelParameters(bool enabled, ResourceData[] requirements)
+        {
+            modelReference.enabled = enabled;
+            modelReference.Data.AddRange(requirements);
+        }
         #endregion
         #region Method Tests
         [Test]
@@ -42,52 +55,65 @@ namespace Tests.MartonioJunior.Trinkets
             Assert.AreEqual(wallet, modelReference.Destination);
         }
 
-        [Test]
-        public void Check_VerifiesTheContentsInsideOfAGroup([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ResourceData[] input, bool output)
+        public static IEnumerable UseCases_Check()
         {
-            var group = Substitute.For<IResourceGroup>();
+            var empty = new ResourceData[0];
+            var list = Parameter.Array<ResourceData>(Random.Range(4,10), Mock.MixCurrenciesAndCollectables);
+            var insufficient = new ResourceData[3]{ list[0], list[2], list[list.Length-1] };
+            var sufficient = list;
+            var anything = Parameter.Array<ResourceData>(Random.Range(1,20), Mock.MixCurrenciesAndCollectables);
 
-            modelReference.enabled = enabled;
-            modelReference.Data.AddRange(input);
+            yield return new object[]{ true, empty, anything, true };
+            yield return new object[]{ true, list, insufficient, false };
+            yield return new object[]{ true, list, sufficient, true };
+            yield return new object[]{ false, anything, anything, false };
+        }
+        [TestCaseSource(nameof(UseCases_Check))]
+        public void Check_VerifiesTheContentsInsideOfAGroup(bool enabled, ResourceData[] requirements, ResourceData[] input, bool output)
+        {
+            var group = CreateGroup(input);
+
+            SetModelParameters(enabled, requirements);
 
             Assert.AreEqual(output, modelReference.Check(group));
         }
 
-        [Test]
-        public void Scan_VerifiesTheContentsInsideAGroup()
+        [TestCaseSource(nameof(UseCases_Check))]
+        public void Scan_VerifiesTheContentsInsideAGroup(bool enabled, ResourceData[] requirements, ResourceData[] input, bool output)
         {
-            var group = Substitute.For<IResourceGroup>();
+            var group = CreateGroup(input);
 
-            modelReference.Scan(group);
+            SetModelParameters(enabled, requirements);
 
-            Assert.Ignore(IncompleteImplementation);
+            Assert.AreEqual(output, modelReference.Scan(group));
         }
 
-        [Test]
-        public void Scan_AlwaysInvokesOnScanEvent()
+        [TestCaseSource(nameof(UseCases_Check))]
+        public void Scan_AlwaysInvokesOnScanEvent(bool enabled, ResourceData[] requirements, ResourceData[] input, bool output)
         {
             bool scanWasSuccessful = false;
-            var group = Substitute.For<IResourceGroup>();
+            var group = CreateGroup(input);
+
+            SetModelParameters(enabled, requirements);
 
             modelReference.OnScan += (result) => scanWasSuccessful = result;
             modelReference.Scan(group);
 
-            Assert.True(scanWasSuccessful);
-            Assert.Ignore(IncompleteImplementation);
+            Assert.AreEqual(output, scanWasSuccessful);
         }
 
-        [Test]
-        public void Tax_AlwaysInvokesOnTaxEvent([Values] bool enabled)
+        [TestCaseSource(nameof(UseCases_Check))]
+        public void Tax_AlwaysInvokesOnTaxEvent(bool enabled, ResourceData[] requirements, ResourceData[] input, bool output)
         {
             bool wasTriggered = false;
-            var group = Substitute.For<IResourceGroup>();
+            var group = CreateGroup(input);
     
+            SetModelParameters(enabled, requirements);
+
             modelReference.OnTax += () => wasTriggered = true;
-            modelReference.enabled = enabled;
             modelReference.Tax(group);
 
             Assert.AreEqual(enabled, wasTriggered);
-            Assert.Ignore(IncompleteImplementation);
         }
 
         [Test]
@@ -96,15 +122,38 @@ namespace Tests.MartonioJunior.Trinkets
             Assert.Ignore(NotImplemented);
         }
 
-        [Test]
-        public void ScanWallet_WorksTheSameAsScan()
+        public static IEnumerable UseCases_ScanWallet()
         {
-            Assert.Ignore(NotImplemented);
+            var empty = new ResourceData[0];
+            var list = Parameter.Array<ResourceData>(Random.Range(4,10), Mock.Collectables);
+            var insufficient = new ResourceData[3]{ list[0], list[2], list[list.Length-1] };
+            var sufficient = list;
+            var anything = Parameter.Array<ResourceData>(Random.Range(1,20), Mock.Collectables);
+
+            yield return new object[]{ true, empty, anything, true };
+            yield return new object[]{ true, list, insufficient, false };
+            yield return new object[]{ true, list, sufficient, true };
+            yield return new object[]{ false, anything, anything, false };
+        }
+        [TestCaseSource(nameof(UseCases_ScanWallet))]
+        public void ScanWallet_IsAVoidVersionOfScan(bool enabled, ResourceData[] requirements, ResourceData[] input, bool output)
+        {
+            var wallet = Mock.CollectableWallet;
+            foreach(var item in input) wallet.Add(item);
+            bool result = false;
+
+            SetModelParameters(enabled, requirements);
+
+            modelReference.OnScan += (value) => result = value;
+            modelReference.Scan(wallet);
+
+            Assert.AreEqual(output, result);
         }
 
         [Test]
         public void TaxWallet_WorksTheSameAsTax()
         {
+            var wallet = Mock.CurrencyWallet;
             Assert.Ignore(NotImplemented);
         }
         #endregion
