@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.Trinkets
 {
+    [AddComponentMenu("Trinkets/Wallet Listener")]
     public class WalletListenerComponent: EngineBehaviour, IResourceProcessor<int>
     {
         #region Variables
