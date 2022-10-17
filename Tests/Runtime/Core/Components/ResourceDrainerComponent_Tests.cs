@@ -57,6 +57,7 @@ namespace Tests.MartonioJunior.Trinkets
         {
             var wasCalled = false;
             var group = Substitute.For<IResourceGroup>();
+            modelReference.Data.AddRange(data);
 
             modelReference.enabled = enabled;
             modelReference.OnDrain += () => wasCalled = true;
@@ -70,6 +71,7 @@ namespace Tests.MartonioJunior.Trinkets
         public void Tax_RemovesResourcesFromAGroup([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
             ValueSubstitute(out IResourceGroup group);
+            modelReference.Data.AddRange(data);
 
             modelReference.Tax(group);
 
@@ -80,6 +82,7 @@ namespace Tests.MartonioJunior.Trinkets
         public void Drain_WorksTheSameAsTheTaxMethod([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
             ValueSubstitute(out IResourceGroup group);
+            modelReference.Data.AddRange(data);
 
             modelReference.Tax(group);
 

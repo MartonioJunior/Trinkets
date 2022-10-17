@@ -5,7 +5,8 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.Trinkets
 {
-    public class ResourceDrainerComponent : EngineBehaviour, IResourceTaxer
+    [AddComponentMenu("Trinkets/Resource Drainer")]
+    public class ResourceDrainerComponent: EngineBehaviour, IResourceTaxer
     {
         #region Variables
         /**
@@ -49,6 +50,8 @@ namespace MartonioJunior.Trinkets
         */
         public void Tax(IResourceGroup group)
         {
+            if (!enabled) return;
+
             foreach(var item in Data) {
                 if (group.Remove(item)) {
                     Destination.Add(item);
