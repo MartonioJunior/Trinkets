@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using System.Reflection;
 
 namespace MartonioJunior.Trinkets.Editor
 {
@@ -20,6 +21,11 @@ namespace MartonioJunior.Trinkets.Editor
             this.property = property;
             this.label = label;
             Build();
+        }
+
+        public T GetActual<T>() where T: class
+        {
+            return fieldInfo.GetValue(property.serializedObject.targetObject) as T;
         }
         #endregion
     }
