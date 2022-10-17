@@ -19,9 +19,6 @@ namespace MartonioJunior.Trinkets.Currencies
         #region IResourceGroup Implementation
         /**
         <summary>Adds a currency to the group.</summary>
-        <remarks>When a currency is added via this method, the initial amount is
-        set at zero. To add a currency with a initial amount, use the <c>Change</c>
-        method instead.</remarks>
         <inheritdoc />
         */
         public bool Add(IResourceData data)
@@ -64,10 +61,11 @@ namespace MartonioJunior.Trinkets.Currencies
         */
         public bool Remove(IResourceData data)
         {
-            if (!(data.Resource is ICurrency currency)) return false;
+            int amountToRemove = data.Amount;
+            if (!(data.Resource is ICurrency currency) || amountToRemove <= 0) return false;
 
             if (contents.TryGetValue(currency, out int amount)) {
-                contents[currency] = Mathf.Max(amount - data.Amount, 0);
+                contents[currency] = Mathf.Max(amount - amountToRemove, 0);
                 return true;
             } else {
                 return false;
@@ -98,7 +96,11 @@ namespace MartonioJunior.Trinkets.Currencies
         */
         public void Change(ICurrency currency, int delta)
         {
-            contents.Delta(currency, delta);
+            if (contents.TryGetValue(currency, out var amount)) {
+                contents[currency] = Mathf.Max(amount+delta, 0);
+            } else {
+                contents[currency] = Mathf.Max(delta, 0);
+            }
         }
         /**
         <remarks>Maintains the currency as a key in the group, still appearing

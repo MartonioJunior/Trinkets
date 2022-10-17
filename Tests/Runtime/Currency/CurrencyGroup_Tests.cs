@@ -27,7 +27,7 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         #region Method Tests
         public static IEnumerable UseCases_Add()
         {
-            ICurrency currency = Substitute.For<ICurrency>();
+            ICurrency currency = Mock.ICurrency;
 
             yield return new object[]{ currency, Random.Range(1,10000), true };
             yield return new object[]{ null, Random.Range(1,10000), false };
@@ -44,7 +44,7 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
 
         public static IEnumerable UseCases_AmountOf()
         {
-            ICurrency currency = Substitute.For<ICurrency>();
+            ICurrency currency = Mock.ICurrency;
             var amount = Random.Range(1,10000);
 
             yield return new object[]{ currency, amount, amount };
@@ -74,7 +74,7 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         [TestCaseSource(nameof(UseCases_Change))]
         public void Change_AdjustsValueOfCurrencyInGroupByDelta(int? input, int changeValue, int output)
         {
-            ValueSubstitute(out ICurrency currency);
+            ICurrency currency = Mock.ICurrency;
             if (input is int startAmount) modelReference.Add(new ResourceData(currency, startAmount));
 
             modelReference.Change(currency, changeValue);
@@ -109,7 +109,7 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         [TestCaseSource(nameof(UseCases_Remove))]
         public void Remove_DeletesCurrencyFromGroup(int? input, int removeAmount, bool operationResult, int finalValue)
         {
-            ValueSubstitute(out ICurrency currency);
+            ICurrency currency = Mock.ICurrency;
             if (input is int startAmount) modelReference.Add(new ResourceData(currency, startAmount));
 
             Assert.AreEqual(operationResult, modelReference.Remove(new ResourceData(currency, removeAmount)));
@@ -118,7 +118,7 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
 
         public static IEnumerable UseCases_Reset_Currency()
         {
-            yield return Substitute.For<ICurrency>();
+            yield return Mock.ICurrency;
             yield return null;
         }
         [Test]
