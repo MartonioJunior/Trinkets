@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.Trinkets
 {
+    [AddComponentMenu("Trinkets/Resource Instancer")]
     public class ResourceInstancerComponent: EngineBehaviour, IResourceInstancer
     {
         #region Variables
@@ -50,6 +51,8 @@ namespace MartonioJunior.Trinkets
         */
         public void AddTo(IResourceGroup group)
         {
+            if (!enabled) return;
+
             foreach(var item in Data) {
                 group.Add(item);
             }

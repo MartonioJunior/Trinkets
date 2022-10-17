@@ -90,11 +90,12 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void AddToWallet_WorksTheSameAsAddTo([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            ValueSubstitute(out IResourceGroup group);
+            ValueSubstitute(out Wallet wallet);
+            modelReference.Data.AddRange(data);
 
-            modelReference.AddTo(group);
+            modelReference.AddToWallet(wallet);
 
-            group.Received(data.Count).Add(Arg.Any<IResourceData>());
+            wallet.Received(data.Count).Add(Arg.Any<IResourceData>());
         }
         #endregion
     }
