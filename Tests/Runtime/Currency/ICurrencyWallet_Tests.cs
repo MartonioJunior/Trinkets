@@ -24,7 +24,7 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         public static IEnumerable UseCases_With()
         {
             const int Limit = 10000;
-            var currency = Substitute.For<ICurrency>();
+            var currency = Mock.ICurrency;
             var positiveValue = Random.Range(0, Limit);
             var negativeValue = Random.Range(-Limit, 0);
             var anyValue = Random.Range(-Limit, Limit);

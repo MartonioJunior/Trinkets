@@ -1,5 +1,6 @@
 using MartonioJunior.Trinkets;
 using MartonioJunior.Trinkets.Currencies;
+using NSubstitute;
 
 namespace Tests
 {
@@ -11,6 +12,14 @@ namespace Tests
                 EngineScrob.Instance(out CurrencyWallet wallet);
                 objectList.Add(wallet);
                 return wallet;
+            }
+        }
+
+        public static ICurrency ICurrency {
+            get {
+                var currency = Substitute.For<ICurrency>();
+                currency.Quantifiable.Returns(true);
+                return currency;
             }
         }
 
