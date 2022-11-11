@@ -8,16 +8,14 @@ using MartonioJunior.Trinkets.Currencies;
 using MartonioJunior.Trinkets.Collectables;
 using System;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 namespace Tests.MartonioJunior.Trinkets
 {
     public class ResourceInstancerComponent_Tests: ComponentTestModel<ResourceInstancerComponent>
     {
         #region TestModel Implementation
-        public override void ConfigureValues()
-        {
-            modelReference.Source = Mock.CurrencyWallet;
-        }
+        public override void ConfigureValues() {}
         #endregion
         #region Test Preparation
         public static IEnumerable ResourceDataCases()
@@ -78,24 +76,38 @@ namespace Tests.MartonioJunior.Trinkets
         }
 
         [Test]
-        public void AddTo_TakesAwayResourcesFromSuppliedWallet([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
+        public void AddTo_TakesAwayResourcesFromSuppliedWallet([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
             ValueSubstitute(out IResourceGroup group);
+            ValueSubstitute(out Wallet wallet);
+
+            modelReference.enabled = enabled;
+            modelReference.Data.AddRange(data);
+            modelReference.Source = wallet;
 
             modelReference.AddTo(group);
 
-            Assert.Ignore(IncompleteImplementation);
+            if (enabled) {
+                wallet.ReceivedWithAnyArgs(data.Count).Remove(default);
+            } else {
+                wallet.DidNotReceiveWithAnyArgs().Remove(default);
+            }
         }
 
         [Test]
-        public void AddToWallet_WorksTheSameAsAddTo([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
+        public void AddToWallet_WorksTheSameAsAddTo([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
             ValueSubstitute(out Wallet wallet);
+            modelReference.enabled = enabled;
             modelReference.Data.AddRange(data);
 
             modelReference.AddToWallet(wallet);
 
-            wallet.Received(data.Count).Add(Arg.Any<IResourceData>());
+            if (enabled) {
+                wallet.ReceivedWithAnyArgs(data.Count).Add(default);
+            } else {
+                wallet.DidNotReceiveWithAnyArgs().Add(default);
+            }
         }
         #endregion
     }

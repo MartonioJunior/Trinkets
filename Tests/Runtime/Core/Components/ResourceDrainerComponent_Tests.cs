@@ -12,10 +12,7 @@ namespace Tests.MartonioJunior.Trinkets
     public class ResourceDrainerComponent_Tests: ComponentTestModel<ResourceDrainerComponent>
     {
         #region TestModel Implementation
-        public override void ConfigureValues()
-        {
-            modelReference.Destination = Mock.CollectableWallet;
-        }
+        public override void ConfigureValues() {}
         #endregion
         #region Test Preparation
         public static IEnumerable ResourceDataCases()
@@ -25,7 +22,7 @@ namespace Tests.MartonioJunior.Trinkets
         #endregion
         #region Method Tests
         [Test]
-        public void Data_ReturnsRequirementsForComponent([ValueSource(nameof(ResourceDataCases))]ICollection<ResourceData> data)
+        public void Data_ReturnsRequirementsForComponent([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
             modelReference.Data.AddRange(data);
 
@@ -37,19 +34,29 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Destination_ReturnsWalletWhichReceivesTaxedResources()
         {
-            modelReference.Destination = ValueSubstitute(out CollectableWallet wallet);
+            modelReference.Destination = ValueSubstitute(out Wallet wallet);
 
             Assert.AreEqual(wallet, modelReference.Destination);
         }
 
         [Test]
-        public void Tax_AddsRemovedResourcesToSuppliedWallet()
+        public void Tax_AddsRemovedResourcesToSuppliedWallet([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
             ValueSubstitute(out IResourceGroup group);
+            ValueSubstitute(out Wallet wallet);
+            group.Remove(Arg.Any<IResourceData>()).Returns(true);
+
+            modelReference.Data.AddRange(data);
+            modelReference.enabled = enabled;
+            modelReference.Destination = wallet;
 
             modelReference.Tax(group);
 
-            Assert.Ignore(IncompleteImplementation);
+            if (enabled) {
+                wallet.ReceivedWithAnyArgs(data.Count).Add(default);
+            } else {
+                wallet.DidNotReceiveWithAnyArgs().Add(default);
+            }
         }
 
         [Test]
@@ -57,8 +64,8 @@ namespace Tests.MartonioJunior.Trinkets
         {
             var wasCalled = false;
             var group = Substitute.For<IResourceGroup>();
-            modelReference.Data.AddRange(data);
 
+            modelReference.Data.AddRange(data);
             modelReference.enabled = enabled;
             modelReference.OnDrain += () => wasCalled = true;
             
@@ -68,25 +75,35 @@ namespace Tests.MartonioJunior.Trinkets
         }
 
         [Test]
-        public void Tax_RemovesResourcesFromAGroup([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
+        public void Tax_RemovesResourcesFromAGroup([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
             ValueSubstitute(out IResourceGroup group);
             modelReference.Data.AddRange(data);
+            modelReference.enabled = enabled;
 
             modelReference.Tax(group);
 
-            group.Received(data.Count).Remove(Arg.Any<IResourceData>());
+            if (enabled) {
+                group.ReceivedWithAnyArgs(data.Count).Remove(default);
+            } else {
+                group.DidNotReceiveWithAnyArgs().Remove(default);
+            }
         }
 
         [Test]
-        public void Drain_WorksTheSameAsTheTaxMethod([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
+        public void Drain_WorksTheSameAsTheTaxMethod([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            ValueSubstitute(out IResourceGroup group);
+            ValueSubstitute(out Wallet wallet);
             modelReference.Data.AddRange(data);
+            modelReference.enabled = enabled;
 
-            modelReference.Tax(group);
+            modelReference.Drain(wallet);
 
-            group.Received(data.Count).Remove(Arg.Any<IResourceData>());
+            if (enabled) {
+                wallet.ReceivedWithAnyArgs(data.Count).Remove(default);
+            } else {
+                wallet.DidNotReceiveWithAnyArgs().Remove(default);
+            }
         }
         #endregion
     }

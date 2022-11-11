@@ -84,6 +84,13 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
             Assert.Zero(modelReference.AmountOf(currency));
         }
 
+        [Test]
+        public void Contents_ReturnsCurrencyGroup()
+        {
+            Assert.IsInstanceOf(typeof(CurrencyGroup), modelReference.Contents);
+            Assert.IsNotNull(modelReference.Contents);
+        }
+
         public static IEnumerable UseCases_Remove()
         {
             const int Limit = 10000;
@@ -141,16 +148,11 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         [TestCaseSource(nameof(UseCases_Search))]
         public void Search_ReturnsArrayOfResultsAligningWithPredicate(ICollection<ResourceData> resources, Predicate<IResourceData> predicate, ICollection<ResourceData> output)
         {
-            foreach (var resource in resources) {
-                modelReference.Add(resource);
-            }
+            modelReference.AddRange(resources);
 
             var result = modelReference.Search(predicate);
 
-            Assert.AreEqual(output.Count, result.Count);
-            foreach(var currency in output) {
-                Assert.True(result.Contains(currency));
-            }
+            CollectionAssert.AreEquivalent(output, result);
         }
         #endregion
     }

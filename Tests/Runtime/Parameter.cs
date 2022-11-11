@@ -4,6 +4,7 @@ using MartonioJunior.Trinkets;
 using MartonioJunior.Trinkets.Collectables;
 using MartonioJunior.Trinkets.Currencies;
 using NSubstitute;
+using Random = UnityEngine.Random;
 
 namespace Tests
 {
@@ -17,6 +18,12 @@ namespace Tests
                 result[i] = generator.Invoke(i);
             }
             return result;
+        }
+
+        public static int Range(int minInclusive, int maxInclusive, int defaultValue, bool fixRandom = false)
+        {
+            if (fixRandom) return defaultValue;
+            else return Random.Range(minInclusive, maxInclusive);
         }
         #endregion
     }

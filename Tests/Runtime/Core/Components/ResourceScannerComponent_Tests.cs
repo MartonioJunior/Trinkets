@@ -6,16 +6,14 @@ using MartonioJunior.Trinkets;
 using MartonioJunior.Trinkets.Currencies;
 using NSubstitute;
 using MartonioJunior.Trinkets.Collectables;
+using System.Collections.Generic;
 
 namespace Tests.MartonioJunior.Trinkets
 {
     public class ResourceScannerComponent_Tests: ComponentTestModel<ResourceScannerComponent>
     {
         #region ComponentTestModel Implementation
-        public override void ConfigureValues()
-        {
-            modelReference.Destination = Mock.CurrencyWallet;
-        }
+        public override void ConfigureValues() {}
         #endregion
         #region Test Preparation
         public static IEnumerable ResourceDataCases()
@@ -26,7 +24,7 @@ namespace Tests.MartonioJunior.Trinkets
         public IResourceGroup CreateGroup(ResourceData[] data)
         {
             var group = new ResourceGroup();
-            foreach(var item in data) group.Add(item);
+            group.AddRange(data);
             return group;
         }
 
@@ -42,15 +40,13 @@ namespace Tests.MartonioJunior.Trinkets
         {
             modelReference.Data.AddRange(data);
 
-            foreach(var item in data) {
-                Assert.True(modelReference.Data.Contains(item));
-            }
+            CollectionAssert.AreEquivalent(data, modelReference.Data);
         }
 
         [Test]
         public void Destination_DefinesWalletToReceiveTaxedResources()
         {
-            modelReference.Destination = ValueSubstitute(out CollectableWallet wallet);
+            modelReference.Destination = ValueSubstitute(out Wallet wallet);
             
             Assert.AreEqual(wallet, modelReference.Destination);
         }
@@ -117,9 +113,14 @@ namespace Tests.MartonioJunior.Trinkets
         }
 
         [Test]
-        public void Tax_RemovesResourceFromTheWallet()
+        public void Tax_RemovesResourceFromTheWallet([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            Assert.Ignore(NotImplemented);
+            ValueSubstitute(out IResourceGroup group);
+            modelReference.Data.AddRange(data);
+
+            modelReference.Tax(group);
+
+            group.ReceivedWithAnyArgs(data.Count).Remove(default);
         }
 
         public static IEnumerable UseCases_ScanWallet()
@@ -139,7 +140,7 @@ namespace Tests.MartonioJunior.Trinkets
         public void ScanWallet_IsAVoidVersionOfScan(bool enabled, ResourceData[] requirements, ResourceData[] input, bool output)
         {
             var wallet = Mock.CollectableWallet;
-            foreach(var item in input) wallet.Add(item);
+            wallet.AddRange(input);
             bool result = false;
 
             SetModelParameters(enabled, requirements);
@@ -151,10 +152,14 @@ namespace Tests.MartonioJunior.Trinkets
         }
 
         [Test]
-        public void TaxWallet_WorksTheSameAsTax()
+        public void TaxWallet_WorksTheSameAsTax([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            var wallet = Mock.CurrencyWallet;
-            Assert.Ignore(NotImplemented);
+            ValueSubstitute(out IResourceGroup group);
+            modelReference.Data.AddRange(data);
+
+            modelReference.Tax(group);
+
+            group.ReceivedWithAnyArgs(data.Count).Remove(default);
         }
         #endregion
     }

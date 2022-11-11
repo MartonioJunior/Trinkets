@@ -44,6 +44,12 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         }
 
         [Test]
+        public void Quantifiable_IsTrueForCollectableCategories()
+        {
+            Assert.True(modelReference.Quantifiable);
+        }
+
+        [Test]
         public void Value_AlwaysReturnsOne([Random(-10000,10000,1)] int value)
         {
             modelReference.Value = value;

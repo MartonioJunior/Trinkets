@@ -41,16 +41,23 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
         public static IEnumerable UseCases_AddFrom()
         {
-            yield return new object[]{ Parameter.Array<ResourceData>(0, null), Random.Range(-10000,10000), 0 };
-            yield return new object[]{ Parameter.Array<ResourceData>(Random.Range(1,10), Mock.Collectables), Random.Range(-10000,-1), 0};
-            yield return new object[]{ Parameter.Array<ResourceData>(3, Mock.Collectables), 2, 2 };
-            yield return new object[]{ Parameter.Array<ResourceData>(10, Mock.Currencies), Random.Range(4,10), 4};
+            bool fixValues = true;
+            var anyValue = Parameter.Range(-10000,10000, defaultValue: 983, fixValues);
+            int arraySize = Parameter.Range(1, 10, defaultValue: 3, fixValues);
+            int negativeValue = Parameter.Range(-10000, -1, defaultValue: -384, fixValues);
+            int smallerValue = Parameter.Range(0, arraySize-1, defaultValue: 2, fixValues);
+            int greaterValue = Parameter.Range(arraySize, 10, defaultValue: 6, fixValues);
+
+            yield return new object[]{ Parameter.Array<ResourceData>(0, null), anyValue, 0 };
+            yield return new object[]{ Parameter.Array<ResourceData>(arraySize, Mock.Collectables), negativeValue, 0};
+            yield return new object[]{ Parameter.Array<ResourceData>(arraySize, Mock.Collectables), smallerValue, smallerValue };
+            yield return new object[]{ Parameter.Array<ResourceData>(arraySize, Mock.Collectables), greaterValue, arraySize};
         }
         [TestCaseSource(nameof(UseCases_AddFrom))]
         public void AddFrom_InsertResourcesFromSourceIntoGroup(ICollection<ResourceData> sourceData, int amountToAdd, int amountAdded)
         {
             var group = new CollectableGroup();
-            foreach(var item in sourceData) group.Add(item);
+            group.AddRange(sourceData);
 
             Assert.AreEqual(amountAdded, modelReference.AddFrom(group, amountToAdd));
 
@@ -108,15 +115,16 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
         public static IEnumerable UseCases_RemoveFrom()
         {
+            bool fixValues = true;
             var sizeA = 10;
             var sizeB = 6;
             var listA = Parameter.Array<ResourceData>(sizeA, Mock.Collectables);
             var listB = Parameter.Array<ResourceData>(sizeB, Mock.Collectables);
 
-            var overlapAmount = Random.Range(0, Mathf.Min(sizeA,sizeB));
-            var anyAmount = Random.Range(-10000,10000);
-            var amountInOverlapRange = Random.Range(0,overlapAmount);
-            var amountInListRange = Random.Range(0,sizeA);
+            var overlapAmount = Parameter.Range(0, Mathf.Min(sizeA,sizeB), defaultValue: 5, fixValues);
+            var anyAmount = Parameter.Range(-10000, 10000, defaultValue: -728, fixValues);
+            var amountInOverlapRange = Parameter.Range(0, overlapAmount, defaultValue: 3, fixValues);
+            var amountInListRange = Parameter.Range(0, sizeA, defaultValue: 8, fixValues);
             var higherAmount = sizeA+sizeB;
 
             for(int i = 0; i < overlapAmount; i++) listB[i] = listA[i];
@@ -132,11 +140,13 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         [TestCaseSource(nameof(UseCases_RemoveFrom))]
         public void RemoveFrom_RemoveResourcesFromGroupPresentInSource(ICollection<ResourceData> modelData, ICollection<ResourceData> sourceData, int amountToRemove, int amountRemoved)
         {
-            foreach(var item in modelData) modelReference.Add(item);
+            modelReference.AddRange(modelData);
             var group = new CollectableGroup();
-            foreach(var element in sourceData) group.Add(element);
+            group.AddRange(sourceData);
 
             Assert.AreEqual(amountRemoved, modelReference.RemoveFrom(group, amountToRemove));
+
+            if (modelData == null) return;
 
             int count = 0;
             foreach(var item in modelData) {
@@ -163,9 +173,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         [TestCaseSource(nameof(UseCases_Search))]
         public void Search_ReturnsResourcesWhichFulfillThePredicate(ICollection<ResourceData> resources, Predicate<IResourceData> predicate, ICollection<ResourceData> output)
         {
-            foreach (var resource in resources) {
-                modelReference.Add(resource);
-            }
+            modelReference.AddRange(resources);
 
             var result = modelReference.Search(predicate);
 

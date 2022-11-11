@@ -149,7 +149,7 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         [TestCaseSource(nameof(UseCases_Search))]
         public void Search_ReturnsArrayOfResultsAligningWithPredicate(ICollection<ResourceData> resources, Predicate<IResourceData> predicate, ICollection<ResourceData> output)
         {
-            foreach (var resource in resources) modelReference.Add(resource);
+            modelReference.AddRange(resources);
 
             var result = modelReference.Search(predicate);
 

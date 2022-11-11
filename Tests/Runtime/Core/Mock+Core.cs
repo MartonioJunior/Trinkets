@@ -10,7 +10,7 @@ namespace Tests
     public partial class Mock
     {
         #region Classes
-        public class MockResource : Resource
+        public class MockResource: Resource
         {
             #region Variables
             public string defaultName;
