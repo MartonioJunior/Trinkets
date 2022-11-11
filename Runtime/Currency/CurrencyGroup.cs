@@ -115,26 +115,6 @@ namespace MartonioJunior.Trinkets.Currencies
         }
         #endregion
         #region Methods
-        /**
-        <summary>Describes the list of currencies present in the
-        group.</summary>
-        <returns>A string describing the contents of the group by
-        category.</returns>
-        */
-        [Obsolete]
-        public string DescribeContents()
-        {
-            StringBuilder sb = new StringBuilder();
-            if (contents.Count == 0) {
-                sb.Append("Empty");
-            } else foreach(var pair in contents) {
-                sb.Append(pair.Value);
-                sb.Append("(");
-                sb.Append(pair.Key.Symbol);
-                sb.Append(") | ");
-            }
-            return sb.ToString();
-        }
         #endregion
     }
 }
