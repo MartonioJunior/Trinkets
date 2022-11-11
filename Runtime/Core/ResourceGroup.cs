@@ -16,20 +16,36 @@ namespace MartonioJunior.Trinkets
         */
         [SerializeField] Dictionary<IResource, int> contents = new Dictionary<IResource, int>();
         #endregion
+        #region Constructors
+        public ResourceGroup() {}
+
+        public ResourceGroup(ICollection<ResourceData> data)
+        {
+            if (data == null) return;
+
+            foreach(var entry in data) {
+                Add(entry);
+            }
+        }
+        #endregion
         #region IResourceGroup Implementation
         public bool Add(IResourceData data)
         {
-            contents.Delta(data.Resource, data.Amount);
+            IResource resource = data.Resource;
+            int amountToAdd = data.Amount;
+
+            if (resource == null || amountToAdd <= 0) return false;
+
+            contents.Delta(resource, amountToAdd);
             return true;
         }
 
         public int AmountOf(IResource resource)
         {
-            if (contents.TryGetValue(resource, out int amount)) {
-                return amount;
-            } else {
+            if (resource == null || !contents.TryGetValue(resource, out int amount))
                 return 0;
-            }
+
+            return amount;
         }
 
         public void Clear()
@@ -40,9 +56,11 @@ namespace MartonioJunior.Trinkets
         public bool Remove(IResourceData data)
         {
             IResource resource = data.Resource;
-            if (!contents.TryGetValue(resource, out int amount)) return false;
-
             int amountToRemove = data.Amount;
+
+            if (!contents.TryGetValue(resource, out int amount) || amountToRemove <= 0)
+                return false;
+
             if (amount > amountToRemove) {
                 contents.Delta(resource, -amountToRemove);
             } else {
