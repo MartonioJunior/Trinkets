@@ -6,11 +6,11 @@ using UnityEngine.Events;
 namespace MartonioJunior.Trinkets
 {
     [AddComponentMenu("Trinkets/Resource Scanner")]
-    public class ResourceScannerComponent: EngineBehaviour, IResourceScanner
+    public class ResourceScannerComponent: MonoBehaviour, IResourceScanner
     {
         #region Variables
         /**
-        <inheritdoc cref="CollectableScanner.TaxGroupOnScan"/>
+        <inheritdoc cref="CollectableScanner.TaxGroupOnScan" />
         */
         [SerializeField] bool taxWallet;
         /**
@@ -26,40 +26,14 @@ namespace MartonioJunior.Trinkets
         #endregion
         #region Events
         /**
-        <remarks>Meant as a event gateway for designers to use in the inspector.
-        </remarks>
-        <inheritdoc cref="ResourceScannerComponent.OnScan"/>
-        */
-        [SerializeField] UnityEvent<bool> scanned;
-        /**
-        <remarks>Meant as a event gateway for designers to use in the inspector.
-        </remarks>
-        <inheritdoc cref="ResourceScannerComponent.OnTax"/>
-        */
-        [SerializeField] UnityEvent taxed;
-        /**
         <summary>Event invoked when the component scans a resource group.</summary>
-        <remarks>Meant as a event gateway for programmers to listen for events.
-        </remarks>
+        <remarks>Sends in the result of the scan as a parameter.</remarks>
         */
-        public event Action<bool> OnScan;
+        public Event<bool> OnScan;
         /**
-        <summary>Event invoked when the component removes elements from a resource group.
-        </summary>
-        <remarks>Meant as a event gateway for programmers to listen for events.
-        </remarks>
+        <summary>Event invoked when the component removes elements from a resource group.</summary>
         */
-        public event Action OnTax;
-        #endregion
-        #region EngineBehaviour Implementation
-        /**
-        <inheritdoc />
-        */
-        public override void Setup() {}
-        /**
-        <inheritdoc />
-        */
-        public override void TearDown() {}
+        public Event OnTax;
         #endregion
         #region IResourceScanner Implementation
         /**
@@ -92,7 +66,7 @@ namespace MartonioJunior.Trinkets
         public bool Scan(IResourceGroup group)
         {
             bool scanResult = IResourceScannerExtensions.Scan(this, group);
-            OnScan?.Invoke(scanResult);
+            OnScan.Invoke(scanResult);
             return scanResult;
         }
         /**
@@ -102,29 +76,24 @@ namespace MartonioJunior.Trinkets
         {
             if (!enabled) return;
 
-            foreach(var item in Data) {
-                group.Remove(item);
-            }
+            group.RemoveRange(Data);
 
-            OnTax?.Invoke();
+            OnTax.Invoke();
         }
         #endregion
         #region Methods
         /**
         <summary>Scans a specified wallet.</summary>
         <param name="wallet">The wallet to be scanned.</param>
-        <remarks>Uses a <c>Wallet</c> instead to allow for use with events
-        in the Unity inspector.</remarks>
+        <remarks>Uses a <c>Wallet</c> instead to allow for use with events in the Unity inspector.</remarks>
         */
         public void ScanWallet(Wallet wallet)
         {
-            bool scanResult = IResourceScannerExtensions.Scan(this, wallet);
-            OnScan?.Invoke(scanResult);
+            Scan(wallet);
         }
         /**
-        <remarks>Uses a <c>Wallet</c> instead to allow for use with events
-        in the Unity inspector.</remarks>
-        <inheritdoc cref="ResourceScannerComponent.Tax(IResourceGroup)"/>
+        <remarks>Uses a <c>Wallet</c> instead to allow for use with events in the Unity inspector.</remarks>
+        <inheritdoc cref="ResourceScannerComponent.Tax(IResourceGroup)" />
         */
         public void TaxWallet(Wallet wallet)
         {

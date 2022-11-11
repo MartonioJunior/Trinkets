@@ -5,48 +5,37 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.Trinkets
 {
+    /**
+    <summary>Component used to listen for resources inside of a Wallet.</summary>
+    */
     [AddComponentMenu("Trinkets/Wallet Listener")]
-    public class WalletListenerComponent: EngineBehaviour, IResourceProcessor<int>
+    public class WalletListenerComponent: MonoBehaviour, IResourceProcessor<int>
     {
+        #region Constants
+        /**
+        <summary>The amount of time (in seconds) between updates.</summary>
+        */
+        public const float UpdateTime = 0.5f;
+        #endregion
         #region Variables
+        /**
+        <summary>The wallet to be checked by the listener.</summary>
+        */
         [field: SerializeField] public Wallet Wallet {get; set;}
+        /**
+        <summary>The resource to look out for.</summary>
+        */
         [field: SerializeField] public Resource Resource {get; set;}
         #endregion
         #region Events
         /**
-        <remarks>Meant as a event gateway for designers to use in the inspector.
-        </remarks>
-        <inheritdoc cref="ResourceScannerComponent.OnAmountChange"/>
+        <summary>Event invoked when the component updates.</summary>
         */
-        [SerializeField] UnityEvent<int> amountChanged;
-        /**
-        <remarks>Meant as a event gateway for designers to use in the inspector.
-        </remarks>
-        <inheritdoc cref="ResourceScannerComponent.OnPresenceUpdate"/>
-        */
-        [SerializeField] UnityEvent<bool> resourcePresent;
+        public Event<int> OnAmountChange;
         /**
         <summary>Event invoked when the component updates.</summary>
-        <remarks>Meant as a event gateway for programmers to listen for events.
-        </remarks>
         */
-        public event Action<int> OnAmountChange;
-        /**
-        <summary>Event invoked when the component updates.</summary>
-        <remarks>Meant as a event gateway for programmers to listen for events.
-        </remarks>
-        */
-        public event Action<bool> OnPresenceUpdate;
-        #endregion
-        #region EngineBehaviour Implementation
-        /**
-        <inheritdoc />
-        */
-        public override void Setup() {}
-        /**
-        <inheritdoc />
-        */
-        public override void TearDown() {}
+        public Event<bool> OnPresenceUpdate;
         #endregion
         #region IResourceProcessor Implementation
         public int Convert(IResourceGroup group)
@@ -55,18 +44,16 @@ namespace MartonioJunior.Trinkets
         }
         #endregion
         #region Methods
+        YieldInstruction YieldUpdate = new WaitForSeconds(UpdateTime);
         /**
-        <summary>Coroutine responsible for updating the state of the component.
-        </summary>
+        <summary>Coroutine responsible for updating the state of the component.</summary>
         */
         IEnumerator Start()
         {
-            const float UpdateTime = 0.5f;
-
             while (true) {
                 var amount = Convert(Wallet);
-                OnAmountChange?.Invoke(amount);
-                OnPresenceUpdate?.Invoke(amount > 0);
+                OnAmountChange.Invoke(amount);
+                OnPresenceUpdate.Invoke(amount > 0);
 
                 yield return new WaitForSeconds(UpdateTime);
             }

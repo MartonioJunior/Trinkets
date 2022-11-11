@@ -4,6 +4,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using Reference = UnityEngine.Object;
+using UGUIEvent = UnityEngine.Event;
 
 namespace MartonioJunior.Trinkets.Editor
 {
@@ -76,7 +77,7 @@ namespace MartonioJunior.Trinkets.Editor
 
         public static void DropArea(Rect dropRect, string message, Action<UnityEngine.Object> receivedDrop)
         {
-            Event evt = Event.current;
+            UGUIEvent evt = UGUIEvent.current;
             GUI.Box(dropRect, message);
         
             switch (evt.type) {

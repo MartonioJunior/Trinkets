@@ -2,11 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Event = MartonioJunior.Trinkets.Event;
 
 namespace MartonioJunior.Trinkets
 {
+    /**
+    <summary>Component that removes resources from resource groups and wallets.</summary>
+    */
     [AddComponentMenu("Trinkets/Resource Drainer")]
-    public class ResourceDrainerComponent: EngineBehaviour, IResourceTaxer
+    public class ResourceDrainerComponent: MonoBehaviour, IResourceTaxer
     {
         #region Variables
         /**
@@ -15,34 +19,15 @@ namespace MartonioJunior.Trinkets
         [field: SerializeField] public List<ResourceData> Data {get; private set;} = new List<ResourceData>();
         /**
         <summary>Where the resources drained will be placed.</summary>
-        <remarks></remarks>
+        <remarks>If no Wallet is supplied, the resources will just be discarded.</remarks>
         */
         [field: SerializeField] public Wallet Destination {get; set;}
         #endregion
         #region Events
         /**
-        <remarks>Meant as a event gateway for designers to use in the inspector.
-        </remarks>
-        <inheritdoc cref="ResourceInstancerComponent.OnDrain"/>
+        <summary>Event invoked when the component attempts to remove a collectable from a group.</summary>
         */
-        [SerializeField] UnityEvent drained;
-        /**
-        <summary>Event invoked when the component attempts to remove a collectable
-        from a group.</summary>
-        <remarks>Meant as a event gateway for programmers to listen for events.
-        </remarks>
-        */
-        public event Action OnDrain;
-        #endregion
-        #region EngineBehaviour Implementation
-        /**
-        <inheritdoc />
-        */
-        public override void Setup() {}
-        /**
-        <inheritdoc />
-        */
-        public override void TearDown() {}
+        public Event OnDrain;
         #endregion
         #region IResourceTaxer Implementation
         /**
@@ -58,7 +43,7 @@ namespace MartonioJunior.Trinkets
                 }
             }
 
-            InvokeEvents();
+            OnDrain.Invoke();
         }
         #endregion
         #region Methods
@@ -69,14 +54,6 @@ namespace MartonioJunior.Trinkets
         public void Drain(Wallet wallet)
         {
             Tax(wallet);
-        }
-        /**
-        <inheritdoc />
-        */
-        private void InvokeEvents()
-        {
-            OnDrain?.Invoke();
-            drained?.Invoke();
         }
         #endregion
     }

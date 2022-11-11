@@ -5,8 +5,11 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.Trinkets
 {
+    /**
+    <summary>Component that inserts resources into resource groups and wallets.</summary>
+    */
     [AddComponentMenu("Trinkets/Resource Instancer")]
-    public class ResourceInstancerComponent: EngineBehaviour, IResourceInstancer
+    public class ResourceInstancerComponent: MonoBehaviour, IResourceInstancer
     {
         #region Variables
         /**
@@ -22,28 +25,9 @@ namespace MartonioJunior.Trinkets
         #endregion
         #region Events
         /**
-        <remarks>Meant as a event gateway for designers to use in the inspector.
-        </remarks>
-        <inheritdoc cref="ResourceInstancerComponent.OnCollected"/>
+        <summary>Event invoked when the component attempts to add a collectable.</summary>
         */
-        [SerializeField] UnityEvent collectedEvent;
-        /**
-        <summary>Event invoked when the component attempts to add
-        a collectable.</summary>
-        <remarks>Meant as a event gateway for programmers to listen for events.
-        </remarks>
-        */
-        public event Action OnCollected;
-        #endregion
-        #region EngineBehaviour Implementation
-        /**
-        <inheritdoc />
-        */
-        public override void Setup() {}
-        /**
-        <inheritdoc />
-        */
-        public override void TearDown() {}
+        public Event OnCollected;
         #endregion
         #region IResourceInstancer Implementation
         /**
@@ -53,11 +37,15 @@ namespace MartonioJunior.Trinkets
         {
             if (!enabled) return;
 
-            foreach(var item in Data) {
-                group.Add(item);
+            if (Source == null) {
+                group.AddRange(Data);
+            } else foreach(var item in Data) {
+                if (Source.Remove(item)) {
+                    group.Add(item);
+                }
             }
 
-            InvokeEvents();
+            OnCollected.Invoke();
         }
         #endregion
         #region Methods
@@ -65,19 +53,11 @@ namespace MartonioJunior.Trinkets
         <remarks>This method works the same as AddTo, but receives a
         <c>Wallet</c> instead to allow for use with events
         in the Unity inspector.</remarks>
-        <inheritdoc cref="ResourceInstancerComponent.AddTo(IResourceGroup)"/>
+        <inheritdoc cref="ResourceInstancerComponent.AddTo(IResourceGroup)" />
         */
         public void AddToWallet(Wallet wallet)
         {
             AddTo(wallet);
-        }
-        /**
-        <inheritdoc />
-        */
-        private void InvokeEvents()
-        {
-            OnCollected?.Invoke();
-            collectedEvent?.Invoke();
         }
         #endregion
     }
