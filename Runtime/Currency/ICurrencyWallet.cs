@@ -13,7 +13,7 @@ namespace MartonioJunior.Trinkets.Currencies
         /**
         <returns>The wallet where the resources were added in.</returns>
         <remarks>Useful for making multiple additions at once.</remarks>
-        <inheritdoc cref="ICurrencyOperator.Change(ICurrency, int)"/>
+        <inheritdoc cref="ICurrencyOperator.Change(ICurrency, int)" />
         */
         public static ICurrencyWallet With(this ICurrencyWallet self, ICurrency currency, int delta)
         {
