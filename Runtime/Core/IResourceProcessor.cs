@@ -3,15 +3,15 @@ using UnityEngine;
 namespace MartonioJunior.Trinkets
 {
     /**
-    <summary>Interface used to obtain data from a resource wallet.</summary>
+    <summary>Interface used to obtain data from a resource group.</summary>
     */
-    public interface IResourceProcessor<TInput, TOutput> where TInput: IWallet
+    public interface IResourceProcessor<T>
     {
         /**
-        <summary>Transform wallet information into data.</summary>
-        <param name="wallet">The wallet used as the source of data.</param>
+        <summary>Transform group information into data.</summary>
+        <param name="group">The group used as the source of data.</param>
         <returns>The data acquired from the operation.</returns>
         */
-        TOutput Convert(TInput wallet);
+        T Convert(IResourceGroup group);
     }
 }

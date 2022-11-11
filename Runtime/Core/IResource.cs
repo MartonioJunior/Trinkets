@@ -11,5 +11,9 @@ namespace MartonioJunior.Trinkets
         <summary>The value attributed to a resource.</summary>
         */
         int Value {get;}
+        /**
+        <summary>Defines whether a resource should be counted or not.</summary>
+        */
+        bool Quantifiable {get;}
     }
 }

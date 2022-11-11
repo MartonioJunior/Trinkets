@@ -5,27 +5,19 @@ namespace MartonioJunior.Trinkets.Currencies
     /**
     <summary>ScriptableObject which defines a Currency.</summary>
     */
-    [CreateAssetMenu(fileName = "NewCurrencyData", menuName = "Trinkets/Currency/Data")]
-    public class CurrencyData: EngineScrob, ICurrency
+    [CreateAssetMenu(fileName = "New Currency", menuName = "Trinkets/Currency/New Currency")]
+    public class CurrencyData: Resource, ICurrency
     {
         #region Constants
         /**
         <summary>Default Name used when the name of a <c>CurrencyData</c>
         is empty or null.</summary>
         */
-        public const string DefaultDisplayName = "Unnamed Currency";
+        public const string DefaultCurrencyName = "Unnamed Currency";
         #endregion
         #region Variables
         /**
-        <inheritdoc cref="IRepresentable.Image"/>
-        */
-        [SerializeField] Sprite displayIcon;
-        /**
-        <inheritdoc cref="IRepresentable.Name"/>
-        */
-        [SerializeField] string displayName;
-        /**
-        <inheritdoc cref="ICurrency.Symbol"/>
+        <inheritdoc cref="ICurrency.Symbol" />
         */
         [SerializeField] string symbol;
         /**
@@ -34,43 +26,15 @@ namespace MartonioJunior.Trinkets.Currencies
         */
         [SerializeField, Min(0)] int currencyRateValue = 1;
         #endregion
-        #region EngineScrob Implementation
-        /**
-        <inheritdoc />
-        */
-        public override void Setup() {}
-        /**
-        <inheritdoc />
-        */
-        public override void TearDown() {}
-        /**
-        <inheritdoc />
-        */
-        public override void Validate()
-        {
-            if (string.IsNullOrEmpty(displayName)) {
-                displayName = DefaultDisplayName;
-            }
-        }
-        #endregion
         #region ICurrency Implementation
         /**
         <inheritdoc />
         */
-        public string Name {
-            get => displayName;
-            set {
-                displayName = value;
-                Validate();
-            }
-        }
+        public override string DefaultName => DefaultCurrencyName;
         /**
         <inheritdoc />
         */
-        public Sprite Image {
-            get => displayIcon;
-            set => displayIcon = value;
-        }
+        public override Sprite DefaultImage => null;
         /**
         <inheritdoc />
         */
@@ -81,10 +45,14 @@ namespace MartonioJunior.Trinkets.Currencies
         /**
         <inheritdoc />
         */
-        public int Value {
+        public override int Value {
             get => currencyRateValue;
             set => currencyRateValue = Mathf.Max(0, value);
         }
+        /**
+        <inheritdoc />
+        */
+        public override bool Quantifiable => true;
         #endregion
         #region Methods
         /**
@@ -95,7 +63,13 @@ namespace MartonioJunior.Trinkets.Currencies
         */
         public override string ToString()
         {
-            return $"{displayName} ({symbol})";
+            return $"{Name} ({symbol})";
+        }
+        #endregion
+        #region Operators
+        public static ResourceData operator *(CurrencyData lhs, int rhs)
+        {
+            return new ResourceData(lhs, rhs);
         }
         #endregion
     }
