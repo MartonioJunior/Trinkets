@@ -21,7 +21,7 @@ namespace MartonioJunior.Trinkets.Editor
         {
             base.OnInspectorGUI();
 
-            var collectableCollection = wallet.Search(null);
+            var collectableCollection = wallet.All();
             var categoryQuery = collectableCollection.GroupBy(item => {
                 return (item.Resource as ICollectable)?.Category;
             });

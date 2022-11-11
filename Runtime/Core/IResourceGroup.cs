@@ -16,8 +16,18 @@ namespace MartonioJunior.Trinkets
         void Clear();
     }
 
+    /**
+    <summary>Extension class for <c>IResourceGroup</c></summary>
+    */
     public static partial class IResourceGroupExtensions
     {
+        /**
+        <summary>Returns all resources present in a group.</summary>
+        */
+        public static ICollection<IResourceData> All(this IResourceGroup self)
+        {
+            return self.Search(null);
+        }
         /**
         <summary>Checks the presence of a resource inside any group.</summary>
         <param name="self">The extension object used by the operation.</param>
@@ -27,7 +37,7 @@ namespace MartonioJunior.Trinkets
         */
         public static bool Contains(this IResourceGroup self, IResource resource)
         {
-            return self.Search((item) => item.Resource == resource).Count > 0;
+            return self.AmountOf(resource) > 0;
         }
         /**
         <summary>Combines the contents of the two existing groups
@@ -39,13 +49,11 @@ namespace MartonioJunior.Trinkets
         public static IResourceGroup Join(this IResourceGroup self, IResourceGroup group)
         {
             var list = new List<IResourceData>();
-            list.AddRange(self.Search(null));
-            list.AddRange(group.Search(null));
+            list.AddRange(self.All());
+            list.AddRange(group.All());
 
             var resultGroup = new ResourceGroup();
-            foreach(var item in list) {
-                resultGroup.Add(item);
-            }
+            resultGroup.AddRange(list);
 
             return resultGroup;
         }
@@ -58,7 +66,7 @@ namespace MartonioJunior.Trinkets
         */
         public static IResourceGroup Overlap(this IResourceGroup self, IResourceGroup group)
         {
-            var baseGroup = self.Search(null);
+            var baseGroup = self.All();
             var resultGroup = new ResourceGroup();
 
             foreach(var item in baseGroup) {
@@ -81,13 +89,11 @@ namespace MartonioJunior.Trinkets
         */
         public static bool Transfer(this IResourceGroup self, IResourceGroup group)
         {
-            var sendItems = self.Search(null);
+            var sendItems = self.All();
 
             if (sendItems.Count == 0) return false;
 
-            foreach(var item in sendItems) {
-                group.Add(item);
-            }
+            group.AddRange(sendItems);
 
             self.Clear();
             return true;
@@ -101,11 +107,9 @@ namespace MartonioJunior.Trinkets
         public static IResourceGroup Unique(this IResourceGroup self, IResourceGroup group)
         {
             var resultGroup = new ResourceGroup();
-            var selfNotInGroup = FilterUnique(self.Search(null), group);
-            var groupNotInSelf = FilterUnique(group.Search(null), self);
+            var selfNotInGroup = FilterUnique(self.All(), group);
 
-            foreach(var item in selfNotInGroup) resultGroup.Add(item);
-            foreach(var item in groupNotInSelf) resultGroup.Add(item);
+            resultGroup.AddRange(selfNotInGroup);
 
             return resultGroup;
 
@@ -115,10 +119,11 @@ namespace MartonioJunior.Trinkets
 
                 foreach(var item in sample) {
                     var resource = item.Resource;
-                    var amount = group.AmountOf(resource);
+                    var amount = item.Amount;
+                    var groupAmount = group.AmountOf(resource);
 
-                    if (amount == 0) {
-                        resultList.Add(new ResourceData(resource, Mathf.Min(amount, item.Amount)));
+                    if (amount > groupAmount) {
+                        resultList.Add(new ResourceData(resource, amount-groupAmount));
                     }
                 }
 
@@ -134,9 +139,7 @@ namespace MartonioJunior.Trinkets
         */
         public static IResourceGroup With(this IResourceGroup self, params IResourceData[] data)
         {
-            foreach(var item in data) {
-                self.Add(item);
-            }
+            self.AddRange(data);
             return self;
         }
     }

@@ -20,7 +20,7 @@ namespace MartonioJunior.Trinkets.Editor
         {
             base.OnInspectorGUI();
 
-            var currencyList = wallet.Search(null);
+            var currencyList = wallet.All();
 
             var headerStyle = Style.BasedOn(EditorStyles.whiteLargeLabel)
                 .BG(Theme.H1.BGColor).TextColor(Theme.H1.TextColor);
