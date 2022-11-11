@@ -13,13 +13,11 @@ namespace MartonioJunior.Trinkets.Collectables
     {
         #region Variables
         /**
-        <summary>List of collectables in the group which does not belong
-        to a category.</summary>
+        <summary>List of collectables in the group which does not belong to a category.</summary>
         */
         List<ICollectable> nullCategoryCollectables = new List<ICollectable>();
         /**
-        <summary>Dictionary table of the collectables in the group, organized by
-        the category that they belong to.</summary>
+        <summary>Dictionary table of the collectables in the group, organized by the category that they belong to.</summary>
         */
         Dictionary<ICollectableCategory, List<ICollectable>> contents = new Dictionary<ICollectableCategory, List<ICollectable>>();
         #endregion
@@ -58,23 +56,15 @@ namespace MartonioJunior.Trinkets.Collectables
         <param name="resource">The collectable to be checked.</param>
         <returns><c>0</c> when there's no collectable.<br/>
         <c>1</c> when there's a collectable.</returns>
-        <remarks>When a CollectableCategory is supplied, it returns
-        the number of collectables that belongs to the category.</remarks>
+        <remarks>When a CollectableCategory is supplied, it returns the number of collectables that belongs to the category.</remarks>
         <inheritdoc />
         */
         public int AmountOf(IResource resource)
         {
             if (resource is ICollectable collectable) {
-                ICollectableCategory category = collectable.Category;
-                if (category == null) {
-                    return nullCategoryCollectables.Contains(collectable) ? 1 : 0;
-                } else if (contents.TryGetValue(category, out var list)) {
-                    return list.Contains(collectable) ? 1 : 0;
-                }
-            } else if (resource is ICollectableCategory category) {
-                if (contents.TryGetValue(category, out var list)) {
-                    return list.Count;
-                }
+                return GetAmountFor(collectable);
+            } else if (resource is ICollectableCategory category && contents.TryGetValue(category, out var list)) {
+                return list.Count;
             }
             
             return 0;
@@ -90,33 +80,25 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <summary>Removes a collectable from the group.</summary>
         <param name="data">The collectable to be removed.</param>
-        <remarks>When a Collectable Category is supplied with an amount,
-        removes collectables belonging to the category in ascending order
-        of addition.</remarks>
+        <remarks>When a Collectable Category is supplied with an amount, removes collectables belonging to the category in ascending order of addition.</remarks>
         <inheritdoc />
         */
         public bool Remove(IResourceData data)
         {
             if (data.Resource is ICollectable collectable) {
-                ICollectableCategory category = collectable.Category;
-                if (category == null) {
-                    return nullCategoryCollectables.Remove(collectable);
-                }
-
-                if (contents.ContainsKey(category)) {
-                    return contents[category].Remove(collectable);
-                }
+                return Remove(collectable);
             } else if (data.Resource is ICollectableCategory category) {
                 if (contents.TryGetValue(category, out var list)) {
+                    var numberOfElements = list.Count;
                     list.RemoveRange(0, data.Amount);
+                    return numberOfElements > 0;
                 }
             }
 
             return false;
         }
         /**
-        <summary>Searches for collectables that fulfill the specified
-        predicate.</summary>
+        <summary>Searches for collectables that fulfill the specified predicate.</summary>
         <returns>All collectables which fulfill the predicate.</returns>
         <inheritdoc />
         */
@@ -141,7 +123,7 @@ namespace MartonioJunior.Trinkets.Collectables
             int count = 0;
             var unique = group.Unique(this);
 
-            foreach(var item in unique.Search(null)) {
+            foreach(var item in unique.All()) {
                 if (amount-- <= 0) return count;
                 count += Add(item) ? 1 : 0;
             }
@@ -156,7 +138,7 @@ namespace MartonioJunior.Trinkets.Collectables
             int count = 0;
             var overlap = group.Overlap(this);
 
-            foreach(var item in overlap.Search(null)) {
+            foreach(var item in overlap.All()) {
                 if (amount-- <= 0) return count;
                 count += Remove(item) ? 1: 0;
             }
@@ -165,6 +147,18 @@ namespace MartonioJunior.Trinkets.Collectables
         }
         #endregion
         #region Methods
+        private int GetAmountFor(ICollectable collectable)
+        {
+            ICollectableCategory category = collectable.Category;
+
+            if (category == null) {
+                return nullCategoryCollectables.Contains(collectable) ? 1 : 0;
+            } else if (contents.TryGetValue(category, out var list)) {
+                return list.Contains(collectable) ? 1 : 0;
+            } else {
+                return 0;
+            }
+        }
         /**
         <summary>Allows to search for collectables inside a specified list.</summary>
         <param name="predicate">The function used as a filter.</param>
@@ -185,44 +179,19 @@ namespace MartonioJunior.Trinkets.Collectables
             return resultList.ToArray();
         }
         /**
-        <summary>Describes the list of collectables that are part of the
-        group.</summary>
-        <returns>A string describing the contents of the group by
-        category.</returns>
+        <summary>Removes a collectable from the group.</summary>
+        <param name="collectable">Collectable to be removed.</param>
         */
-        [Obsolete]
-        public string DescribeContents()
+        private bool Remove(ICollectable collectable)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(GetDescription("No Category", nullCategoryCollectables));
-            foreach(var pair in contents) {
-                sb.Append(GetDescription((pair.Key as IRepresentable).Name, pair.Value));
+            ICollectableCategory category = collectable.Category;
+            if (category == null) {
+                return nullCategoryCollectables.Remove(collectable);
+            } else if (contents.TryGetValue(category, out var list)) {
+                return list.Remove(collectable);
+            } else {
+                return false;
             }
-            return sb.ToString();
-        }
-        /**
-        <summary>Provides a formatted string for a category and the respective
-        collectables.</summary>
-        <param name="categoryName">The name of the category.</param>
-        <param name="collectables">The list of collectables to display.</param>
-        <returns>A string with the name of the category and it's
-        collectables.</returns>
-        */
-        [Obsolete]
-        private string GetDescription(string categoryName, List<ICollectable> collectables)
-        {
-            if (collectables.Count == 0) return "";
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append(categoryName);
-            sb.Append(": ");
-
-            foreach(var collectable in collectables) {
-                sb.Append(collectable.ToString());
-                sb.Append(" | ");
-            }
-            sb.Append("\n");
-            return sb.ToString();
         }
         #endregion
     }

@@ -23,35 +23,35 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         public override IResourceGroup Contents => group;
         /**
-        <inheritdoc cref="CollectableGroup.Add(IResourceData)"/>
+        <inheritdoc cref="CollectableGroup.Add(IResourceData)" />
         */
         public override bool Add(IResourceData data)
         {
             return group.Add(data);
         }
         /**
-        <inheritdoc cref="CollectableGroup.AmountOf(IResource)"/>
+        <inheritdoc cref="CollectableGroup.AmountOf(IResource)" />
         */
         public override int AmountOf(IResource resource)
         {
             return group.AmountOf(resource);
         }
         /**
-        <inheritdoc cref="CollectableGroup.Clear"/>
+        <inheritdoc cref="CollectableGroup.Clear" />
         */
         public override void Clear()
         {
             group.Clear();
         }
         /**
-        <inheritdoc cref="CollectableGroup.Remove(IResourceData)"/>
+        <inheritdoc cref="CollectableGroup.Remove(IResourceData)" />
         */
         public override bool Remove(IResourceData data)
         {
             return group.Remove(data);
         }
         /**
-        <inheritdoc cref="CollectableGroup.Search(Predicate{IResourceData})"/>
+        <inheritdoc cref="CollectableGroup.Search(Predicate{IResourceData})" />
         */
         public override ICollection<IResourceData> Search(Predicate<IResourceData> predicate)
         {
@@ -64,14 +64,14 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         public int AddFrom(CollectableGroup group, int amount)
         {
-            return group.AddFrom(group, amount);
+            return this.group.AddFrom(group, amount);
         }
         /**
         <inheritdoc />
         */
         public int RemoveFrom(CollectableGroup group, int amount)
         {
-            return group.RemoveFrom(group, amount);
+            return this.group.RemoveFrom(group, amount);
         }
         #endregion
     }
