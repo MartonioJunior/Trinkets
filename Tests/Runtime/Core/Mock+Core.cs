@@ -23,8 +23,6 @@ namespace Tests
             public override Sprite DefaultImage => defaultImage;
             public override int Value { get => value; set => this.value = value; }
             public override bool Quantifiable => quantifiable;
-            public override void Setup() {}
-            public override void TearDown() {}
             #endregion
         }
         #endregion

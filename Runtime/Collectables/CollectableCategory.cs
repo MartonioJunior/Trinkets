@@ -5,34 +5,22 @@ using UnityEngine;
 namespace MartonioJunior.Trinkets.Collectables
 {
     /**
-    <summary>Defines a category of collectable, used as a reference point to mark
-    collectables.</summary>
+    <summary>Defines a category of collectable, used as a reference point to mark collectables.</summary>
     */
     [CreateAssetMenu(fileName = "New Category", menuName = "Trinkets/Collectable/Category")]
     public class CollectableCategory: Resource, ICollectableCategory
     {
         #region Constants
-        /** <summary>Default Name used when the name of a
-        <c>CollectableCategory</c> is empty or null.</summary>
+        /** <summary>Default Name used when the name of a <c>CollectableCategory</c> is empty or null.</summary>
         */
         public const string DefaultCategoryName = "Unnamed Category";
         #endregion
         #region Variables
         /**
         <summary>List of collectables that belong to the category.</summary>
-        <remarks> Currently only receives initialized collectables. </remarks>
+        <remarks>Currently only receives initialized collectables.</remarks>
         */
         [SerializeField, HideInInspector] List<ICollectable> elements = new List<ICollectable>();
-        #endregion
-        #region EngineScrob Implementation
-        /**
-        <inheritdoc />
-        */
-        public override void Setup() {}
-        /**
-        <inheritdoc />
-        */
-        public override void TearDown() {}
         #endregion
         #region IResource Implementation
         /**
@@ -59,8 +47,7 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <summary>Returns a visual description of the category</summary>
         <returns>The category's name"</returns>
-        <example>A <c>CollectableCategory</c> named "Lollipop" returns
-        "Lollipop (Collectable Category)"</example>
+        <example>A <c>CollectableCategory</c> named "Lollipop" returns "Lollipop (Collectable Category)"</example>
         */
         public override string ToString()
         {

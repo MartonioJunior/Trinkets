@@ -2,15 +2,15 @@ using UnityEngine;
 
 namespace MartonioJunior.Trinkets
 {
-    public abstract class Resource: EngineScrob, IResource
+    public abstract class Resource: ScriptableObject, IResource
     {
         #region Variables
         /**
-        <inheritdoc cref="IRepresentable.Image"/>
+        <inheritdoc cref="IRepresentable.Image" />
         */
         [SerializeField] string displayName;
         /**
-        <inheritdoc cref="IRepresentable.Name"/>
+        <inheritdoc cref="IRepresentable.Name" />
         */
         [SerializeField] Sprite displayIcon;
         #endregion
@@ -24,24 +24,24 @@ namespace MartonioJunior.Trinkets
         */
         public abstract Sprite DefaultImage {get;}
         /**
-        <inheritdoc cref="IResource.Value"/>
+        <inheritdoc cref="IResource.Value" />
         */
         public abstract int Value { get; set; }
         /**
-        <inheritdoc cref="IResource.Quantifiable"/>
+        <inheritdoc cref="IResource.Quantifiable" />
         */
         public abstract bool Quantifiable { get; }
         #endregion
         #region IResource Implementation
         /**
-        <inheritdoc cref="IRepresentable.Name"/>
+        <inheritdoc cref="IRepresentable.Name" />
         */
         public virtual string Name {
             get => GetName();
             set => displayName = value;
         }
         /**
-        <inheritdoc cref="IRepresentable.Image"/>
+        <inheritdoc cref="IRepresentable.Image" />
         */
         public Sprite Image {
             get => displayIcon != null ? displayIcon : DefaultImage;

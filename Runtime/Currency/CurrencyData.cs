@@ -17,7 +17,7 @@ namespace MartonioJunior.Trinkets.Currencies
         #endregion
         #region Variables
         /**
-        <inheritdoc cref="ICurrency.Symbol"/>
+        <inheritdoc cref="ICurrency.Symbol" />
         */
         [SerializeField] string symbol;
         /**
@@ -25,16 +25,6 @@ namespace MartonioJunior.Trinkets.Currencies
         <remarks>Useful to make conversions between currencies.</remarks>
         */
         [SerializeField, Min(0)] int currencyRateValue = 1;
-        #endregion
-        #region EngineScrob Implementation
-        /**
-        <inheritdoc />
-        */
-        public override void Setup() {}
-        /**
-        <inheritdoc />
-        */
-        public override void TearDown() {}
         #endregion
         #region ICurrency Implementation
         /**

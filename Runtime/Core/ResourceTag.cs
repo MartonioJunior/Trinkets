@@ -2,27 +2,20 @@ using UnityEngine;
 
 namespace MartonioJunior.Trinkets
 {
-    public class ResourceTag: EngineScrob, IResourceTag
+    /**
+    <summary>Object used to categorize resources in a game.</summary>
+    */
+    public class ResourceTag: ScriptableObject, IResourceTag
     {
         #region Variables
         /**
-        <inheritdoc cref="IRepresentable.Image"/>
+        <inheritdoc cref="IRepresentable.Image" />
         */
         [SerializeField] string displayName;
         /**
-        <inheritdoc cref="IRepresentable.Name"/>
+        <inheritdoc cref="IRepresentable.Name" />
         */
         [SerializeField] Sprite displayIcon;
-        #endregion
-        #region EngineScrob Implementation
-        /**
-        <inheritdoc />
-        */
-        public override void Setup() {}
-        /**
-        <inheritdoc />
-        */
-        public override void TearDown() {}
         #endregion
         #region IResource Implementation
         public string Name {
@@ -30,7 +23,7 @@ namespace MartonioJunior.Trinkets
             set => displayName = value;
         }
         /**
-        <inheritdoc cref="IRepresentable.Image"/>
+        <inheritdoc cref="IRepresentable.Image" />
         */
         public Sprite Image {
             get => displayIcon;

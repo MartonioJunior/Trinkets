@@ -12,8 +12,7 @@ namespace MartonioJunior.Trinkets.Collectables
     {
         #region Constants
         /**
-        <summary>Default name used in the absence of a name for the 
-        category it belongs to.</summary>
+        <summary>Default name used in the absence of a name for the category it belongs to.</summary>
         */
         public const string EmptyCategory = "No Category";
         #endregion
@@ -27,19 +26,9 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         [SerializeField] Sprite displayImage;
         /**
-        <inheritdoc cref="ICollectable.Category"/>
+        <inheritdoc cref="ICollectable.Category" />
         */
         [SerializeField] CollectableCategory category;
-        #endregion
-        #region EngineScrob Implementation
-        /**
-        <inheritdoc />
-        */
-        public override void Setup() {}
-        /**
-        <inheritdoc />
-        */
-        public override void TearDown() {}
         #endregion
         #region Resource Implementation
         /**

@@ -10,7 +10,7 @@ namespace Tests
         #region Mock Types
         public CollectableWallet CollectableWallet {
             get {
-                EngineScrob.Instance(out CollectableWallet wallet);
+                Engine.Instance(out CollectableWallet wallet);
                 objectList.Add(wallet);
                 return wallet;
             }
@@ -18,7 +18,7 @@ namespace Tests
 
         public CollectableCategory Category(string name)
         {
-            EngineScrob.Instance(out CollectableCategory category);
+            Engine.Instance(out CollectableCategory category);
             category.Name = name;
             category.Image = this.Sprite;
             objectList.Add(category);
@@ -27,7 +27,7 @@ namespace Tests
 
         public CollectableData Collectable(string name)
         {
-            EngineScrob.Instance(out CollectableData collectable);
+            Engine.Instance(out CollectableData collectable);
             collectable.Name = name;
             collectable.Image = this.Sprite;
             objectList.Add(collectable);
