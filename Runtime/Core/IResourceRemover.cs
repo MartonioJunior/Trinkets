@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MartonioJunior.Trinkets
@@ -14,5 +15,23 @@ namespace MartonioJunior.Trinkets
         <c>false</c> when the removal fails.</returns>
         */
         bool Remove(IResourceData data);
+    }
+
+    public static partial class IResourceRemoverExtensions
+    {
+        public static void RemoveRange(this IResourceRemover self, params IResourceData[] array)
+        {
+            foreach(var item in array) self.Remove(item);   
+        }
+
+        public static void RemoveRange(this IResourceRemover self, ICollection<IResourceData> collection)
+        {
+            foreach(var item in collection) self.Remove(item);
+        }
+
+        public static void RemoveRange(this IResourceRemover self, ICollection<ResourceData> collection)
+        {
+            foreach(var item in collection) self.Remove(item);
+        }
     }
 }
