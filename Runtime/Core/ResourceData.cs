@@ -11,19 +11,24 @@ namespace MartonioJunior.Trinkets
     {
         #region Variables
         /**
-        <inheritdoc cref="IResourceData.Resource"/>
+        <inheritdoc cref="IResourceData.Resource" />
         */
         [SerializeField] Resource _resource;
         /**
-        <inheritdoc cref="IResourceData.Resource"/>
+        <inheritdoc cref="IResourceData.Resource" />
         */
         [SerializeField] IResource resource;
         /**
-        <inheritdoc cref="IResourceData.Amount"/>
+        <inheritdoc cref="IResourceData.Amount" />
         */
         [SerializeField, Min(0f)] int amount;
         #endregion
         #region Constructors
+        /**
+        <summary>Initializes a new ResourceData structure.</summary>
+        <param name="item">In-game resource.</param>
+        <param name="amount">Quantity.</param>
+        */
         public ResourceData(IResource item, int amount = 1)
         {
             if (item is Resource r) {
@@ -39,14 +44,14 @@ namespace MartonioJunior.Trinkets
         #endregion
         #region IResourceData Implementation
         /**
-        <inheritdoc cref="IResourceData.Resource"/>
+        <inheritdoc cref="IResourceData.Resource" />
         */
         public IResource Resource {
             get => Get();
             set => SetResource(value);
         }
         /**
-        <inheritdoc cref="IResourceData.Amount"/>
+        <inheritdoc cref="IResourceData.Amount" />
         */
         public int Amount {
             get => amount;
