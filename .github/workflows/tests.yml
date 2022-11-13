@@ -44,6 +44,15 @@ jobs:
           mkdir -p ${{ matrix.projectPath }}/Packages
       
       # Add and Configure Dependencies
+      - name: Clone Thundernerd/Unity3D-NSubstitute test dependency
+        uses: GuillaumeFalourd/clone-github-repo-action@v2
+        with:
+          owner: 'Thundernerd'
+          repository: 'Unity3D-NSubstitute'
+
+      - name: Move Repository to Packages
+        run: |
+          mv ${{ matrix.projectPath }} Unity3D-NSubstitute ${{ matrix.projectPath }}/Packages/
       
       - name: Check out to Packages/${{ matrix.packageName }}
         uses: actions/checkout@v2
