@@ -52,7 +52,7 @@ jobs:
 
       - name: Move Repository to Packages
         run: |
-          mv ${{ matrix.projectPath }} Unity3D-NSubstitute ${{ matrix.projectPath }}/Packages/
+          mv Unity3D-NSubstitute ${{ matrix.projectPath }}/Packages/
       
       - name: Check out to Packages/${{ matrix.packageName }}
         uses: actions/checkout@v2
