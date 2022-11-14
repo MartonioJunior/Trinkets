@@ -79,7 +79,7 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           checkName: 'Test Results ${{ matrix.unityVersion }}-${{ matrix.targetPlatform }}'
-          coverageOptions: 'generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+com.martoniojunior.*'
+          coverageOptions: 'generateAdditionalMetrics;generateAdditionalReports;generateHtmlReport;generateBadgeReport;assemblyFilters:+com.martoniojunior.*'
       
       - name: Upload test results
         uses: actions/upload-artifact@v2
@@ -87,3 +87,11 @@ jobs:
         with:
           name: Test results (edit + play, ${{ matrix.unityVersion }}-${{ matrix.targetPlatform }}
           path: ${{ steps.testRunner.outputs.artifactsPath }}
+      
+      - name: Upload XML report to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          name: PlayMode
+          flags: automated
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage-results/**/*.xml
