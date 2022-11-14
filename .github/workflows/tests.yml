@@ -90,6 +90,7 @@ jobs:
       
       - name: Upload XML report to Codecov
         uses: codecov/codecov-action@v2
+        if: startsWith("2021.3", "${{ matrix.unityVersion }}")
         with:
           name: PlayMode
           flags: automated
