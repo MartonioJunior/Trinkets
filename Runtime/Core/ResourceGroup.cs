@@ -74,8 +74,8 @@ namespace MartonioJunior.Trinkets
         {
             var results = new List<IResourceData>();
 
-            foreach(var (entry, amount) in contents) {
-                var resourceData = new ResourceData(entry, amount);
+            foreach(var pair in contents) {
+                var resourceData = new ResourceData(pair.Key, pair.Value);
                 if (predicate?.Invoke(resourceData) ?? true) results.Add(resourceData);
             }
 
