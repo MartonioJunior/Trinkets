@@ -19,18 +19,28 @@ namespace MartonioJunior.Trinkets
 
     public static partial class IResourceAdderExtensions
     {
+        /**
+        <summary>Adds a range of resources.</summary>
+        <param name="self">The extended object.</param>
+        <param name="array">Collection of resources to be added.</param>
+        */
         public static void AddRange(this IResourceAdder self, params IResourceData[] array)
         {
             foreach(var item in array) self.Add(item);   
         }
-
+        /**
+        <param name="collection">Collection of resources to be added.</param>
+        <inheritdoc cref="IResourceAdderExtensions.AddRange(IResourceAdder, IResourceData[])"/>
+        */
         public static void AddRange(this IResourceAdder self, ICollection<IResourceData> collection)
         {
             if (collection == null) return;
 
             foreach(var item in collection) self.Add(item);
         }
-
+        /**
+        <inheritdoc cref="IResourceAdderExtensions.AddRange(IResourceAdder, ICollection{IResourceData})"/>
+        */
         public static void AddRange(this IResourceAdder self, ICollection<ResourceData> collection)
         {
             if (collection == null) return;
