@@ -1,13 +1,25 @@
 {
-	"name": "MartonioJunior.Trinkets.Editor.Tests",
-	"references": [
-		"MartonioJunior.Trinkets.Editor"
-	],
-	"optionalUnityReferences": [
-		"TestAssemblies"
-	],
-	"includePlatforms": [
-		"Editor"
-	],
-	"excludePlatforms": []
+    "name": "MartonioJunior.Trinkets.Editor.Tests",
+    "rootNamespace": "",
+    "references": [
+        "MartonioJunior.Trinkets.Editor",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "NSubstitute.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
