@@ -6,12 +6,15 @@ namespace MartonioJunior.Trinkets
     /**
     <summary>Component used to detect wallets present in a physical space.</summary>
     */
+    [AddComponentMenu("Trinkets/Wallet Detector")]
+    [DisallowMultipleComponent, SelectionBase]
     public class WalletDetectorComponent: MonoBehaviour
     {
         #region Events
         /**
         <summary>Event triggered when a Wallet enters the trigger area.</summary>
         */
+        [Header("Events")]
         [SerializeField] Event<Wallet> OnEnter;
         /**
         <summary>Event triggered when a Wallet leaves the trigger area.</summary>

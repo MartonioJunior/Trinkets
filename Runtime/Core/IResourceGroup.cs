@@ -23,6 +23,7 @@ namespace MartonioJunior.Trinkets
     {
         /**
         <summary>Returns all resources present in a group.</summary>
+        <param name="self">The extension object used by the operation.</param>
         */
         public static ICollection<IResourceData> All(this IResourceGroup self)
         {

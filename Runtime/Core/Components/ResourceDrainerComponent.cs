@@ -27,6 +27,7 @@ namespace MartonioJunior.Trinkets
         /**
         <summary>Event invoked when the component attempts to remove a collectable from a group.</summary>
         */
+        [Header("Events")]
         public Event OnDrain;
         #endregion
         #region IResourceTaxer Implementation

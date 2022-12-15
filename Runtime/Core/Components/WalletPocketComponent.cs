@@ -5,6 +5,7 @@ namespace MartonioJunior.Trinkets
     /**
     <summary>Component used to give physical presence to a Wallet.</summary>
     */
+    [AddComponentMenu("Trinkets/Wallet Pocket")]
     public class WalletPocketComponent: MonoBehaviour
     {
         #region Variables

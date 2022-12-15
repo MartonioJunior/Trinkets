@@ -31,6 +31,7 @@ namespace MartonioJunior.Trinkets
         /**
         <summary>Event invoked when the component updates.</summary>
         */
+        [Header("Events")]
         public Event<int> OnAmountChange;
         /**
         <summary>Event invoked when the component updates.</summary>
@@ -38,12 +39,18 @@ namespace MartonioJunior.Trinkets
         public Event<bool> OnPresenceUpdate;
         #endregion
         #region IResourceProcessor Implementation
+        /**
+        <inheritdoc/>
+        */
         public int Convert(IResourceGroup group)
         {
             return group?.AmountOf(Resource) ?? 0;
         }
         #endregion
         #region Methods
+        /**
+        <summary>Instruction used to determine the timeframe between loops.</summary>
+        */
         YieldInstruction YieldUpdate = new WaitForSeconds(UpdateTime);
         /**
         <summary>Coroutine responsible for updating the state of the component.</summary>

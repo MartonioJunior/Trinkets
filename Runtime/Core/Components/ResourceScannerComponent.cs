@@ -29,6 +29,7 @@ namespace MartonioJunior.Trinkets
         <summary>Event invoked when the component scans a resource group.</summary>
         <remarks>Sends in the result of the scan as a parameter.</remarks>
         */
+        [Header("Events")]
         public Event<bool> OnScan;
         /**
         <summary>Event invoked when the component removes elements from a resource group.</summary>

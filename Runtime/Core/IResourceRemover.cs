@@ -21,7 +21,7 @@ namespace MartonioJunior.Trinkets
     {
         /**
         <summary>Removes a range of resources.</summary>
-        <param name="self">The extended object.</param>
+        <param name="self">The extension object used by the operation.</param>
         <param name="array">Collection of items to remove.</param>
         */
         public static void RemoveRange(this IResourceRemover self, params IResourceData[] array)

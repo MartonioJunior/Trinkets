@@ -21,7 +21,7 @@ namespace MartonioJunior.Trinkets
     {
         /**
         <summary>Adds a range of resources.</summary>
-        <param name="self">The extended object.</param>
+        <param name="self">The extension object used by the operation.</param>
         <param name="array">Collection of resources to be added.</param>
         */
         public static void AddRange(this IResourceAdder self, params IResourceData[] array)

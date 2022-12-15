@@ -27,6 +27,7 @@ namespace MartonioJunior.Trinkets
         /**
         <summary>Event invoked when the component attempts to add a collectable.</summary>
         */
+        [Header("Events")]
         public Event OnCollected;
         #endregion
         #region IResourceInstancer Implementation

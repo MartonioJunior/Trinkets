@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MartonioJunior.Trinkets
 {
+    /**
+    <summary>Structure used to store resources.</summary>
+    */
     public abstract class Wallet: ScriptableObject, IWallet
     {
         #region Abstract
