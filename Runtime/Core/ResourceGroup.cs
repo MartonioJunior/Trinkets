@@ -17,8 +17,14 @@ namespace MartonioJunior.Trinkets
         [SerializeField] Dictionary<IResource, int> contents = new Dictionary<IResource, int>();
         #endregion
         #region Constructors
+        /**
+        <summary>Creates a new Resource Group.</summary>
+        */
         public ResourceGroup() {}
-
+        /**
+        <summary>Creates a new Resource Group with some elements.</summary>
+        <param name="data">Collection of resources to be added in.</param>
+        */
         public ResourceGroup(ICollection<ResourceData> data)
         {
             if (data == null) return;
@@ -29,6 +35,9 @@ namespace MartonioJunior.Trinkets
         }
         #endregion
         #region IResourceGroup Implementation
+        /**
+        <inheritdoc />
+        */
         public bool Add(IResourceData data)
         {
             IResource resource = data.Resource;
@@ -39,7 +48,9 @@ namespace MartonioJunior.Trinkets
             contents.Delta(resource, amountToAdd);
             return true;
         }
-
+        /**
+        <inheritdoc />
+        */
         public int AmountOf(IResource resource)
         {
             if (resource == null || !contents.TryGetValue(resource, out int amount))
@@ -47,12 +58,16 @@ namespace MartonioJunior.Trinkets
 
             return amount;
         }
-
+        /**
+        <inheritdoc />
+        */
         public void Clear()
         {
             contents.Clear();
         }
-
+        /**
+        <inheritdoc />
+        */
         public bool Remove(IResourceData data)
         {
             IResource resource = data.Resource;
@@ -69,7 +84,9 @@ namespace MartonioJunior.Trinkets
 
             return true;
         }
-
+        /**
+        <inheritdoc />
+        */
         public ICollection<IResourceData> Search(Predicate<IResourceData> predicate)
         {
             var results = new List<IResourceData>();
