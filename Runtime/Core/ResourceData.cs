@@ -17,7 +17,7 @@ namespace MartonioJunior.Trinkets
         /**
         <inheritdoc cref="IResourceData.Resource" />
         */
-        [SerializeField] IResource resource;
+        [SerializeReference] IResource resource;
         /**
         <inheritdoc cref="IResourceData.Amount" />
         */
@@ -59,6 +59,10 @@ namespace MartonioJunior.Trinkets
         }
         #endregion
         #region Methods
+        /**
+        <summary>Captures the correct resource reference to use.</summary>
+        <returns>The resource reference to be used.</returns>
+        */
         private IResource Get()
         {
             if (_resource != null) {
@@ -67,7 +71,10 @@ namespace MartonioJunior.Trinkets
                 return resource;
             }
         }
-
+        /**
+        <summary>Sets the amount of a resource inside the ResourceData.</summary>
+        <param name="amount">The amount received to set the parameter.</param>
+        */
         private void SetAmount(int amount)
         {
             if (IsQuantifiable(Get())) {
@@ -76,7 +83,10 @@ namespace MartonioJunior.Trinkets
                 this.amount = 1;
             }
         }
-
+        /**
+        <summary>Sets the correct reference based on the resource type.</summary>
+        <param name="item">Value to be set.</param>
+        */
         private void SetResource(IResource item)
         {
             if (item is Resource r) {
@@ -91,7 +101,12 @@ namespace MartonioJunior.Trinkets
                 amount = 1;
             }
         }
-
+        /**
+        <summary>Checks if a resource can be counted.</summary>
+        <param name="item">Resource to be checked.</param>
+        <returns><c>true</c> when the resource can be counted.
+        <c>false</c> when the resource cannot be counted.</returns>
+        */
         private bool IsQuantifiable(IResource item)
         {
             return item?.Quantifiable ?? true;
