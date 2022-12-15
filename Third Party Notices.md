@@ -1,1 +1,4 @@
-Currently, there are no 3rd-party dependencies to the project
+# Dependencies
+
+## Unit Tests
+- NSubstitute
