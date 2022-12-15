@@ -19,16 +19,26 @@ namespace MartonioJunior.Trinkets
 
     public static partial class IResourceRemoverExtensions
     {
+        /**
+        <summary>Removes a range of resources.</summary>
+        <param name="self">The extended object.</param>
+        <param name="array">Collection of items to remove.</param>
+        */
         public static void RemoveRange(this IResourceRemover self, params IResourceData[] array)
         {
             foreach(var item in array) self.Remove(item);   
         }
-
+        /**
+        <param name="collection">Collection of items to remove</param>
+        <inheritdoc cref="IResourceRemoverExtensions.RemoveRange(IResourceRemover, IResourceData[])"/>
+        */
         public static void RemoveRange(this IResourceRemover self, ICollection<IResourceData> collection)
         {
             foreach(var item in collection) self.Remove(item);
         }
-
+        /**
+        <inheritdoc cref="IResourceRemoverExtensions.RemoveRange(IResourceRemover, ICollection{IResourceData})"/>
+        */
         public static void RemoveRange(this IResourceRemover self, ICollection<ResourceData> collection)
         {
             foreach(var item in collection) self.Remove(item);
