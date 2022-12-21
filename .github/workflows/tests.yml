@@ -46,7 +46,7 @@ jobs:
       - name: Clone custom NSubstitute test dependency
         uses: GuillaumeFalourd/clone-github-repo-action@v2
         with:
-          owner: 'AAulicino'
+          owner: 'MartonioJunior'
           repository: 'Unity3D-NSubstitute'
 
       - name: Move Repository to Packages
