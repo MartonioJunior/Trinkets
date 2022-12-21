@@ -43,10 +43,10 @@ jobs:
           mkdir -p ${{ matrix.projectPath }}/Packages
       
       # Add and Configure Dependencies
-      - name: Clone Thundernerd/Unity3D-NSubstitute test dependency
+      - name: Clone custom NSubstitute test dependency
         uses: GuillaumeFalourd/clone-github-repo-action@v2
         with:
-          owner: 'Thundernerd'
+          owner: 'AAulicino'
           repository: 'Unity3D-NSubstitute'
 
       - name: Move Repository to Packages
