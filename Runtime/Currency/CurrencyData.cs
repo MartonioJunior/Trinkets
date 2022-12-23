@@ -50,6 +50,7 @@ namespace MartonioJunior.Trinkets.Currencies
             set => currencyRateValue = Mathf.Max(0, value);
         }
         /**
+        <remarks>Currencies always return <c>true</c>.</remarks>
         <inheritdoc />
         */
         public override bool Quantifiable => true;
@@ -57,7 +58,7 @@ namespace MartonioJunior.Trinkets.Currencies
         #region Methods
         /**
         <summary>Returns a visual description of the currency</summary>
-        <returns>The currency's details."</returns>
+        <returns>A string containing the name and symbol of the currency.</returns>
         <example>A <c>CurrencyData</c> named "Coin" with the Symbol "g" returns
         "Coin (g)"</example>
         */
@@ -67,6 +68,10 @@ namespace MartonioJunior.Trinkets.Currencies
         }
         #endregion
         #region Operators
+        /**
+        <summary>Creates a <c>ResourceData</c> by multiplying a currency with
+        an integer.</summary>
+        */
         public static ResourceData operator *(CurrencyData lhs, int rhs)
         {
             return new ResourceData(lhs, rhs);

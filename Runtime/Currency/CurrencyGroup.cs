@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using System.Text;
 
 namespace MartonioJunior.Trinkets.Currencies
 {
@@ -15,6 +14,12 @@ namespace MartonioJunior.Trinkets.Currencies
         <summary>Collection responsible to store the amounts for each currency.</summary>
         */
         [SerializeField] Dictionary<ICurrency, int> contents = new Dictionary<ICurrency, int>();
+        #endregion
+        #region Constructors
+        /**
+        <summary>Creates a new empty group of currencies.</summary>
+        */
+        public CurrencyGroup() {}
         #endregion
         #region IResourceGroup Implementation
         /**

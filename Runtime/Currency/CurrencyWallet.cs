@@ -44,14 +44,14 @@ namespace MartonioJunior.Trinkets.Currencies
             group.Clear();
         }
         /**
-        <inheritdoc cref="CollectableGroup.Remove(IResourceData)" />
+        <inheritdoc cref="CurrencyGroup.Remove(IResourceData)" />
         */
         public override bool Remove(IResourceData data)
         {
             return group.Remove(data);
         }
         /**
-        <inheritdoc cref="CollectableGroup.Search(Predicate{IResourceData})" />
+        <inheritdoc cref="CurrencyGroup.Search(Predicate{IResourceData})" />
         */
         public override ICollection<IResourceData> Search(Predicate<IResourceData> predicate)
         {

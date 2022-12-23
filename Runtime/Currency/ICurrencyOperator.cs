@@ -3,7 +3,7 @@ using UnityEngine;
 namespace MartonioJunior.Trinkets.Currencies
 {
     /**
-    <summary>Interface which describes the basic currency operations.</summary>
+    <summary>Interface which describes operations that can only be made with currencies.</summary>
     */
     public interface ICurrencyOperator
     {
