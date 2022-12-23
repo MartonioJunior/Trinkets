@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 7cc39067e5a8d448da9623185b2dc0fa
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - wallet: {instanceID: 0}
+  - displayCell: {fileID: 4498377313661056651, guid: 7f504aef182444a7ca4c2fb9e1367398, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

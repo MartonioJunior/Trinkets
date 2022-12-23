@@ -73,5 +73,9 @@ To start using Trinkets in your project, follow these X steps:
 
 3. And there ya go, it's already part of your project.
 
+You can also check out one of the samples listed below:
+
+* Inventory: Shows how Trinkets can be used in a simple collection game (Requires Unity's Third-Person Character Controller)
+
 # Considerations
 This project is in a preview phase, where I'm discovering what works and what doesn't before moving into the next steps, making breaking changes to the API along the way until the scope is perfected to 1.0.0. The project is already usable in the current state, but please note that upgrading into a newer version is likely to have breaking changes. Feel free to drop an issue or feedback about the project in the Issues Tab.

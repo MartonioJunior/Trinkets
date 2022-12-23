@@ -3,12 +3,19 @@
   "displayName": "Trinkets",
   "version": "0.0.4",
   "unity": "2021.3",
-  "description": "Trinkets offers a new architecture based on ScriptableObjects for the implementation of in-game resources like collectables and currencies.\nFor more details, please check out the Documentation and Samples (coming soon).",
+  "description": "Trinkets offers a new architecture based on ScriptableObjects for the implementation of in-game resources like collectables and currencies.\nFor more details, please check out the Documentation (coming soon) and Samples.",
   "dependencies": {},
   "author": {
     "name": "Martônio Júnior",
     "url": "https://github.com/martoniojunior"
   },
+  "samples": [
+    {
+      "displayName": "Inventory",
+      "description": "Quick inventory system to use with Trinkets. Perfect for learning the basics of the package. Uses Unity's third-person character controller as a dependency.",
+      "path": "Samples~/Inventory"
+    }
+  ],
   "repository": "https://github.com/MartonioJunior/Trinkets.git",
   "license": "MIT",
   "type": "tool"
