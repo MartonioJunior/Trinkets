@@ -12,7 +12,7 @@ namespace MartonioJunior.Trinkets
         /**
         <summary>ScriptableObject instancing method which automatically detects the
         variable type.</summary>
-        <param name="obj">The newly instanced ScriptableObject.</obj>
+        <param name="obj">Newly instanced ScriptableObject.</param>
         */
         public static void Instance<T>(out T obj) where T: ScriptableObject
         {

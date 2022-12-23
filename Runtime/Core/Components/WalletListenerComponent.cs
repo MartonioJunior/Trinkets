@@ -51,7 +51,7 @@ namespace MartonioJunior.Trinkets
         /**
         <summary>Instruction used to determine the timeframe between loops.</summary>
         */
-        YieldInstruction YieldUpdate = new WaitForSeconds(UpdateTime);
+        YieldInstruction WaitForNextUpdate = new WaitForSeconds(UpdateTime);
         /**
         <summary>Coroutine responsible for updating the state of the component.</summary>
         */
@@ -62,7 +62,7 @@ namespace MartonioJunior.Trinkets
                 OnAmountChange.Invoke(amount);
                 OnPresenceUpdate.Invoke(amount > 0);
 
-                yield return new WaitForSeconds(UpdateTime);
+                yield return WaitForNextUpdate;
             }
         }
         #endregion

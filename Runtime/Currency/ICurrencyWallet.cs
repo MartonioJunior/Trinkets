@@ -7,7 +7,9 @@ namespace MartonioJunior.Trinkets.Currencies
     {
         
     }
-
+    /**
+    <summary>Extension class for <c>ICurrencyWallet</c></summary>
+    */
     public static partial class ICurrencyWalletExtensions
     {
         /**

@@ -23,7 +23,8 @@ namespace MartonioJunior.Trinkets
         #endregion
         #region MonoBehaviour Lifecycle
         /**
-        <summary>Function called when a object enters the trigger area.</summary>
+        <summary>OnTriggerEnter is called when a collider enters the trigger.</summary>
+        <param name="other">The other Collider involved in this collision.</param>
         */
         void OnTriggerEnter(Collider other)
         {
@@ -32,7 +33,8 @@ namespace MartonioJunior.Trinkets
             }
         }
         /**
-        <summary>Function called when a object exits the trigger area.</summary>
+        <summary>OnTriggerExit is called when a collider has stopped touching the trigger.</summary>
+        <param name="other">The other Collider involved in this collision.</param>
         */
         void OnTriggerExit(Collider other)
         {

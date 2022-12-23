@@ -7,7 +7,9 @@ namespace MartonioJunior.Trinkets.Collectables
     {
         
     }
-
+    /**
+    <summary>Extension class for <c>ICollectableWallet</c></summary>
+    */
     public static partial class ICollectableWalletExtensions
     {
         /**

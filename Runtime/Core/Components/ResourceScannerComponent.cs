@@ -5,21 +5,27 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.Trinkets
 {
+    /**
+    <summary>Component which scans wallets based on a specified criteria.</summary>
+    <remarks>When taxing is enabled, the scanner can also remove resources.</remarks>
+    */
     [AddComponentMenu("Trinkets/Resource Scanner")]
     public class ResourceScannerComponent: MonoBehaviour, IResourceScanner
     {
         #region Variables
         /**
-        <inheritdoc cref="CollectableScanner.TaxGroupOnScan" />
+        <inheritdoc cref="IResourceScanner.TaxGroupOnScan" />
         */
         [SerializeField] bool taxWallet;
         /**
         <summary>List of resource requirements for the Scan operation.</summary>
+        <remarks>When taxing is enabled, it's also used as the parameter for removing
+        resources.</remarks>
         */
         [field: SerializeField] public List<ResourceData> Data {get; private set;} = new List<ResourceData>();
         /**
-        <summary>Wallet where the resources collected by scanning
-        will be stored.</summary>
+        <summary>Wallet where the resources collected by scanning will be
+        stored.</summary>
         <remarks>If no wallet is supplied, the resources will be discarded.</remarks>
         */
         [field: SerializeField] public Wallet Destination {get; set;}
@@ -94,6 +100,7 @@ namespace MartonioJunior.Trinkets
         }
         /**
         <remarks>Uses a <c>Wallet</c> instead to allow for use with events in the Unity inspector.</remarks>
+        <param name="wallet">The wallet to be taxed.</param>
         <inheritdoc cref="ResourceScannerComponent.Tax(IResourceGroup)" />
         */
         public void TaxWallet(Wallet wallet)

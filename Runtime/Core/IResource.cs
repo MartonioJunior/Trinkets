@@ -12,7 +12,9 @@ namespace MartonioJunior.Trinkets
         */
         int Value {get;}
         /**
-        <summary>Defines whether a resource should be counted or not.</summary>
+        <summary>Should the amount of a resource be counted?</summary>
+        <remarks>Return <c>true</c> when the resource can be quantified in numbers.
+        <br/>Return <c>false</c> when the resource should not be counted.</remarks>
         */
         bool Quantifiable {get;}
     }

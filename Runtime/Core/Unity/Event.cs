@@ -31,12 +31,17 @@ namespace MartonioJunior.Trinkets
         }
         #endregion
         #region Operators
+        /**
+        <summary>Registers an action to the <c>Event</c> object.</summary>
+        */
         public static Event operator +(Event lhs, Action rhs)
         {
             lhs.action += rhs;
             return lhs;
         }
-
+        /**
+        <summary>Removes an action from the <c>Event</c> object.</summary>
+        */
         public static Event operator -(Event lhs, Action rhs)
         {
             lhs.action -= rhs;
@@ -73,12 +78,17 @@ namespace MartonioJunior.Trinkets
         }
         #endregion
         #region Operators
+        /**
+        <inheritdoc cref="Event.operator+"/>
+        */
         public static Event<T> operator +(Event<T> lhs, Action<T> rhs)
         {
             lhs.action += rhs;
             return lhs;
         }
-
+        /**
+        <inheritdoc cref="Event.operator-"/>
+        */
         public static Event<T> operator -(Event<T> lhs, Action<T> rhs)
         {
             lhs.action -= rhs;

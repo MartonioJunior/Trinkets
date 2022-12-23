@@ -104,7 +104,7 @@ namespace MartonioJunior.Trinkets
         /**
         <summary>Checks if a resource can be counted.</summary>
         <param name="item">Resource to be checked.</param>
-        <returns><c>true</c> when the resource can be counted.
+        <returns><c>true</c> when the resource can be counted.<br/>
         <c>false</c> when the resource cannot be counted.</returns>
         */
         private bool IsQuantifiable(IResource item)

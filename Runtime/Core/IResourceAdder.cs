@@ -16,7 +16,9 @@ namespace MartonioJunior.Trinkets
         */
         bool Add(IResourceData data);
     }
-
+    /**
+    <summary>Extension class for <c>IResourceAdder</c></summary>
+    */
     public static partial class IResourceAdderExtensions
     {
         /**

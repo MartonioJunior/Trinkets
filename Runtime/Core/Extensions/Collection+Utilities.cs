@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MartonioJunior.Trinkets
 {
+    /**
+    <summary>Extension class for collections.</summary>
+    */
     public static partial class CollectionExtensions
     {
         /**

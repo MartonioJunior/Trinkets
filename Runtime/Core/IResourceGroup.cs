@@ -33,7 +33,7 @@ namespace MartonioJunior.Trinkets
         <summary>Checks the presence of a resource inside any group.</summary>
         <param name="self">The extension object used by the operation.</param>
         <param name="resource">Resource to be checked.</param>
-        <returns><c>true</c> when the resource is present.
+        <returns><c>true</c> when the resource is present.<br/>
         <c>false</c> when the resource is absent.</returns>
         */
         public static bool Contains(this IResourceGroup self, IResource resource)
@@ -85,7 +85,7 @@ namespace MartonioJunior.Trinkets
         <summary>Moves the contents to another group.</summary>
         <param name="self">The extension object used by the operation.</param>
         <param name="group">Destination of the contents.</param>
-        <returns><c>true</c> when the source group has contents.
+        <returns><c>true</c> when the source group has contents.<br/>
         <c>false</c> when the source group is empty.</returns>
         */
         public static bool Transfer(this IResourceGroup self, IResourceGroup group)

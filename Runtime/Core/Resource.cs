@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace MartonioJunior.Trinkets
 {
+    /**
+    <summary>Abstract implementation of an in-game resource via ScriptableObject.</summary>
+    */
     public abstract class Resource: ScriptableObject, IResource
     {
         #region Variables

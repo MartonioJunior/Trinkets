@@ -13,12 +13,15 @@ namespace MartonioJunior.Trinkets
         */
         bool TaxGroupOnScan {get; set;}
     }
-
+    /**
+    <summary>Extension class for <c>IResourceScanner</c></summary>
+    */
     public static partial class IResourceScannerExtensions
     {
         /**
         <summary>Checks whether a group fulfills the specified criteria
         of a <cref>IResourceScanner</cref></summary>
+        <param name="self">The extension object used by the operation.</param>
         <param name="group">The group to be scanned.</param>
         <returns><c>true</c> when the group passes a scan.<br/>
         <c>false</c> when the group does not fulfill the criteria.</returns>

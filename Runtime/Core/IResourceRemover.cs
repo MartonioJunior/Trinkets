@@ -16,7 +16,9 @@ namespace MartonioJunior.Trinkets
         */
         bool Remove(IResourceData data);
     }
-
+    /**
+    <summary>Extension class for <c>IResourceRemover</c></summary>
+    */
     public static partial class IResourceRemoverExtensions
     {
         /**
