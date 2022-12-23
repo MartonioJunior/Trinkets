@@ -15,13 +15,6 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         public const string DefaultCategoryName = "Unnamed Category";
         #endregion
-        #region Variables
-        /**
-        <summary>List of collectables that belong to the category.</summary>
-        <remarks>Currently only receives initialized collectables.</remarks>
-        */
-        [SerializeField, HideInInspector] List<ICollectable> elements = new List<ICollectable>();
-        #endregion
         #region IResource Implementation
         /**
         <inheritdoc />
