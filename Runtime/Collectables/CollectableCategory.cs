@@ -11,7 +11,8 @@ namespace MartonioJunior.Trinkets.Collectables
     public class CollectableCategory: Resource, ICollectableCategory
     {
         #region Constants
-        /** <summary>Default Name used when the name of a <c>CollectableCategory</c> is empty or null.</summary>
+        /**
+        <summary>Default Name used when the name of a <c>CollectableCategory</c> is empty or null.</summary>
         */
         public const string DefaultCategoryName = "Unnamed Category";
         #endregion
@@ -39,7 +40,7 @@ namespace MartonioJunior.Trinkets.Collectables
         #region Methods
         /**
         <summary>Returns a visual description of the category</summary>
-        <returns>The category's name"</returns>
+        <returns>A string containing the category's name with the identifier "(Collectable Category)".</returns>
         <example>A <c>CollectableCategory</c> named "Lollipop" returns "Lollipop (Collectable Category)"</example>
         */
         public override string ToString()

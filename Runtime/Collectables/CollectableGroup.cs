@@ -21,6 +21,12 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         Dictionary<ICollectableCategory, List<ICollectable>> contents = new Dictionary<ICollectableCategory, List<ICollectable>>();
         #endregion
+        #region Constructor
+        /**
+        <summary>Creates a new empty group of collectables.</summary>
+        */
+        public CollectableGroup() {}
+        #endregion
         #region IResourceGroup Implementation
         /**
         <summary>Adds a collectable to the group.</summary>
@@ -147,6 +153,12 @@ namespace MartonioJunior.Trinkets.Collectables
         }
         #endregion
         #region Methods
+        /**
+        <summary>Returns a number indicating if a collectable is present in the collection.</summary>
+        <param name="collectable">The supplied collectable to be searched.</param>
+        <returns>1 when the collectable is present.
+        <br/>0 when the collectable is not present.</returns>
+        */
         private int GetAmountFor(ICollectable collectable)
         {
             ICollectableCategory category = collectable.Category;
@@ -162,7 +174,7 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <summary>Allows to search for collectables inside a specified list.</summary>
         <param name="predicate">The function used as a filter.</param>
-        <param name="list">The list of collectables.</param>
+        <param name="list">The list of collectables to be scanned.</param>
         <returns>An array of collectables.</returns>
         */
         private IResourceData[] ListSearch(Predicate<IResourceData> predicate, List<ICollectable> list)

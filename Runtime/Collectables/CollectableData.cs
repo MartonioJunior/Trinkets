@@ -84,12 +84,19 @@ namespace MartonioJunior.Trinkets.Collectables
         }
         #endregion
         #region Methods
+        /**
+        <summary>Returns a textual representation of the collectable</summary>
+        <returns>A string containing the collectable's name and it's respective category.</returns>
+        */
         public override string ToString()
         {
             return $"{name}({Category?.Name})";
         }
         #endregion
         #region Operators
+        /**
+        <summary>Casts the collectable into a <c>ResourceData</c> object.</summary>
+        */
         public static implicit operator ResourceData(CollectableData data)
         {
             return new ResourceData(data);

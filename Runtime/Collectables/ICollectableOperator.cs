@@ -3,7 +3,7 @@ using UnityEngine;
 namespace MartonioJunior.Trinkets.Collectables
 {
     /**
-    <summary>Interface which describes all operations with collectables.</summary>
+    <summary>Interface which describes all operations only possible with collectables.</summary>
     */
     public interface ICollectableOperator
     {

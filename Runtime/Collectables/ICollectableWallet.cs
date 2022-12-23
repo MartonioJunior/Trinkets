@@ -24,8 +24,8 @@ namespace MartonioJunior.Trinkets.Collectables
         /**
         <summary>Adds a collectable to the wallet</summary>
         <param name="self">The extension object used by the operation.</param>
-        <param name="collectable">The collectable to be added.</param>
-        <returns>Wallet where the collectable was added.</returns>
+        <param name="collectables">The list of collectables to be added.</param>
+        <returns>Wallet where the collectables were added in.</returns>
         */
         public static ICollectableWallet With(this ICollectableWallet self, params ICollectable[] collectables)
         {
