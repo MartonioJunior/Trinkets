@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using MartonioJunior.Trinkets.Collectables;
 using MartonioJunior.Trinkets;
+using NSubstitute;
 
 namespace Tests.MartonioJunior.Trinkets.Collectables
 {
@@ -12,166 +13,125 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         #region Constants
         private const string CollectableName = "Unique Item";
         private const string CategoryName = "Food";
-        private CollectableCategory Category;
-        private CollectableWallet Wallet;
         private Sprite CollectableIcon;
-        private Sprite CategoryIcon;
         #endregion
         #region ScrobTestModel Implementation
-        public override void CreateTestContext()
-        {
-            EngineScrob.Instance(out Category);
-            EngineScrob.Instance(out Wallet);
-
-            CategoryIcon = Sprite.Create(Texture2D.grayTexture, new Rect(), Vector2.zero);
-            CollectableIcon = Sprite.Create(Texture2D.grayTexture, new Rect(), Vector2.zero);
-
-            Category.Name = CategoryName;
-            Category.Image = CategoryIcon;
-            
-            base.CreateTestContext();
-        }
-
-        public override void ConfigureValues()
-        {
-            modelReference.name = CollectableName;
-            modelReference.Image = CollectableIcon;
-            modelReference.Category = Category;
-        }
-
-        public override void DestroyTestContext()
-        {
-            base.DestroyTestContext();
-
-            ScriptableObject.DestroyImmediate(Category);
-            ScriptableObject.DestroyImmediate(Wallet);
-            Sprite.DestroyImmediate(CollectableIcon);
-            Sprite.DestroyImmediate(CategoryIcon);
-
-            Category = null;
-            Wallet = null;
-        }
+        public override void ConfigureValues() {}
         #endregion
         #region Method Tests
-        [Test]
-        public void Category_ReturnsCategoryOfCollectable()
+        public static IEnumerable UseCases_Category()
         {
-            Assert.AreEqual(Category, modelReference.Category);
+            using (var mock = new Mock()) {
+                yield return new object[]{ mock.Category("Empty"), false };
+            }
+            yield return new object[]{ Substitute.For<ICollectableCategory>(), true };
+            yield return new object[]{ null, false };
         }
-
-        [Test]
-        public void Category_SetReplacesCategory()
+        [TestCaseSource(nameof(UseCases_Category))]
+        public void Category_ReturnsCategoryOfCollectable(ICollectableCategory input, bool shouldFail)
         {
-            EngineScrob.Instance(out CollectableCategory OtherCategory);
-            modelReference.Category = OtherCategory;
+            modelReference.Category = input;
 
-            Assert.False(Category.Contains(modelReference));
-            Assert.True(OtherCategory.Contains(modelReference));
-            ScriptableObject.DestroyImmediate(OtherCategory);
+            var category = modelReference.Category;
+
+            if(shouldFail) {
+                Assert.That(category, Is.Null);
+            } else {
+                Assert.That(category, Is.EqualTo(input));
+            }
         }
 
         [Test]
         public void Collect_InsertsCollectableIntoWallet()
         {
-            modelReference.Collect(Wallet);
+            var wallet = Mock.CollectableWallet;
 
-            Assert.True(Wallet.Contains(modelReference));
+            modelReference.Collect(wallet);
+
+            Assert.True(wallet.Contains(modelReference));
         }
 
         [Test]
-        public void Image_ReturnsIconForDisplayImage()
+        public void Image_ReturnsIconForDisplayImage([Values] bool collectableHasImage, [Values] bool categoryHasImage)
         {
-            Assert.AreEqual(CollectableIcon, modelReference.Image);
+            var spriteImage = Mock.Sprite;
+            var categoryImage = Mock.Sprite;
+
+            var category = Mock.Category("Test");
+            category.Image = null;
+
+            modelReference.Category = category;
+
+            if (categoryHasImage) category.Image = categoryImage;
+            if (collectableHasImage) modelReference.Image = spriteImage;
+
+            if (collectableHasImage) {
+                Assert.AreEqual(spriteImage, modelReference.Image);
+            } else if (categoryHasImage) {
+                Assert.AreEqual(categoryImage, modelReference.Image);
+            } else {
+                Assert.Null(modelReference.Image);
+            }
+        }
+
+        [TestCase("Tunic", "t_203", "Clothes", "Tunic (Clothes)")]
+        [TestCase("", "s_849", "Dress", "s_849 (Dress)")]
+        [TestCase("", "k_189", "", "k_189 ("+CollectableData.EmptyCategory+")")]
+        [TestCase(null, "", "Equipment", " (Equipment)")]
+        [TestCase(null, null, "", " ("+CollectableData.EmptyCategory+")")]
+        [TestCase(null, null, null, " ("+CollectableData.EmptyCategory+")")]
+        public void Name_ReturnsDisplayNameOfCollectable(string collectableName, string objectName, string categoryName, string output)
+        {
+            modelReference.Name = collectableName;
+            modelReference.name = objectName;
+            if (!string.IsNullOrEmpty(categoryName))
+                modelReference.Category = Mock.Category(categoryName);
+
+            Assert.AreEqual(output, modelReference.Name);
         }
 
         [Test]
-        public void Image_ReturnsIconForCategoryOfCollectableWhenDisplayImageIsNull()
+        public void Quantifiable_IsFalseForCollectables()
         {
-            modelReference.Image = null;
-            Assert.AreEqual(CategoryIcon, modelReference.Image);
+            Assert.False(modelReference.Quantifiable);
+        }
+
+        [TestCase("f_934", "Item", "f_934(Item)")]
+        [TestCase("", "Potion", "(Potion)")]
+        [TestCase("key_94", "", "key_94()")]
+        [TestCase(null, "", "()")]
+        public void ToString_ReturnsCollectableNameAndCategory(string objectName, string categoryName, string output)
+        {
+            modelReference.name = objectName;
+            if (!string.IsNullOrEmpty(categoryName)) modelReference.Category = Mock.Category(categoryName);
+
+            Assert.AreEqual(output, modelReference.ToString());
         }
 
         [Test]
-        public void Image_ReturnsNullWhenCategoryAndDisplayImageNotSet()
+        public void Value_AlwaysHasOneAsValue([Random(-10000,10000,1)] int input)
         {
-            modelReference.Image = null;
-            modelReference.Category = null;
-            Assert.Null(modelReference.Category);
-        }
+            modelReference.Value = input;
 
-        [Test]
-        public void Name_ReturnsDisplayNameOfCollectable()
-        {
-            const string NewName = "Tunic";
-            modelReference.Name = NewName;
-            Assert.AreEqual(NewName, modelReference.Name);
-        }
-
-        [Test]
-        public void Name_ReturnsObjectNameAndCategoryNameForCollectable()
-        {
-            Assert.AreEqual($"{CollectableName} ({Category.Name})", modelReference.Name);
-        }
-
-        [Test]
-        public void Name_ChangesNameOfCollectable()
-        {
-            const string NewName = "Lollipop";
-            modelReference.Name = NewName;
-
-            Assert.AreEqual(NewName, modelReference.Name);
-        }
-
-        [Test]
-        public void Setup_AddsCategoryIfSet()
-        {
-            Category.Remove(modelReference);
-            modelReference.Setup();
-
-            Assert.True(Category.Contains(modelReference));
-        }
-
-        [Test]
-        public void TearDown_RemovesCategoryIfSet()
-        {
-            modelReference.TearDown();
-
-            Assert.False(Category.Contains(modelReference));
-        }
-
-        [Test]
-        public void ToString_ReturnsCollectableNameAndCategory()
-        {
-            Assert.AreEqual($"{CollectableName}({CategoryName})", modelReference.ToString());
-        }
-
-        [Test]
-        public void Value_HasOneAsTheDefaultValue()
-        {
             Assert.AreEqual(1, modelReference.Value);
         }
 
         [Test]
-        public void Value_CannotBeAlteredByDefault()
+        public void WasCollectedBy_ChecksWhenCollectableIsInSuppliedWallet([Values] bool inWallet)
         {
-            const int NewValue = 6;
-            modelReference.Value = NewValue;
+            var wallet = Mock.CollectableWallet;
+            if (inWallet) wallet.Add((ResourceData)modelReference);
 
-            Assert.AreNotEqual(NewValue, modelReference.Value);
+            Assert.AreEqual(inWallet, modelReference.WasCollectedBy(wallet));
         }
 
         [Test]
-        public void WasCollectedBy_ReturnsTrueWhenCollectableInWallet()
+        public void Cast_ResourceData_ReturnsValueForResource()
         {
-            Wallet.Add(modelReference);
+            var result = (ResourceData)modelReference;
 
-            Assert.True(modelReference.WasCollectedBy(Wallet));
-        }
-
-        [Test]
-        public void WasCollectedBy_ReturnsFalseWhenCollectableNotOnWallet()
-        {
-            Assert.False(modelReference.WasCollectedBy(Wallet));
+            Assert.AreEqual(modelReference, result.Resource);
+            Assert.AreEqual(1, result.Amount);
         }
         #endregion
     }

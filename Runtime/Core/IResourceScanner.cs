@@ -1,33 +1,36 @@
 namespace MartonioJunior.Trinkets
 {
     /**
-    <summary>Interface used for scanning resources into a wallet</summary>
+    <summary>Interface used for scanning resources into a group</summary>
     */
-    public interface IResourceScanner<T>: IResourceSensor<T>, IResourceTaxer<T> where T: IWallet
+    public interface IResourceScanner: IResourceSensor, IResourceTaxer
     {
         /**
         <summary>Checks whether a scanner is allowed to remove resources from the
-        wallet after a scan operation.</summary>
-        <returns><c>true</c>: Scan removes the resources from a wallet.<br/>
-        <c>false</c>: Scan maintains the wallet's resources intact.</returns>
+        group after a scan operation.</summary>
+        <returns><c>true</c>: Scan removes the resources from a group.<br/>
+        <c>false</c>: Scan maintains the group's resources intact.</returns>
         */
-        bool TaxWalletOnScan {get; set;}
+        bool TaxGroupOnScan {get; set;}
     }
-
+    /**
+    <summary>Extension class for <c>IResourceScanner</c></summary>
+    */
     public static partial class IResourceScannerExtensions
     {
         /**
-        <summary>Checks whether a wallet fulfills the specified criteria
+        <summary>Checks whether a group fulfills the specified criteria
         of a <cref>IResourceScanner</cref></summary>
-        <param name="wallet">The wallet to be scanned.</param>
-        <returns><c>true</c> when the wallet passes a scan.<br/>
-        <c>false</c> when the wallet does not fulfill the criteria.</returns>
+        <param name="self">The extension object used by the operation.</param>
+        <param name="group">The group to be scanned.</param>
+        <returns><c>true</c> when the group passes a scan.<br/>
+        <c>false</c> when the group does not fulfill the criteria.</returns>
         */
-        public static bool Scan<T>(this IResourceScanner<T> self, T wallet) where T: IWallet
+        public static bool Scan(this IResourceScanner self, IResourceGroup group)
         {
-            bool checkIsValid = self.Check(wallet);
-            if (checkIsValid && self.TaxWalletOnScan) {
-                self.Tax(wallet);
+            bool checkIsValid = self.Check(group);
+            if (checkIsValid && self.TaxGroupOnScan) {
+                self.Tax(group);
             }
             return checkIsValid;
         }

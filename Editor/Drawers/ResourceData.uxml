@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="contents" style="flex-direction: row;">
+        <uie:ObjectField name="resource" allow-scene-objects="false" style="flex-grow: 3;" />
+        <uie:IntegerField value="1" name="amount" style="flex-grow: 2; -unity-text-align: upper-right;" />
+    </ui:VisualElement>
+</ui:UXML>

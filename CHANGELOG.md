@@ -2,6 +2,14 @@
 
 Based on the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
+## [0.1.0] - 2022-08-28
+### Bug Fixes
+- config.yml: File now has correct extension (e6ff54f)
+- CurrencyComponent: Fixed error on AddTo when passing null wallet as a parameter (a6a97a2)
+
+### Features
+- CurrencyWallet: New method With added (b0b1de3)
+
 ## [0.0.3] - 2022-08-12
 ### Added
 - Wallets now show their contents in the inspector

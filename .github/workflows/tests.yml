@@ -26,9 +26,8 @@ jobs:
         projectPath:
           - Trinkets
         unityVersion:
-          - 2019.4.31f1
-          - 2020.3.31f1
           - 2021.3.0f1
+          - 2022.1.0f1
         targetPlatform:
           # - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
@@ -44,6 +43,15 @@ jobs:
           mkdir -p ${{ matrix.projectPath }}/Packages
       
       # Add and Configure Dependencies
+      - name: Clone custom NSubstitute test dependency
+        uses: GuillaumeFalourd/clone-github-repo-action@v2
+        with:
+          owner: 'MartonioJunior'
+          repository: 'Unity3D-NSubstitute'
+
+      - name: Move Repository to Packages
+        run: |
+          mv Unity3D-NSubstitute ${{ matrix.projectPath }}/Packages/
       
       - name: Check out to Packages/${{ matrix.packageName }}
         uses: actions/checkout@v2
@@ -70,7 +78,7 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           checkName: 'Test Results ${{ matrix.unityVersion }}-${{ matrix.targetPlatform }}'
-          coverageOptions: 'generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+com.martoniojunior.*'
+          coverageOptions: 'generateAdditionalMetrics;generateAdditionalReports;generateHtmlReport;generateBadgeReport;assemblyFilters:+com.martoniojunior.*'
       
       - name: Upload test results
         uses: actions/upload-artifact@v2
@@ -78,3 +86,12 @@ jobs:
         with:
           name: Test results (edit + play, ${{ matrix.unityVersion }}-${{ matrix.targetPlatform }}
           path: ${{ steps.testRunner.outputs.artifactsPath }}
+      
+      - name: Upload XML report to Codecov
+        uses: codecov/codecov-action@v2
+        if: startsWith("2021.3", "${{ matrix.unityVersion }}")
+        with:
+          name: PlayMode
+          flags: automated
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ${{ steps.testRunner.outputs.artifactsPath }}/**/*.xml

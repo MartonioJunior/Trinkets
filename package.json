@@ -9,6 +9,13 @@
     "name": "Martônio Júnior",
     "url": "https://github.com/martoniojunior"
   },
+  "samples": [
+    {
+      "displayName": "Inventory",
+      "description": "Quick inventory system to use with Trinkets. Perfect for learning the basics of the package. Uses Unity's third-person character controller as a dependency.",
+      "path": "Samples~/Inventory"
+    }
+  ],
   "repository": "https://github.com/MartonioJunior/Trinkets.git",
   "license": "MIT",
   "type": "tool"
