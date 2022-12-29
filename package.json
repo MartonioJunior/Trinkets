@@ -1,8 +1,8 @@
 {
   "name": "com.martoniojunior.trinkets",
   "displayName": "Trinkets",
-  "version": "0.1.0",
-  "unity": "2019.4",
+  "version": "0.2.0",
+  "unity": "2021.3",
   "description": "Trinkets offers a new architecture based on ScriptableObjects for the implementation of in-game resources like collectables and currencies.\nFor more details, please check out the Documentation and Samples (coming soon).",
   "dependencies": {},
   "author": {
