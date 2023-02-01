@@ -9,6 +9,7 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets
 {
@@ -25,21 +26,13 @@ namespace Tests.MartonioJunior.Trinkets
             modelReference = null;
         }
         #endregion
-        #region Test Preparation
-        private static IResource MockIResource()
-        {
-            IResource resource = Substitute.For<IResource>();
-            resource.Quantifiable.Returns(true);
-            return resource;
-        }
-        #endregion
         #region Method Tests
         public static IEnumerable UseCases_Add()
         {
             bool fixValues = true;
-            IResource resource = MockIResource();
-            int positiveValue = Parameter.Range(1,10000, defaultValue: 9, fixValues);
-            int negativeValue = Parameter.Range(-10000,-1, defaultValue: -45, fixValues);
+            IResource resource = Mock.IResource(true);
+            int positiveValue = Range(1,10000, defaultValue: 9, fixValues);
+            int negativeValue = Range(-10000,-1, defaultValue: -45, fixValues);
 
             yield return new object[]{ resource, positiveValue, true };
             yield return new object[]{ null, positiveValue, false };
@@ -57,10 +50,10 @@ namespace Tests.MartonioJunior.Trinkets
         public static IEnumerable UseCases_AmountOf()
         {
             bool fixValues = true;
-            IResource resource = MockIResource();
-            var positiveValue = Parameter.Range(1, 10000, defaultValue: 6, fixValues);
-            int negativeValue = Parameter.Range(-10000, -1, defaultValue: -5, fixValues);
-            int anyValue = Parameter.Range(-10000, 10000, defaultValue: 784, fixValues);
+            IResource resource = Mock.IResource(true);
+            var positiveValue = Range(1, 10000, defaultValue: 6, fixValues);
+            int negativeValue = Range(-10000, -1, defaultValue: -5, fixValues);
+            int anyValue = Range(-10000, 10000, defaultValue: 784, fixValues);
 
             yield return new object[]{ resource, positiveValue, positiveValue };
             yield return new object[]{ resource, negativeValue, 0 };
@@ -77,7 +70,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Clear_RemovesAllResourcesFromGroup()
         {
-            modelReference.Add(new ResourceData(ValueSubstitute(out IResource resource), 8));
+            modelReference.Add(new ResourceData(Substitute(out IResource resource), 8));
 
             modelReference.Clear();
 
@@ -88,10 +81,10 @@ namespace Tests.MartonioJunior.Trinkets
         {
             bool fixValues = true;
             const int Limit = 10000;
-            var initialValue = Parameter.Range(1, Limit, defaultValue: 32, fixValues);
-            var lowerAmount = Parameter.Range(1, initialValue, defaultValue: 21, fixValues);
-            var higherAmount = Parameter.Range(initialValue, Limit, defaultValue: 65, fixValues);
-            var anyValue = Parameter.Range(-Limit, Limit, defaultValue: -89, fixValues);
+            var initialValue = Range(1, Limit, defaultValue: 32, fixValues);
+            var lowerAmount = Range(1, initialValue, defaultValue: 21, fixValues);
+            var higherAmount = Range(initialValue, Limit, defaultValue: 65, fixValues);
+            var anyValue = Range(-Limit, Limit, defaultValue: -89, fixValues);
 
             yield return new object[]{ initialValue, lowerAmount, true, initialValue-lowerAmount};
             yield return new object[]{ initialValue, higherAmount, true, 0 };
@@ -102,7 +95,7 @@ namespace Tests.MartonioJunior.Trinkets
         [TestCaseSource(nameof(UseCases_Remove))]
         public void Remove_DeletesResourceFromGroup(int? input, int removeAmount, bool operationResult, int finalValue)
         {
-            IResource resource = MockIResource();
+            IResource resource = Mock.IResource(true);
             if (input is int startAmount) modelReference.Add(new ResourceData(resource, startAmount));
 
             Assert.AreEqual(operationResult, modelReference.Remove(new ResourceData(resource, removeAmount)));
@@ -111,8 +104,8 @@ namespace Tests.MartonioJunior.Trinkets
 
         public static IEnumerable UseCases_Search()
         {
-            var emptySource = Parameter.Array<ResourceData>(0, null);
-            var validSource = Parameter.Array<ResourceData>(10, Mock.Currencies);
+            var emptySource = Array<ResourceData>(0, null);
+            var validSource = Array<ResourceData>(10, Mock.Currencies);
 
             Predicate<IResourceData> predicate = (item) => item.Amount > 1000;
             List<ResourceData> filteredData = new List<ResourceData>();

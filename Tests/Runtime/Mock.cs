@@ -7,56 +7,25 @@ using Object = UnityEngine.Object;
 
 namespace Tests
 {
-    public partial class Mock: IDisposable
+    public static partial class Mock
     {
         #region Variables
-        protected List<Object> objectList;
-        private bool disposedValue;
+        private static readonly List<Object> objectList = new List<Object>();
         #endregion
-        #region Constructors
-        public Mock()
+        #region Properties
+        #endregion
+        #region Static Methods
+        public static void Clear()
         {
-            objectList = new List<Object>();
-        }
-        #endregion
-        #region Mock Types
-        public Sprite Sprite {
-            get {
-                var sprite = Sprite.Create(Texture2D.grayTexture, new Rect(), Vector2.zero);
-                objectList.Add(sprite);
-                return sprite;
-            }
+            objectList.ForEach(Object.DestroyImmediate);
+            objectList.Clear();
         }
 
-        public GameObject GameObject(string name)
+        public static void Register(Object obj)
         {
-            var gameObject = new GameObject(name+"-Mock");
-            objectList.Add(gameObject);
-            return gameObject;
-        }
-        #endregion
-        #region IDisposable Implementation
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    objectList.ForEach(Object.DestroyImmediate);
-                    objectList.Clear();
-                }
+            if (obj == null) return;
 
-                
-                objectList = null;
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            objectList.Add(obj);
         }
         #endregion
     }

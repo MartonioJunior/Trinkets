@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using MartonioJunior.Trinkets;
 using NSubstitute;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets
 {
@@ -16,7 +17,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Wallet_ReturnsDataSourceForComponent()
         {
-            modelReference.Wallet = ValueSubstitute(out Wallet wallet);
+            modelReference.Wallet = Substitute(out Wallet wallet);
 
             Assert.AreEqual(wallet, modelReference.Wallet);
         }
@@ -24,7 +25,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Resource_ReturnsElementToLookFor()
         {
-            modelReference.Resource = ValueSubstitute(out Resource resource);
+            modelReference.Resource = Substitute(out Resource resource);
 
             Assert.AreEqual(resource, modelReference.Resource);
         }
@@ -34,17 +35,17 @@ namespace Tests.MartonioJunior.Trinkets
         {
             const int CheckValue = -1;
             var wait = new WaitForSeconds(WalletListenerComponent.UpdateTime);
-            var expectedValue = Parameter.Range(1,10000, defaultValue: 5);
+            var expectedValue = Range(1,10000, defaultValue: 5);
             int eventValue = CheckValue;
             modelReference.OnAmountChange += (amount) => eventValue = amount;
             yield return null;
 
             Assert.AreEqual(CheckValue, eventValue);
-            modelReference.Wallet = ValueSubstitute(out Wallet wallet);
+            modelReference.Wallet = Substitute(out Wallet wallet);
             yield return wait;
 
             Assert.Zero(eventValue);
-            modelReference.Resource = ValueSubstitute(out Resource resource);
+            modelReference.Resource = Substitute(out Resource resource);
             wallet.AmountOf(resource).Returns(expectedValue);
             yield return wait;
 
@@ -55,17 +56,17 @@ namespace Tests.MartonioJunior.Trinkets
         public IEnumerator Start_AlwaysInvokesOnPresenceUpdateEvent()
         {
             var wait = new WaitForSeconds(WalletListenerComponent.UpdateTime);
-            var expectedValue = Parameter.Range(1,10000, defaultValue: 5);
+            var expectedValue = Range(1,10000, defaultValue: 5);
             bool? eventValue = null;
             modelReference.OnPresenceUpdate += (isPresent) => eventValue = isPresent;
             yield return null;
 
             Assert.Null(eventValue);
-            modelReference.Wallet = ValueSubstitute(out Wallet wallet);
+            modelReference.Wallet = Substitute(out Wallet wallet);
             yield return wait;
 
             Assert.False(eventValue);
-            modelReference.Resource = ValueSubstitute(out Resource resource);
+            modelReference.Resource = Substitute(out Resource resource);
             wallet.AmountOf(resource).Returns(expectedValue);
             yield return wait;
 

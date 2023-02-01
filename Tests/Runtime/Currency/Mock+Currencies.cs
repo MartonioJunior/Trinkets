@@ -4,15 +4,11 @@ using NSubstitute;
 
 namespace Tests
 {
-    public partial class Mock
+    public static partial class Mock
     {
         #region Mock Types
-        public CurrencyWallet CurrencyWallet {
-            get {
-                Engine.Instance(out CurrencyWallet wallet);
-                objectList.Add(wallet);
-                return wallet;
-            }
+        public static CurrencyWallet CurrencyWallet {
+            get => ScriptableObject<CurrencyWallet>();
         }
 
         public static ICurrency ICurrency {
@@ -23,12 +19,11 @@ namespace Tests
             }
         }
 
-        public CurrencyData Currency(string name)
+        public static CurrencyData Currency(string name)
         {
-            Engine.Instance(out CurrencyData currency);
+            ScriptableObject(out CurrencyData currency);
             currency.Name = name;
-            currency.Image = this.Sprite;
-            objectList.Add(currency);
+            currency.Image = Sprite();
             return currency;
         }
         #endregion

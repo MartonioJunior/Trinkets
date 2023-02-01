@@ -9,13 +9,6 @@ namespace Tests
 {
     public abstract class TestModel
     {
-        #region Constants
-        protected const string NotImplemented = "TEST NOT IMPLEMENTED";
-        protected const string IncompleteImplementation = "INCOMPLETE TEST";
-        #endregion
-        #region Variables
-        protected Mock Mock;
-        #endregion
         #region Abstract
         public abstract void CreateTestContext();
         public abstract void DestroyTestContext();
@@ -24,7 +17,6 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
-            Mock = new Mock();
             CreateTestContext();
         }
 
@@ -32,19 +24,7 @@ namespace Tests
         public void TearDown()
         {
             DestroyTestContext();
-            Mock.Dispose();
-        }
-
-        public T Value<T>(T value, out T output)
-        {
-            output = value;
-            return value;
-        }
-
-        public T ValueSubstitute<T>(out T output) where T: class
-        {
-            output = Substitute.For<T>();
-            return output;
+            Mock.Clear();
         }
         #endregion
     }

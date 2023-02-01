@@ -2,35 +2,30 @@ using MartonioJunior.Trinkets;
 using MartonioJunior.Trinkets.Collectables;
 using NSubstitute;
 using UnityEngine;
+using static Tests.Suite;
 
 namespace Tests
 {
-    public partial class Mock
+    public static partial class Mock
     {
         #region Mock Types
-        public CollectableWallet CollectableWallet {
-            get {
-                Engine.Instance(out CollectableWallet wallet);
-                objectList.Add(wallet);
-                return wallet;
-            }
+        public static CollectableWallet CollectableWallet {
+            get => Mock.ScriptableObject<CollectableWallet>();
         }
 
-        public CollectableCategory Category(string name)
+        public static CollectableCategory Category(string name)
         {
-            Engine.Instance(out CollectableCategory category);
+            Mock.ScriptableObject(out CollectableCategory category);
             category.Name = name;
-            category.Image = this.Sprite;
-            objectList.Add(category);
+            category.Image = Mock.Sprite();
             return category;
         }
 
-        public CollectableData Collectable(string name)
+        public static CollectableData Collectable(string name)
         {
-            Engine.Instance(out CollectableData collectable);
+            Mock.ScriptableObject(out CollectableData collectable);
             collectable.Name = name;
-            collectable.Image = this.Sprite;
-            objectList.Add(collectable);
+            collectable.Image = Mock.Sprite();
             return collectable;
         }
         #endregion

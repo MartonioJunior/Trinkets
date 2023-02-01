@@ -9,6 +9,7 @@ using MartonioJunior.Trinkets.Collectables;
 using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets
 {
@@ -37,7 +38,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Source_ReturnsWalletWhichReceivesTheResources()
         {
-            modelReference.Source = ValueSubstitute(out CurrencyWallet wallet);
+            modelReference.Source = Substitute(out CurrencyWallet wallet);
 
             Assert.AreEqual(wallet, modelReference.Source);
         }
@@ -45,7 +46,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void AddTo_InsertsResourcesIntoGroup([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ResourceData[] input)
         {
-            var group = Substitute.For<IResourceGroup>();
+            Substitute(out IResourceGroup group);
             modelReference.enabled = enabled;
             modelReference.Data.AddRange(input);
 
@@ -65,7 +66,7 @@ namespace Tests.MartonioJunior.Trinkets
         public void AddTo_InvokesOnCollectedEventWhenResourceIsAdded([Values] bool enabled)
         {
             var wasCalled = false;
-            var group = Substitute.For<IResourceGroup>();
+            Substitute(out IResourceGroup group);
 
             modelReference.enabled = enabled;
             modelReference.OnCollected += () => wasCalled = true;
@@ -78,8 +79,8 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void AddTo_TakesAwayResourcesFromSuppliedWallet([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            ValueSubstitute(out IResourceGroup group);
-            ValueSubstitute(out Wallet wallet);
+            Substitute(out IResourceGroup group);
+            Substitute(out Wallet wallet);
 
             modelReference.enabled = enabled;
             modelReference.Data.AddRange(data);
@@ -97,7 +98,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void AddToWallet_WorksTheSameAsAddTo([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            ValueSubstitute(out Wallet wallet);
+            Substitute(out Wallet wallet);
             modelReference.enabled = enabled;
             modelReference.Data.AddRange(data);
 

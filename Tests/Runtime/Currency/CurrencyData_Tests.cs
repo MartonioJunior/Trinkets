@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using MartonioJunior.Trinkets.Currencies;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets.Currencies
 {
@@ -15,7 +16,7 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         [Test]
         public void Image_ReturnsIconOfResource()
         {
-            modelReference.Image = Value(Mock.Sprite, out var Icon);
+            modelReference.Image = Value(Mock.Sprite(), out var Icon);
 
             Assert.AreEqual(Icon, modelReference.Image);
         }

@@ -5,6 +5,7 @@ using UnityEngine.TestTools;
 using MartonioJunior.Trinkets;
 using NSubstitute;
 using System.Collections.Generic;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets
 {
@@ -13,7 +14,7 @@ namespace Tests.MartonioJunior.Trinkets
         #region TestModel Implementation
         public override void CreateTestContext()
         {
-            modelReference = Substitute.For<IResourceGroup>();
+            modelReference = Substitute<IResourceGroup>();
         }
 
         public override void DestroyTestContext()
@@ -24,7 +25,7 @@ namespace Tests.MartonioJunior.Trinkets
         #region Method Tests
         public static IEnumerable UseCases_Contains()
         {
-            var array = Parameter.Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
+            var array = Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
             var validItem = array[0];
             var invalidItem = new ResourceData();
 
@@ -45,7 +46,7 @@ namespace Tests.MartonioJunior.Trinkets
 
         public static IEnumerable UseCases_Join()
         {
-            var array = Parameter.Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
+            var array = Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
             var overlapArray = array.Clone() as ResourceData[];
             for(int i = 1; i < overlapArray.Length; i+=2) {
                 overlapArray[i].Amount *= 2;
@@ -72,7 +73,7 @@ namespace Tests.MartonioJunior.Trinkets
 
         public static IEnumerable UseCases_Overlap()
         {
-            var array = Parameter.Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
+            var array = Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
             var empty = new ResourceData[0];
 
             yield return new object[]{ array[0..4], array[4..6], empty };
@@ -95,7 +96,7 @@ namespace Tests.MartonioJunior.Trinkets
 
         public static IEnumerable UseCases_Transfer()
         {
-            var array = Parameter.Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
+            var array = Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
             var overlapArray = array.Clone() as ResourceData[];
             for(int i = 1; i < overlapArray.Length; i+=2) {
                 overlapArray[i].Amount *= 2;
@@ -123,7 +124,7 @@ namespace Tests.MartonioJunior.Trinkets
 
         public static IEnumerable UseCases_Unique()
         {
-            var array = Parameter.Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
+            var array = Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
             var empty = new ResourceData[0];
 
             yield return new object[]{ array[0..4], array[4..6], array[0..4] };

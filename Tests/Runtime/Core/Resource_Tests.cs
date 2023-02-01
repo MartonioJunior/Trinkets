@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using MartonioJunior.Trinkets;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets
 {
@@ -17,7 +18,7 @@ namespace Tests.MartonioJunior.Trinkets
         public override void ConfigureValues()
         {
             modelReference.defaultName = DefaultName;
-            modelReference.defaultImage = Value(Mock.Sprite, out DefaultSprite);
+            modelReference.defaultImage = Value(Mock.Sprite(), out DefaultSprite);
         }
         #endregion
         #region Method Tests
@@ -41,7 +42,7 @@ namespace Tests.MartonioJunior.Trinkets
                 Assert.AreEqual(output, modelReference.Image);
             }
 
-            var AnySprite = Mock.Sprite;
+            var AnySprite = Mock.Sprite();
 
             Verify(AnySprite, AnySprite);
             Verify(null, DefaultSprite);

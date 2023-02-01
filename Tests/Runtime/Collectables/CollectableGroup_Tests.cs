@@ -8,6 +8,7 @@ using NSubstitute;
 using System.Collections.Generic;
 using System;
 using Random = UnityEngine.Random;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets.Collectables
 {
@@ -27,7 +28,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         #region Method Tests
         public static IEnumerable UseCases_Add()
         {
-            yield return new object[]{ Substitute.For<ICollectable>(), true, false };
+            yield return new object[]{ Substitute<ICollectable>(), true, false };
             yield return new object[]{ null, false, false };
         }
         [TestCaseSource(nameof(UseCases_Add))]
@@ -42,16 +43,16 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         public static IEnumerable UseCases_AddFrom()
         {
             bool fixValues = true;
-            var anyValue = Parameter.Range(-10000,10000, defaultValue: 983, fixValues);
-            int arraySize = Parameter.Range(1, 10, defaultValue: 3, fixValues);
-            int negativeValue = Parameter.Range(-10000, -1, defaultValue: -384, fixValues);
-            int smallerValue = Parameter.Range(0, arraySize-1, defaultValue: 2, fixValues);
-            int greaterValue = Parameter.Range(arraySize, 10, defaultValue: 6, fixValues);
+            var anyValue = Range(-10000,10000, defaultValue: 983, fixValues);
+            int arraySize = Range(1, 10, defaultValue: 3, fixValues);
+            int negativeValue = Range(-10000, -1, defaultValue: -384, fixValues);
+            int smallerValue = Range(0, arraySize-1, defaultValue: 2, fixValues);
+            int greaterValue = Range(arraySize, 10, defaultValue: 6, fixValues);
 
-            yield return new object[]{ Parameter.Array<ResourceData>(0, null), anyValue, 0 };
-            yield return new object[]{ Parameter.Array<ResourceData>(arraySize, Mock.Collectables), negativeValue, 0};
-            yield return new object[]{ Parameter.Array<ResourceData>(arraySize, Mock.Collectables), smallerValue, smallerValue };
-            yield return new object[]{ Parameter.Array<ResourceData>(arraySize, Mock.Collectables), greaterValue, arraySize};
+            yield return new object[]{ Array<ResourceData>(0, null), anyValue, 0 };
+            yield return new object[]{ Array<ResourceData>(arraySize, Mock.Collectables), negativeValue, 0};
+            yield return new object[]{ Array<ResourceData>(arraySize, Mock.Collectables), smallerValue, smallerValue };
+            yield return new object[]{ Array<ResourceData>(arraySize, Mock.Collectables), greaterValue, arraySize};
         }
         [TestCaseSource(nameof(UseCases_AddFrom))]
         public void AddFrom_InsertResourcesFromSourceIntoGroup(ICollection<ResourceData> sourceData, int amountToAdd, int amountAdded)
@@ -70,7 +71,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
         public static IEnumerable UseCases_AmountOf()
         {
-            yield return new object[]{ Substitute.For<ICollectable>(), Random.Range(-10000,10000), 1 };
+            yield return new object[]{ Substitute<ICollectable>(), Random.Range(-10000,10000), 1 };
             yield return new object[]{ null, Random.Range(-10000,10000), 0 };
         }
         [TestCaseSource(nameof(UseCases_AmountOf))]
@@ -84,7 +85,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         [Test]
         public void Clear_RemovesAllResourcesFromGroup()
         {
-            modelReference.Add(new ResourceData(ValueSubstitute(out ICollectable collectable)));
+            modelReference.Add(new ResourceData(Substitute(out ICollectable collectable)));
 
             modelReference.Clear();
 
@@ -93,8 +94,8 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
         public static IEnumerable UseCases_Remove()
         {
-            var collectableA = Substitute.For<ICollectable>();
-            var collectableB = Substitute.For<ICollectable>();
+            var collectableA = Substitute<ICollectable>();
+            var collectableB = Substitute<ICollectable>();
 
             yield return new object[]{ collectableA, collectableA, true, false };
             yield return new object[]{ collectableA, collectableB, false, true };
@@ -118,13 +119,13 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             bool fixValues = true;
             var sizeA = 10;
             var sizeB = 6;
-            var listA = Parameter.Array<ResourceData>(sizeA, Mock.Collectables);
-            var listB = Parameter.Array<ResourceData>(sizeB, Mock.Collectables);
+            var listA = Array<ResourceData>(sizeA, Mock.Collectables);
+            var listB = Array<ResourceData>(sizeB, Mock.Collectables);
 
-            var overlapAmount = Parameter.Range(0, Mathf.Min(sizeA,sizeB), defaultValue: 5, fixValues);
-            var anyAmount = Parameter.Range(-10000, 10000, defaultValue: -728, fixValues);
-            var amountInOverlapRange = Parameter.Range(0, overlapAmount, defaultValue: 3, fixValues);
-            var amountInListRange = Parameter.Range(0, sizeA, defaultValue: 8, fixValues);
+            var overlapAmount = Range(0, Mathf.Min(sizeA,sizeB), defaultValue: 5, fixValues);
+            var anyAmount = Range(-10000, 10000, defaultValue: -728, fixValues);
+            var amountInOverlapRange = Range(0, overlapAmount, defaultValue: 3, fixValues);
+            var amountInListRange = Range(0, sizeA, defaultValue: 8, fixValues);
             var higherAmount = sizeA+sizeB;
 
             for(int i = 0; i < overlapAmount; i++) listB[i] = listA[i];
@@ -157,8 +158,8 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
         public static IEnumerable UseCases_Search()
         {
-            var emptySource = Parameter.Array<ResourceData>(0, null);
-            var filledSource = Parameter.Array<ResourceData>(Random.Range(1,10), Mock.Collectables);
+            var emptySource = Array<ResourceData>(0, null);
+            var filledSource = Array<ResourceData>(Random.Range(1,10), Mock.Collectables);
 
             Predicate<IResourceData> predicate = (item) => item.Amount == 1;
             List<ResourceData> filteredData = new List<ResourceData>();

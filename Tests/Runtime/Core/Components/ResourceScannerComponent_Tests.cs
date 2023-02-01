@@ -7,6 +7,7 @@ using MartonioJunior.Trinkets.Currencies;
 using NSubstitute;
 using MartonioJunior.Trinkets.Collectables;
 using System.Collections.Generic;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets
 {
@@ -46,7 +47,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Destination_DefinesWalletToReceiveTaxedResources()
         {
-            modelReference.Destination = ValueSubstitute(out Wallet wallet);
+            modelReference.Destination = Substitute(out Wallet wallet);
             
             Assert.AreEqual(wallet, modelReference.Destination);
         }
@@ -54,10 +55,10 @@ namespace Tests.MartonioJunior.Trinkets
         public static IEnumerable UseCases_Check()
         {
             var empty = new ResourceData[0];
-            var list = Parameter.Array<ResourceData>(Random.Range(4,10), Mock.MixCurrenciesAndCollectables);
+            var list = Array<ResourceData>(Random.Range(4,10), Mock.MixCurrenciesAndCollectables);
             var insufficient = new ResourceData[3]{ list[0], list[2], list[list.Length-1] };
             var sufficient = list;
-            var anything = Parameter.Array<ResourceData>(Random.Range(1,20), Mock.MixCurrenciesAndCollectables);
+            var anything = Array<ResourceData>(Random.Range(1,20), Mock.MixCurrenciesAndCollectables);
 
             yield return new object[]{ true, empty, anything, true };
             yield return new object[]{ true, list, insufficient, false };
@@ -115,7 +116,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Tax_RemovesResourceFromTheWallet([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            ValueSubstitute(out IResourceGroup group);
+            Substitute(out IResourceGroup group);
             modelReference.Data.AddRange(data);
 
             modelReference.Tax(group);
@@ -126,10 +127,10 @@ namespace Tests.MartonioJunior.Trinkets
         public static IEnumerable UseCases_ScanWallet()
         {
             var empty = new ResourceData[0];
-            var list = Parameter.Array<ResourceData>(Random.Range(4,10), Mock.Collectables);
+            var list = Array<ResourceData>(Random.Range(4,10), Mock.Collectables);
             var insufficient = new ResourceData[3]{ list[0], list[2], list[list.Length-1] };
             var sufficient = list;
-            var anything = Parameter.Array<ResourceData>(Random.Range(1,20), Mock.Collectables);
+            var anything = Array<ResourceData>(Random.Range(1,20), Mock.Collectables);
 
             yield return new object[]{ true, empty, anything, true };
             yield return new object[]{ true, list, insufficient, false };
@@ -154,7 +155,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void TaxWallet_WorksTheSameAsTax([ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            ValueSubstitute(out IResourceGroup group);
+            Substitute(out IResourceGroup group);
             modelReference.Data.AddRange(data);
 
             modelReference.Tax(group);

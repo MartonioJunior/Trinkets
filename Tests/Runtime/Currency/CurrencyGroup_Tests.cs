@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using MartonioJunior.Trinkets;
 using NSubstitute;
 using Random = UnityEngine.Random;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets.Currencies
 {
@@ -85,7 +86,7 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         [Test]
         public void Clear_RemovesAllEntriesFromGroup()
         {
-            modelReference.Add(new ResourceData(ValueSubstitute(out ICurrency currency), 8));
+            modelReference.Add(new ResourceData(Substitute(out ICurrency currency), 8));
 
             modelReference.Clear();
 
@@ -133,8 +134,8 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
 
         public static IEnumerable UseCases_Search()
         {
-            var emptySource = Parameter.Array<ResourceData>(0, null);
-            var validSource = Parameter.Array<ResourceData>(10, Mock.Currencies);
+            var emptySource = Array<ResourceData>(0, null);
+            var validSource = Array<ResourceData>(10, Mock.Currencies);
 
             Predicate<IResourceData> predicate = (item) => item.Amount > 1000;
             List<ResourceData> filteredData = new List<ResourceData>();

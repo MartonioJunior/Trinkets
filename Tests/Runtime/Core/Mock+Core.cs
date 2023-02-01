@@ -4,6 +4,7 @@ using MartonioJunior.Trinkets.Collectables;
 using UnityEngine;
 using NSubstitute;
 using System.Collections;
+using static Tests.Suite;
 
 namespace Tests
 {
@@ -29,16 +30,23 @@ namespace Tests
         #region Test Cases
         public static IEnumerable ResourceDataCases()
         {
-            yield return Parameter.Array<ResourceData>(0, null);
-            yield return Parameter.Array<ResourceData>(Random.Range(1,10), Currencies);
-            yield return Parameter.Array<ResourceData>(Random.Range(1,10), Collectables);
-            yield return Parameter.Array<ResourceData>(Random.Range(1,10), MixCurrenciesAndCollectables);
+            yield return Array<ResourceData>(0, null);
+            yield return Array<ResourceData>(Random.Range(1,10), Currencies);
+            yield return Array<ResourceData>(Random.Range(1,10), Collectables);
+            yield return Array<ResourceData>(Random.Range(1,10), MixCurrenciesAndCollectables);
         }
         #endregion
         #region Generators
+        public static IResource IResource(bool quantifiable)
+        {
+            Substitute(out IResource resource);
+            resource.Quantifiable.Returns(true);
+            return resource;
+        }
+
         public static ResourceData Collectables(int index = 0)
         {
-            return new ResourceData(Substitute.For<ICollectable>());
+            return new ResourceData(Substitute<ICollectable>());
         }
 
         public static ResourceData Currencies(int index = 0)

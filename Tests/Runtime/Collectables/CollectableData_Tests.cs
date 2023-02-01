@@ -5,6 +5,7 @@ using UnityEngine.TestTools;
 using MartonioJunior.Trinkets.Collectables;
 using MartonioJunior.Trinkets;
 using NSubstitute;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets.Collectables
 {
@@ -21,10 +22,8 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         #region Method Tests
         public static IEnumerable UseCases_Category()
         {
-            using (var mock = new Mock()) {
-                yield return new object[]{ mock.Category("Empty"), false };
-            }
-            yield return new object[]{ Substitute.For<ICollectableCategory>(), true };
+            yield return new object[]{ Mock.Category("Empty"), false };
+            yield return new object[]{ Substitute<ICollectableCategory>(), true };
             yield return new object[]{ null, false };
         }
         [TestCaseSource(nameof(UseCases_Category))]
@@ -34,7 +33,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
             var category = modelReference.Category;
 
-            if(shouldFail) {
+            if (shouldFail) {
                 Assert.That(category, Is.Null);
             } else {
                 Assert.That(category, Is.EqualTo(input));
@@ -54,8 +53,8 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         [Test]
         public void Image_ReturnsIconForDisplayImage([Values] bool collectableHasImage, [Values] bool categoryHasImage)
         {
-            var spriteImage = Mock.Sprite;
-            var categoryImage = Mock.Sprite;
+            var spriteImage = Mock.Sprite();
+            var categoryImage = Mock.Sprite();
 
             var category = Mock.Category("Test");
             category.Image = null;

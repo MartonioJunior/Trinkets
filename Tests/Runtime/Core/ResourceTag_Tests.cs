@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using MartonioJunior.Trinkets;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets
 {
@@ -26,12 +27,12 @@ namespace Tests.MartonioJunior.Trinkets
         public void Image_ReturnsIconOfTag()
         {
             void Verify(Sprite input, Sprite output) {
-                modelReference.Image = Value(Mock.Sprite, out Sprite sprite);
+                modelReference.Image = Value(Mock.Sprite(), out Sprite sprite);
 
                 Assert.AreEqual(sprite, modelReference.Image);
             }
 
-            var AnySprite = Mock.Sprite;
+            var AnySprite = Mock.Sprite();
 
             Verify(AnySprite, AnySprite);
             Verify(null, null);

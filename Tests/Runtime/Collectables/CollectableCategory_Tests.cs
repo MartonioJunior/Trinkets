@@ -4,6 +4,7 @@ using MartonioJunior.Trinkets.Collectables;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets.Collectables
 {
@@ -15,7 +16,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         #region ScrobTestModel Implementation
         public override void ConfigureValues()
         {
-            modelReference.Image = Value(Mock.Sprite, out Sprite);
+            modelReference.Image = Value(Mock.Sprite(), out Sprite);
         }
         #endregion
         #region Method Tests

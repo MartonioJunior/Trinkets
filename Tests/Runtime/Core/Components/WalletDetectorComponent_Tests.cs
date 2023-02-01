@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using MartonioJunior.Trinkets;
 using NSubstitute;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets
 {
@@ -27,10 +28,10 @@ namespace Tests.MartonioJunior.Trinkets
 
             var childGameObject = new GameObject();
             childGameObject.transform.SetParent(gameObject.transform);
-            AttachWalletToGameObject(childGameObject, ValueSubstitute(out Wallet wallet));
+            AttachWalletToGameObject(childGameObject, Substitute(out Wallet wallet));
             AssertCase(gameObject, true, wallet);
 
-            AttachWalletToGameObject(gameObject, ValueSubstitute(out Wallet otherWallet));
+            AttachWalletToGameObject(gameObject, Substitute(out Wallet otherWallet));
             AssertCase(gameObject, true, otherWallet);
 
             GameObject.DestroyImmediate(gameObject);

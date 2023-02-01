@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using MartonioJunior.Trinkets;
 using NSubstitute;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets
 {
@@ -38,7 +39,7 @@ namespace Tests.MartonioJunior.Trinkets
         [TestCaseSource(nameof(UseCases_Constructor))]
         public void Constructor_InitializesWithResourceAndAmount(bool quantifiable, int input, int output)
         {
-            var resource = Substitute.For<IResource>();
+            Substitute<IResource>(out IResource resource);
             resource.Quantifiable.Returns(quantifiable);
 
             modelReference = new ResourceData(resource, input);
@@ -50,7 +51,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Resource_ReturnsResourceReference()
         {
-            modelReference.Resource = ValueSubstitute(out IResource resource);
+            modelReference.Resource = Substitute(out IResource resource);
 
             Assert.AreEqual(resource, modelReference.Resource);
         }
@@ -72,7 +73,7 @@ namespace Tests.MartonioJunior.Trinkets
         [TestCaseSource(nameof(UseCases_Amount))]
         public void Amount_ReturnsQuantityOfItem(bool quantifiable, int input, int output)
         {
-            ValueSubstitute(out IResource resource);
+            Substitute(out IResource resource);
             resource.Quantifiable.Returns(quantifiable);
 
             modelReference.Resource = resource;

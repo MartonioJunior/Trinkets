@@ -6,6 +6,7 @@ using MartonioJunior.Trinkets;
 using System.Collections.Generic;
 using NSubstitute;
 using MartonioJunior.Trinkets.Collectables;
+using static Tests.Suite;
 
 namespace Tests.MartonioJunior.Trinkets
 {
@@ -34,7 +35,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Destination_ReturnsWalletWhichReceivesTaxedResources()
         {
-            modelReference.Destination = ValueSubstitute(out Wallet wallet);
+            modelReference.Destination = Substitute(out Wallet wallet);
 
             Assert.AreEqual(wallet, modelReference.Destination);
         }
@@ -42,8 +43,8 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Tax_AddsRemovedResourcesToSuppliedWallet([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            ValueSubstitute(out IResourceGroup group);
-            ValueSubstitute(out Wallet wallet);
+            Substitute(out IResourceGroup group);
+            Substitute(out Wallet wallet);
             group.Remove(Arg.Any<IResourceData>()).Returns(true);
 
             modelReference.Data.AddRange(data);
@@ -63,7 +64,7 @@ namespace Tests.MartonioJunior.Trinkets
         public void Tax_InvokesOnDrainEventWhenResourcesAreRemoved([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
             var wasCalled = false;
-            var group = Substitute.For<IResourceGroup>();
+            var group = Substitute<IResourceGroup>();
 
             modelReference.Data.AddRange(data);
             modelReference.enabled = enabled;
@@ -77,7 +78,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Tax_RemovesResourcesFromAGroup([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            ValueSubstitute(out IResourceGroup group);
+            Substitute(out IResourceGroup group);
             modelReference.Data.AddRange(data);
             modelReference.enabled = enabled;
 
@@ -93,7 +94,7 @@ namespace Tests.MartonioJunior.Trinkets
         [Test]
         public void Drain_WorksTheSameAsTheTaxMethod([Values] bool enabled, [ValueSource(nameof(ResourceDataCases))] ICollection<ResourceData> data)
         {
-            ValueSubstitute(out Wallet wallet);
+            Substitute(out Wallet wallet);
             modelReference.Data.AddRange(data);
             modelReference.enabled = enabled;
 
