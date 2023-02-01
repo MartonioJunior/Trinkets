@@ -7,7 +7,7 @@ namespace MartonioJunior.Trinkets.Collectables
     /**
     <summary>ScriptableObject which defines a collectable.</summary>
     */
-    [CreateAssetMenu(fileName = "New Collectable", menuName = "Trinkets/Collectable/Data")]
+    [CreateAssetMenu(fileName = "New Collectable", menuName = "Trinkets/Collectable/New Collectable")]
     public class CollectableData: Resource, ICollectable
     {
         #region Constants
