@@ -38,7 +38,9 @@ namespace MartonioJunior.Trinkets
         {
             if (!enabled) return;
 
-            foreach(var item in Data) {
+            if (Destination == null) {
+                group.RemoveRange(Data);
+            } else foreach(var item in Data) {
                 if (group.Remove(item)) {
                     Destination.Add(item);
                 }
