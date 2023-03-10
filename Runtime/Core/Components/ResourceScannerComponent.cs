@@ -14,10 +14,6 @@ namespace MartonioJunior.Trinkets
     {
         #region Variables
         /**
-        <inheritdoc cref="IResourceScanner.TaxGroupOnScan" />
-        */
-        [SerializeField] bool taxWallet;
-        /**
         <summary>List of resource requirements for the Scan operation.</summary>
         <remarks>When taxing is enabled, it's also used as the parameter for removing
         resources.</remarks>
@@ -46,10 +42,7 @@ namespace MartonioJunior.Trinkets
         /**
         <inheritdoc />
         */
-        public bool TaxGroupOnScan {
-            get => taxWallet;
-            set => taxWallet = value;
-        }
+        [field: SerializeField] public bool TaxGroupOnScan {get; set;}
         /**
         <inheritdoc />
         */
@@ -58,7 +51,7 @@ namespace MartonioJunior.Trinkets
             if (!enabled) return false;
 
             foreach(var item in Data) {
-                if (group.AmountOf(item.Resource) < item.Amount) return false;
+                if (!group.Contains(item)) return false;
             }
 
             return true;
