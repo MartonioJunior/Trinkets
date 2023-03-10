@@ -15,6 +15,7 @@ namespace MartonioJunior.Trinkets
         */
         [SerializeField] Resource _resource;
         /**
+        <remarks>Serves as a backup for when the object doesn't inherit from Resource.</remarks>
         <inheritdoc cref="IResourceData.Resource" />
         */
         [SerializeReference] IResource resource;
@@ -111,6 +112,12 @@ namespace MartonioJunior.Trinkets
         {
             return item?.Quantifiable ?? true;
         }
+        #endregion
+        #region Operators
+        public static ResourceData operator +(ResourceData lhs, int rhs) => new ResourceData(lhs.Resource, lhs.Amount + rhs);
+        public static ResourceData operator -(ResourceData lhs, int rhs) => new ResourceData(lhs.Resource, lhs.Amount - rhs);
+        public static ResourceData operator *(ResourceData lhs, int rhs) => new ResourceData(lhs.Resource, lhs.Amount * rhs);
+        public static ResourceData operator /(ResourceData lhs, int rhs) => new ResourceData(lhs.Resource, lhs.Amount / rhs);
         #endregion
     }
 }
