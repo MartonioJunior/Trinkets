@@ -26,24 +26,19 @@ namespace MartonioJunior.Trinkets
         <param name="self">The extension object used by the operation.</param>
         <param name="array">Collection of items to remove.</param>
         */
-        public static void RemoveRange(this IResourceRemover self, params IResourceData[] array)
+        public static void Remove(this IResourceRemover self, params IResourceData[] array)
         {
-            foreach(var item in array) self.Remove(item);   
+            self.RemoveRange(array);   
         }
         /**
-        <param name="collection">Collection of items to remove</param>
-        <inheritdoc cref="IResourceRemoverExtensions.RemoveRange(IResourceRemover, IResourceData[])"/>
+        <param name="itemsToRemove">Collection of items to remove</param>
+        <inheritdoc cref="IResourceRemoverExtensions.Remove(IResourceRemover, IResourceData[])"/>
         */
-        public static void RemoveRange(this IResourceRemover self, ICollection<IResourceData> collection)
+        public static void RemoveRange<T>(this IResourceRemover self, IEnumerable<T> itemsToRemove) where T: IResourceData
         {
-            foreach(var item in collection) self.Remove(item);
-        }
-        /**
-        <inheritdoc cref="IResourceRemoverExtensions.RemoveRange(IResourceRemover, ICollection{IResourceData})"/>
-        */
-        public static void RemoveRange(this IResourceRemover self, ICollection<ResourceData> collection)
-        {
-            foreach(var item in collection) self.Remove(item);
+            if (itemsToRemove == null) return;
+
+            foreach(var item in itemsToRemove) self.Remove(item);
         }
     }
 }
