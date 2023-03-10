@@ -26,28 +26,19 @@ namespace MartonioJunior.Trinkets
         <param name="self">The extension object used by the operation.</param>
         <param name="array">Collection of resources to be added.</param>
         */
-        public static void AddRange(this IResourceAdder self, params IResourceData[] array)
+        public static void Add(this IResourceAdder self, params IResourceData[] array)
         {
-            foreach(var item in array) self.Add(item);   
+            self.AddRange(array);
         }
         /**
-        <param name="collection">Collection of resources to be added.</param>
-        <inheritdoc cref="IResourceAdderExtensions.AddRange(IResourceAdder, IResourceData[])"/>
+        <param name="itemsToAdd">Collection of resources to be added.</param>
+        <inheritdoc cref="IResourceAdderExtensions.Add(IResourceAdder, IResourceData[])"/>
         */
-        public static void AddRange(this IResourceAdder self, ICollection<IResourceData> collection)
+        public static void AddRange<T>(this IResourceAdder self, IEnumerable<T> itemsToAdd) where T: IResourceData
         {
-            if (collection == null) return;
+            if (itemsToAdd == null) return;
 
-            foreach(var item in collection) self.Add(item);
-        }
-        /**
-        <inheritdoc cref="IResourceAdderExtensions.AddRange(IResourceAdder, ICollection{IResourceData})"/>
-        */
-        public static void AddRange(this IResourceAdder self, ICollection<ResourceData> collection)
-        {
-            if (collection == null) return;
-
-            foreach(var item in collection) self.Add(item);
+            foreach(var item in itemsToAdd) self.Add(item);
         }
     }
 }
