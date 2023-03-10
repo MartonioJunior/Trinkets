@@ -33,10 +33,32 @@ namespace MartonioJunior.Trinkets
             }
         }
         /**
+        <summary>Sent when another object enters a trigger collider attached to
+        this object (2D physics only).</summary>
+        <param name="other">The other Collider2D involved in this collision.</param>
+        */
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (GetWallet(other.gameObject, out var wallet)) {
+                OnEnter.Invoke(wallet);
+            }
+        }
+        /**
         <summary>OnTriggerExit is called when a collider has stopped touching the trigger.</summary>
         <param name="other">The other Collider involved in this collision.</param>
         */
         void OnTriggerExit(Collider other)
+        {
+            if (GetWallet(other.gameObject, out var wallet)) {
+                OnExit.Invoke(wallet);
+            }
+        }
+        /**
+        <summary>Sent when another object leaves a trigger collider attached
+        to this object (2D physics only).</summary>
+        <param name="other">The other Collider2D involved in this collision.</param>
+        */
+        void OnTriggerExit2D(Collider2D other)
         {
             if (GetWallet(other.gameObject, out var wallet)) {
                 OnExit.Invoke(wallet);
