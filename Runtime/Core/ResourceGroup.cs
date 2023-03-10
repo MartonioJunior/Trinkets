@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,6 +39,10 @@ namespace MartonioJunior.Trinkets
         /**
         <inheritdoc />
         */
+        public bool IsEmpty => contents.Count == 0;
+        /**
+        <inheritdoc />
+        */
         public bool Add(IResourceData data)
         {
             IResource resource = data.Resource;
@@ -64,6 +69,22 @@ namespace MartonioJunior.Trinkets
         public void Clear()
         {
             contents.Clear();
+        }
+        /**
+        <inheritdoc />
+        */
+        public IEnumerator<IResourceData> GetEnumerator()
+        {
+            foreach(var pair in contents) {
+                yield return new ResourceData(pair.Key, pair.Value);
+            }
+        }
+        /**
+        <inheritdoc />
+        */
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
         /**
         <inheritdoc />

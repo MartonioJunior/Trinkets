@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 
 namespace MartonioJunior.Trinkets.Currencies
 {
@@ -22,6 +23,10 @@ namespace MartonioJunior.Trinkets.Currencies
         public CurrencyGroup() {}
         #endregion
         #region IResourceGroup Implementation
+        /**
+        <inheritdoc />
+        */
+        public bool IsEmpty => contents.Count == 0;
         /**
         <summary>Adds a currency to the group.</summary>
         <inheritdoc />
@@ -57,6 +62,22 @@ namespace MartonioJunior.Trinkets.Currencies
         public void Clear()
         {
             contents.Clear();
+        }
+        /**
+        <inheritdoc />
+        */
+        public IEnumerator<IResourceData> GetEnumerator()
+        {
+            foreach(var pair in contents) {
+                yield return new ResourceData(pair.Key, pair.Value);
+            }
+        }
+        /**
+        <inheritdoc />
+        */
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
         /**
         <summary>Removes a currency from the group.</summary>

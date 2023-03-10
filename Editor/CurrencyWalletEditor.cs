@@ -20,15 +20,13 @@ namespace MartonioJunior.Trinkets.Editor
         {
             base.OnInspectorGUI();
 
-            var currencyList = wallet.All();
-
             var headerStyle = Style.BasedOn(EditorStyles.whiteLargeLabel)
                 .BG(Theme.H1.BGColor).TextColor(Theme.H1.TextColor);
             GUILayout.Label("Contents", headerStyle);
 
-            if (currencyList.Count <= 0) {
+            if (wallet.IsEmpty) {
                 GUILayout.Label("Wallet is Empty");
-            } else foreach(var currency in currencyList) {
+            } else foreach(var currency in wallet) {
                 DisplayCurrency(currency.Resource as ICurrency, currency.Amount);
             }
         }

@@ -21,15 +21,14 @@ namespace MartonioJunior.Trinkets.Editor
         {
             base.OnInspectorGUI();
 
-            var collectableCollection = wallet.All();
-            var categoryQuery = collectableCollection.GroupBy(item => {
+            var categoryQuery = wallet.GroupBy(item => {
                 return (item.Resource as ICollectable)?.Category;
             });
 
             var headerStyle = Style.BasedOn(EditorStyles.whiteLargeLabel)
                 .BG(Theme.H1.BGColor).TextColor(Theme.H1.TextColor);
             GUILayout.Label("Contents", headerStyle);
-            if (collectableCollection.Count <= 0) {
+            if (wallet.IsEmpty) {
                 GUILayout.Label("Wallet is Empty");
                 return;
             } else foreach(var collectableGroup in categoryQuery) {

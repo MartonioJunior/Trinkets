@@ -29,6 +29,10 @@ namespace MartonioJunior.Trinkets.Collectables
         #endregion
         #region IResourceGroup Implementation
         /**
+        <inheritdoc />
+        */
+        public bool IsEmpty => contents.Count == 0;
+        /**
         <summary>Adds a collectable to the group.</summary>
         <param name="data">The collectable to be added.</param>
         <inheritdoc />
@@ -84,6 +88,28 @@ namespace MartonioJunior.Trinkets.Collectables
             contents.Clear();
         }
         /**
+        <inheritdoc />
+        */
+        public IEnumerator<IResourceData> GetEnumerator()
+        {
+            for(var nullEnumerator = nullCategoryCollectables.GetEnumerator(); nullEnumerator.MoveNext();) {
+                yield return new ResourceData(nullEnumerator.Current);
+            }
+
+            foreach(var list in contents.Values) {
+                for(var categoryEnumerator = list.GetEnumerator(); categoryEnumerator.MoveNext();) {
+                    yield return new ResourceData(categoryEnumerator.Current);
+                }
+            }
+        }
+        /**
+        <inheritdoc />
+        */
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        /**
         <summary>Removes a collectable from the group.</summary>
         <param name="data">The collectable to be removed.</param>
         <remarks>When a Collectable Category is supplied with an amount, removes collectables belonging to the category in ascending order of addition.</remarks>
@@ -129,7 +155,7 @@ namespace MartonioJunior.Trinkets.Collectables
             int count = 0;
             var unique = group.Unique(this);
 
-            foreach(var item in unique.All()) {
+            foreach(var item in unique) {
                 if (amount-- <= 0) return count;
                 count += Add(item) ? 1 : 0;
             }
@@ -144,7 +170,7 @@ namespace MartonioJunior.Trinkets.Collectables
             int count = 0;
             var overlap = group.Overlap(this);
 
-            foreach(var item in overlap.All()) {
+            foreach(var item in overlap) {
                 if (amount-- <= 0) return count;
                 count += Remove(item) ? 1: 0;
             }

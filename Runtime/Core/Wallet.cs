@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,12 @@ namespace MartonioJunior.Trinkets
         <inheritdoc />
         */
         public abstract IResourceGroup Contents { get; }
+        #endregion
+        #region IWallet Implementation
+        /**
+        <inheritdoc />
+        */
+        public bool IsEmpty => Contents.IsEmpty;
         /**
         <inheritdoc />
         */
@@ -29,11 +36,25 @@ namespace MartonioJunior.Trinkets
         /**
         <inheritdoc />
         */
+        public IEnumerator<IResourceData> GetEnumerator()
+        {
+            return Contents.GetEnumerator();
+        }
+        /**
+        <inheritdoc />
+        */
         public abstract bool Remove(IResourceData data);
         /**
         <inheritdoc />
         */
         public abstract ICollection<IResourceData> Search(Predicate<IResourceData> predicate);
+        /**
+        <inheritdoc />
+        */
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
         #endregion
     }
 }
