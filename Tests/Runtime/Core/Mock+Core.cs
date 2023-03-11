@@ -40,7 +40,7 @@ namespace Tests
         public static IResource IResource(bool quantifiable)
         {
             Substitute(out IResource resource);
-            resource.Quantifiable.Returns(true);
+            resource.Quantifiable.Returns(quantifiable);
             return resource;
         }
 
