@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 using MartonioJunior.Trinkets;
 using static Tests.Suite;
 
-namespace Tests.MartonioJunior.Trinkets
+namespace Tests.MartonioJunior.Trinkets.Core
 {
     public class Resource_Tests: ScrobTestModel<Mock.MockResource>
     {

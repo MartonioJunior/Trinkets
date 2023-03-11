@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using MartonioJunior.Trinkets;
 
-namespace Tests.MartonioJunior.Trinkets
+namespace Tests.MartonioJunior.Trinkets.Core
 {
     public class IResourceScanner_Tests: TestModel<IResourceScanner>
     {
