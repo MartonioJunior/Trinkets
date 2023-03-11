@@ -13,6 +13,14 @@ namespace Tests
             get => Mock.ScriptableObject<CollectableWallet>();
         }
 
+        public static ICollectable ICollectable {
+            get {
+                var collectable = Substitute<ICollectable>();
+                collectable.Quantifiable.Returns(false);
+                return collectable;
+            }
+        }
+
         public static CollectableCategory Category(string name)
         {
             Mock.ScriptableObject(out CollectableCategory category);
