@@ -26,7 +26,7 @@ namespace MartonioJunior.Trinkets.Editor
 
             if (wallet.IsEmpty) {
                 GUILayout.Label("Wallet is Empty");
-            } else foreach(var currency in wallet) {
+            } else foreach (var currency in wallet) {
                 DisplayCurrency(currency.Resource as ICurrency, currency.Amount);
             }
         }

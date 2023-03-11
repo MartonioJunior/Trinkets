@@ -38,7 +38,7 @@ namespace MartonioJunior.Trinkets
         {
             if (itemsToRemove == null) return;
 
-            foreach(var item in itemsToRemove) self.Remove(item);
+            foreach (var item in itemsToRemove) self.Remove(item);
         }
     }
 }

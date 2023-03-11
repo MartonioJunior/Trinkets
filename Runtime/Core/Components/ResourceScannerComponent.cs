@@ -50,7 +50,7 @@ namespace MartonioJunior.Trinkets
         {
             if (!enabled) return false;
 
-            foreach(var item in Data) {
+            foreach (var item in Data) {
                 if (!group.Contains(item)) return false;
             }
 

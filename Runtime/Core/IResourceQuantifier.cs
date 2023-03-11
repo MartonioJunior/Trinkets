@@ -32,6 +32,8 @@ namespace MartonioJunior.Trinkets
 
         public static bool Contains(this IResourceQuantifier self, IResourceData resourceData)
         {
+            if (resourceData == null) return false;
+
             return self.AmountOf(resourceData.Resource) >= resourceData.Amount;
         }
 
@@ -42,7 +44,8 @@ namespace MartonioJunior.Trinkets
 
         public static bool Contains(this IResourceQuantifier self, int multiplier, params IResourceData[] resources)
         {
-            foreach(var item in resources) {
+            foreach (var item in resources) {
+                if (item == null) continue;
                 if (self.AmountOf(item.Resource) < item.Amount * multiplier) return false;
             }
 

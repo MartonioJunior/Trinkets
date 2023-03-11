@@ -57,7 +57,7 @@ namespace MartonioJunior.Trinkets
         {
             var resultGroup = new ResourceGroup();
 
-            foreach(var item in self) {
+            foreach (var item in self) {
                 var resource = item.Resource;
                 var amount = group.AmountOf(resource);
 
@@ -103,7 +103,7 @@ namespace MartonioJunior.Trinkets
             {
                 var resultList = new List<IResourceData>();
 
-                foreach(var item in sample) {
+                foreach (var item in sample) {
                     var resource = item.Resource;
                     var amount = item.Amount;
                     var groupAmount = group.AmountOf(resource);

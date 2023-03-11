@@ -30,7 +30,7 @@ namespace MartonioJunior.Trinkets
         {
             if (data == null) return;
 
-            foreach(var entry in data) {
+            foreach (var entry in data) {
                 Add(entry);
             }
         }
@@ -75,7 +75,7 @@ namespace MartonioJunior.Trinkets
         */
         public IEnumerator<IResourceData> GetEnumerator()
         {
-            foreach(var pair in contents) {
+            foreach (var pair in contents) {
                 yield return new ResourceData(pair.Key, pair.Value);
             }
         }
@@ -112,7 +112,7 @@ namespace MartonioJunior.Trinkets
         {
             var results = new List<IResourceData>();
 
-            foreach(var pair in contents) {
+            foreach (var pair in contents) {
                 var resourceData = new ResourceData(pair.Key, pair.Value);
                 if (predicate?.Invoke(resourceData) ?? true) results.Add(resourceData);
             }

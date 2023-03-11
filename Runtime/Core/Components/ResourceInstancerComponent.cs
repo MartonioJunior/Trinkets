@@ -40,7 +40,7 @@ namespace MartonioJunior.Trinkets
 
             if (Source == null) {
                 group.AddRange(Data);
-            } else foreach(var item in Data) {
+            } else foreach (var item in Data) {
                 if (Source.Remove(item)) {
                     group.Add(item);
                 }

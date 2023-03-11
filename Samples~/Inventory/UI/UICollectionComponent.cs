@@ -40,7 +40,7 @@ namespace Sample.Inventory
         #region Methods
         private void AddInstances(int amount)
         {
-            for(int i = 1; i < amount; i++) Instance();
+            for (int i = 1; i < amount; i++) Instance();
         }
 
         public UIDisplay FetchCell(int index)
@@ -61,7 +61,7 @@ namespace Sample.Inventory
 
         private void RemoveInstances(int amount)
         {
-            foreach(Transform child in transform) {
+            foreach (Transform child in transform) {
                 if (amount-- <= 0) return;
                 GameObject.Destroy(child.gameObject);
             }
@@ -75,7 +75,7 @@ namespace Sample.Inventory
             int newAmount = DataSource.NumberOfElementsFor(this);
             Resize(newAmount);
 
-            for(int i = 0; i < newAmount; i++) {
+            for (int i = 0; i < newAmount; i++) {
                 DataSource.Populate(this, i);
             }
         }

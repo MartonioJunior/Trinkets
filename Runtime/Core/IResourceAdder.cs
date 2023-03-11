@@ -38,7 +38,7 @@ namespace MartonioJunior.Trinkets
         {
             if (itemsToAdd == null) return;
 
-            foreach(var item in itemsToAdd) self.Add(item);
+            foreach (var item in itemsToAdd) self.Add(item);
         }
     }
 }

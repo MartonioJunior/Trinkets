@@ -92,12 +92,12 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         public IEnumerator<IResourceData> GetEnumerator()
         {
-            for(var nullEnumerator = nullCategoryCollectables.GetEnumerator(); nullEnumerator.MoveNext();) {
+            for (var nullEnumerator = nullCategoryCollectables.GetEnumerator(); nullEnumerator.MoveNext();) {
                 yield return new ResourceData(nullEnumerator.Current);
             }
 
-            foreach(var list in contents.Values) {
-                for(var categoryEnumerator = list.GetEnumerator(); categoryEnumerator.MoveNext();) {
+            foreach (var list in contents.Values) {
+                for (var categoryEnumerator = list.GetEnumerator(); categoryEnumerator.MoveNext();) {
                     yield return new ResourceData(categoryEnumerator.Current);
                 }
             }
@@ -139,7 +139,7 @@ namespace MartonioJunior.Trinkets.Collectables
             var resultList = new List<IResourceData>();
 
             resultList.AddRange(ListSearch(predicate, nullCategoryCollectables));
-            foreach(var list in contents.Values) {
+            foreach (var list in contents.Values) {
                 resultList.AddRange(ListSearch(predicate, list));
             }
 
@@ -155,7 +155,7 @@ namespace MartonioJunior.Trinkets.Collectables
             int count = 0;
             var unique = group.Unique(this);
 
-            foreach(var item in unique) {
+            foreach (var item in unique) {
                 if (amount-- <= 0) return count;
                 count += Add(item) ? 1 : 0;
             }
@@ -170,7 +170,7 @@ namespace MartonioJunior.Trinkets.Collectables
             int count = 0;
             var overlap = group.Overlap(this);
 
-            foreach(var item in overlap) {
+            foreach (var item in overlap) {
                 if (amount-- <= 0) return count;
                 count += Remove(item) ? 1: 0;
             }
@@ -207,7 +207,7 @@ namespace MartonioJunior.Trinkets.Collectables
         {
             var resultList = new List<IResourceData>();
 
-            foreach(var item in list) {
+            foreach (var item in list) {
                 IResourceData data = new ResourceData(item);
                 if (predicate?.Invoke(data) ?? true) {
                     resultList.Add(data);

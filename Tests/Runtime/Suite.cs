@@ -16,7 +16,7 @@ namespace Tests
         public static T[] Array<T>(int size, Func<int, T> generator)
         {
             var result = new T[size];
-            for(int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++) {
                 result[i] = generator.Invoke(i);
             }
             return result;

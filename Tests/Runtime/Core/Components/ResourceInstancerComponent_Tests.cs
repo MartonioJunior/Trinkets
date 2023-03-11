@@ -54,7 +54,7 @@ namespace Tests.MartonioJunior.Trinkets.Components
 
             if (enabled) {
                 group.ReceivedWithAnyArgs(input.Length).Add(default);
-                foreach(var item in input) {
+                foreach (var item in input) {
                     group.Received().Add(item);
                 }
             } else {

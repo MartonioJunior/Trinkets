@@ -139,7 +139,7 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
 
             Predicate<IResourceData> predicate = (item) => item.Amount > 1000;
             List<ResourceData> filteredData = new List<ResourceData>();
-            foreach(var item in validSource)
+            foreach (var item in validSource)
                 if (predicate(item)) filteredData.Add(item);
 
             yield return new object[]{ emptySource, predicate, emptySource };

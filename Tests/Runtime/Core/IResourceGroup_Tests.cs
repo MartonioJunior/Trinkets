@@ -48,7 +48,7 @@ namespace Tests.MartonioJunior.Trinkets
         {
             var array = Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
             var overlapArray = array.Clone() as ResourceData[];
-            for(int i = 1; i < overlapArray.Length; i+=2) {
+            for (int i = 1; i < overlapArray.Length; i+=2) {
                 overlapArray[i].Amount *= 2;
             }
             var empty = new ResourceData[0];
@@ -98,7 +98,7 @@ namespace Tests.MartonioJunior.Trinkets
         {
             var array = Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
             var overlapArray = array.Clone() as ResourceData[];
-            for(int i = 1; i < overlapArray.Length; i+=2) {
+            for (int i = 1; i < overlapArray.Length; i+=2) {
                 overlapArray[i].Amount *= 2;
             }
             var empty = new ResourceData[0];

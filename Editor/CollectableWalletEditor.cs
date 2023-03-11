@@ -31,7 +31,7 @@ namespace MartonioJunior.Trinkets.Editor
             if (wallet.IsEmpty) {
                 GUILayout.Label("Wallet is Empty");
                 return;
-            } else foreach(var collectableGroup in categoryQuery) {
+            } else foreach (var collectableGroup in categoryQuery) {
                 Display(collectableGroup);
             }
             // Display(null);
@@ -45,7 +45,7 @@ namespace MartonioJunior.Trinkets.Editor
             var category = group.Key;
             using (Present.Vertical()) {
                 DisplayCategoryHeader(category);
-                foreach(var collectable in group) {
+                foreach (var collectable in group) {
                     DisplayCollectable(collectable);
                 }
             }

@@ -63,7 +63,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             Assert.AreEqual(amountAdded, modelReference.AddFrom(group, amountToAdd));
 
             int count = 0;
-            foreach(var item in sourceData) {
+            foreach (var item in sourceData) {
                 count += modelReference.Contains(item.Resource) ? 1 : 0;
             }
             Assert.AreEqual(amountAdded, count);
@@ -128,7 +128,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             var amountInListRange = Range(0, sizeA, defaultValue: 8, fixValues);
             var higherAmount = sizeA+sizeB;
 
-            for(int i = 0; i < overlapAmount; i++) listB[i] = listA[i];
+            for (int i = 0; i < overlapAmount; i++) listB[i] = listA[i];
 
             yield return new object[]{ listA, null, anyAmount, 0 };
             yield return new object[]{ null, null, anyAmount, 0 };
@@ -150,7 +150,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             if (modelData == null) return;
 
             int count = 0;
-            foreach(var item in modelData) {
+            foreach (var item in modelData) {
                 count += modelReference.Contains(item.Resource) ? 1 : 0;
             }
             Assert.AreEqual(modelData.Count, count+amountRemoved);
@@ -163,7 +163,7 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
             Predicate<IResourceData> predicate = (item) => item.Amount == 1;
             List<ResourceData> filteredData = new List<ResourceData>();
-            foreach(var item in filledSource)
+            foreach (var item in filledSource)
                 if (predicate(item)) filteredData.Add(item);
 
             yield return new object[]{ emptySource, predicate, emptySource };

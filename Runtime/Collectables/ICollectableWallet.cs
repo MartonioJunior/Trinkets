@@ -31,7 +31,7 @@ namespace MartonioJunior.Trinkets.Collectables
         */
         public static ICollectableWallet With(this ICollectableWallet self, params ICollectable[] collectables)
         {
-            foreach(var collectable in collectables) {
+            foreach (var collectable in collectables) {
                 self.Add(new ResourceData(collectable));
             }
             return self;

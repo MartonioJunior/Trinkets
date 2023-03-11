@@ -68,7 +68,7 @@ namespace MartonioJunior.Trinkets.Currencies
         */
         public IEnumerator<IResourceData> GetEnumerator()
         {
-            foreach(var pair in contents) {
+            foreach (var pair in contents) {
                 yield return new ResourceData(pair.Key, pair.Value);
             }
         }
@@ -108,7 +108,7 @@ namespace MartonioJunior.Trinkets.Currencies
         {
             var list = new List<IResourceData>();
 
-            foreach(var pair in contents) {
+            foreach (var pair in contents) {
                 var data = new ResourceData(pair.Key, pair.Value);
                 if (predicate?.Invoke(data) ?? true) list.Add(data);
             }

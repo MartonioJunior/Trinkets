@@ -25,7 +25,7 @@ namespace Sample.Inventory
         {
             base.CalculateLayoutInputHorizontal();
 
-            for(int index = 0; index < rectChildren.Count; index++) {
+            for (int index = 0; index < rectChildren.Count; index++) {
                 var item = rectChildren[index];
                 var position = GetPositionFor(index);
                 var size = GetSizeFor(index);
