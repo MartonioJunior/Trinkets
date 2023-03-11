@@ -5,7 +5,7 @@ using UnityEngine.TestTools;
 using MartonioJunior.Trinkets;
 using NSubstitute;
 
-namespace Tests.MartonioJunior.Trinkets
+namespace Tests.MartonioJunior.Trinkets.Components
 {
     public class WalletPocketComponent_Tests: ComponentTestModel<WalletPocketComponent>
     {

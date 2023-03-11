@@ -9,7 +9,7 @@ using MartonioJunior.Trinkets.Collectables;
 using System.Collections.Generic;
 using static Tests.Suite;
 
-namespace Tests.MartonioJunior.Trinkets
+namespace Tests.MartonioJunior.Trinkets.Components
 {
     public class ResourceScannerComponent_Tests: ComponentTestModel<ResourceScannerComponent>
     {

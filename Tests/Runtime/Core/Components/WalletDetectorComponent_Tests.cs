@@ -6,7 +6,7 @@ using MartonioJunior.Trinkets;
 using NSubstitute;
 using static Tests.Suite;
 
-namespace Tests.MartonioJunior.Trinkets
+namespace Tests.MartonioJunior.Trinkets.Components
 {
     public class WalletDetectorComponent_Tests: ComponentTestModel<WalletDetectorComponent>
     {

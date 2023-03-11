@@ -8,7 +8,7 @@ using NSubstitute;
 using MartonioJunior.Trinkets.Collectables;
 using static Tests.Suite;
 
-namespace Tests.MartonioJunior.Trinkets
+namespace Tests.MartonioJunior.Trinkets.Components
 {
     public class ResourceDrainerComponent_Tests: ComponentTestModel<ResourceDrainerComponent>
     {

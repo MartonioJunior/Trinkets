@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using static Tests.Suite;
 
-namespace Tests.MartonioJunior.Trinkets
+namespace Tests.MartonioJunior.Trinkets.Components
 {
     public class ResourceInstancerComponent_Tests: ComponentTestModel<ResourceInstancerComponent>
     {
