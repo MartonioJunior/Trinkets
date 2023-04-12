@@ -11,11 +11,11 @@ namespace MartonioJunior.Trinkets
         /**
         <inheritdoc cref="IRepresentable.Image" />
         */
-        [SerializeField] string displayName;
+        [SerializeField] protected string displayName;
         /**
         <inheritdoc cref="IRepresentable.Name" />
         */
-        [SerializeField] Sprite displayIcon;
+        [SerializeField] protected Sprite displayIcon;
         #endregion
         #region Abstract
         /**

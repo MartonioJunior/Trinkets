@@ -17,10 +17,6 @@ namespace MartonioJunior.Trinkets.Currencies
         #endregion
         #region Variables
         /**
-        <inheritdoc cref="ICurrency.Symbol" />
-        */
-        [SerializeField] string symbol;
-        /**
         <summary>The value that a single unit of currency has.</summary>
         <remarks>Useful to make conversions between currencies.</remarks>
         */
@@ -38,10 +34,7 @@ namespace MartonioJunior.Trinkets.Currencies
         /**
         <inheritdoc />
         */
-        public string Symbol {
-            get => symbol;
-            set => symbol = value;
-        }
+        [field: SerializeField] public string Symbol {get; set;}
         /**
         <inheritdoc />
         */
@@ -64,7 +57,7 @@ namespace MartonioJunior.Trinkets.Currencies
         */
         public override string ToString()
         {
-            return $"{Name} ({symbol})";
+            return $"{Name} ({Symbol})";
         }
         #endregion
         #region Operators

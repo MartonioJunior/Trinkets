@@ -18,14 +18,6 @@ namespace MartonioJunior.Trinkets.Collectables
         #endregion
         #region Variables
         /**
-        <summary>The description of the collectable.</summary>
-        */
-        [SerializeField] string displayName;
-        /**
-        <summary>The icon of the collectable.</summary>
-        */
-        [SerializeField] Sprite displayImage;
-        /**
         <inheritdoc cref="ICollectable.Category" />
         */
         [SerializeField] CollectableCategory category;
