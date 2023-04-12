@@ -30,10 +30,10 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         {
             ICurrency currency = Mock.ICurrency;
 
-            yield return new object[]{ currency, Random.Range(1,10000), true };
-            yield return new object[]{ null, Random.Range(1,10000), false };
-            yield return new object[]{ currency, Random.Range(-10000,-1), false };
-            yield return new object[]{ currency, 0, false };
+            yield return new object[]{currency, Range(1,10000), true};
+            yield return new object[]{null, Range(1,10000), false};
+            yield return new object[]{currency, Range(-10000,-1), false};
+            yield return new object[]{currency, 0, false};
         }
         [TestCaseSource(nameof(UseCases_Add))]
         public void Add_InsertResourcesOnGroup(ICurrency currency, int amount, bool output)
@@ -46,11 +46,11 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         public static IEnumerable UseCases_AmountOf()
         {
             ICurrency currency = Mock.ICurrency;
-            var amount = Random.Range(1,10000);
+            var amount = Range(1,10000);
 
-            yield return new object[]{ currency, amount, amount };
-            yield return new object[]{ currency, Random.Range(-10000, -1), 0 };
-            yield return new object[]{ null, Random.Range(-10000,10000), 0 };
+            yield return new object[]{currency, amount, amount};
+            yield return new object[]{currency, Range(-10000, -1), 0};
+            yield return new object[]{null, Range(-10000,10000), 0};
         }
         [TestCaseSource(nameof(UseCases_AmountOf))]
         public void AmountOf_ReturnsAmountOfCurrencyInGroup(ICurrency currency, int input, int output)
@@ -63,14 +63,14 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         public static IEnumerable UseCases_Change()
         {
             const int Limit = 1000;
-            var positiveValue = Random.Range(0, Limit);
-            var changeValue = Random.Range(-positiveValue, Limit);
-            var biggerNegativeValue = Random.Range(-Limit, -positiveValue);
+            var positiveValue = Range(0, Limit);
+            var changeValue = Range(-positiveValue, Limit);
+            var biggerNegativeValue = Range(-Limit, -positiveValue);
 
-            yield return new object[]{ positiveValue, changeValue, positiveValue+changeValue };
-            yield return new object[]{ positiveValue, biggerNegativeValue, 0 };
-            yield return new object[]{ null, positiveValue, positiveValue};
-            yield return new object[]{ null, biggerNegativeValue, 0};
+            yield return new object[]{positiveValue, changeValue, positiveValue+changeValue};
+            yield return new object[]{positiveValue, biggerNegativeValue, 0};
+            yield return new object[]{null, positiveValue, positiveValue};
+            yield return new object[]{null, biggerNegativeValue, 0};
         }
         [TestCaseSource(nameof(UseCases_Change))]
         public void Change_AdjustsValueOfCurrencyInGroupByDelta(int? input, int changeValue, int output)
@@ -96,16 +96,16 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
         public static IEnumerable UseCases_Remove()
         {
             const int Limit = 10000;
-            var initialValue = Random.Range(1,Limit);
-            var lowerAmount = Random.Range(1,initialValue);
-            var higherAmount = Random.Range(initialValue,Limit);
-            var anyValue = Random.Range(-Limit, Limit);
+            var initialValue = Range(1,Limit);
+            var lowerAmount = Range(1,initialValue);
+            var higherAmount = Range(initialValue,Limit);
+            var anyValue = Range(-Limit, Limit);
 
-            yield return new object[]{ initialValue, lowerAmount, true, initialValue-lowerAmount};
-            yield return new object[]{ initialValue, higherAmount, true, 0 };
-            yield return new object[]{ initialValue, -lowerAmount, false, initialValue };
-            yield return new object[]{ initialValue, 0, false, initialValue };
-            yield return new object[]{ null, anyValue, false, 0 };
+            yield return new object[]{initialValue, lowerAmount, true, initialValue-lowerAmount};
+            yield return new object[]{initialValue, higherAmount, true, 0};
+            yield return new object[]{initialValue, -lowerAmount, false, initialValue};
+            yield return new object[]{initialValue, 0, false, initialValue};
+            yield return new object[]{null, anyValue, false, 0};
         }
         [TestCaseSource(nameof(UseCases_Remove))]
         public void Remove_DeletesCurrencyFromGroup(int? input, int removeAmount, bool operationResult, int finalValue)
@@ -142,10 +142,10 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
             foreach (var item in validSource)
                 if (predicate(item)) filteredData.Add(item);
 
-            yield return new object[]{ emptySource, predicate, emptySource };
-            yield return new object[]{ emptySource, null, emptySource };
-            yield return new object[]{ validSource, predicate, filteredData };
-            yield return new object[]{ validSource, null, validSource };
+            yield return new object[]{emptySource, predicate, emptySource};
+            yield return new object[]{emptySource, null, emptySource};
+            yield return new object[]{validSource, predicate, filteredData};
+            yield return new object[]{validSource, null, validSource};
         }
         [TestCaseSource(nameof(UseCases_Search))]
         public void Search_ReturnsArrayOfResultsAligningWithPredicate(ICollection<ResourceData> resources, Predicate<IResourceData> predicate, ICollection<ResourceData> output)

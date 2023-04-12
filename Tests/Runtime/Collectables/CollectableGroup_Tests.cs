@@ -28,8 +28,8 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         #region Method Tests
         public static IEnumerable UseCases_Add()
         {
-            yield return new object[]{ Substitute<ICollectable>(), true, false };
-            yield return new object[]{ null, false, false };
+            yield return new object[]{Substitute<ICollectable>(), true, false};
+            yield return new object[]{null, false, false};
         }
         [TestCaseSource(nameof(UseCases_Add))]
         public void Add_InsertsCollectablesIntoGroup(ICollectable collectable, bool firstOutput, bool secondOutput)
@@ -49,10 +49,10 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             int smallerValue = Range(0, arraySize-1, defaultValue: 2, fixValues);
             int greaterValue = Range(arraySize, 10, defaultValue: 6, fixValues);
 
-            yield return new object[]{ Array<ResourceData>(0, null), anyValue, 0 };
-            yield return new object[]{ Array<ResourceData>(arraySize, Mock.Collectables), negativeValue, 0};
-            yield return new object[]{ Array<ResourceData>(arraySize, Mock.Collectables), smallerValue, smallerValue };
-            yield return new object[]{ Array<ResourceData>(arraySize, Mock.Collectables), greaterValue, arraySize};
+            yield return new object[]{Array<ResourceData>(0, null), anyValue, 0};
+            yield return new object[]{Array<ResourceData>(arraySize, Mock.Collectables), negativeValue, 0};
+            yield return new object[]{Array<ResourceData>(arraySize, Mock.Collectables), smallerValue, smallerValue};
+            yield return new object[]{Array<ResourceData>(arraySize, Mock.Collectables), greaterValue, arraySize};
         }
         [TestCaseSource(nameof(UseCases_AddFrom))]
         public void AddFrom_InsertResourcesFromSourceIntoGroup(ICollection<ResourceData> sourceData, int amountToAdd, int amountAdded)
@@ -71,8 +71,8 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
         public static IEnumerable UseCases_AmountOf()
         {
-            yield return new object[]{ Substitute<ICollectable>(), Random.Range(-10000,10000), 1 };
-            yield return new object[]{ null, Random.Range(-10000,10000), 0 };
+            yield return new object[]{Substitute<ICollectable>(), Range(-10000,10000), 1};
+            yield return new object[]{null, Range(-10000,10000), 0};
         }
         [TestCaseSource(nameof(UseCases_AmountOf))]
         public void AmountOf_ReturnsCollectablePresenceInGroup(ICollectable collectable, int amount, int output)
@@ -97,12 +97,12 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
             var collectableA = Substitute<ICollectable>();
             var collectableB = Substitute<ICollectable>();
 
-            yield return new object[]{ collectableA, collectableA, true, false };
-            yield return new object[]{ collectableA, collectableB, false, true };
-            yield return new object[]{ collectableA, null, false, true };
-            yield return new object[]{ null, collectableA, false, false };
-            yield return new object[]{ null, collectableB, false, false };
-            yield return new object[]{ null, null, false, false };
+            yield return new object[]{collectableA, collectableA, true, false};
+            yield return new object[]{collectableA, collectableB, false, true};
+            yield return new object[]{collectableA, null, false, true};
+            yield return new object[]{null, collectableA, false, false};
+            yield return new object[]{null, collectableB, false, false};
+            yield return new object[]{null, null, false, false};
         }
         [TestCaseSource(nameof(UseCases_Remove))]
         public void Remove_TakesAwayResourcesFromGroup(ICollectable startingCollectable, ICollectable collectableToRemove, bool output, bool stillAvailable)
@@ -130,13 +130,13 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
 
             for (int i = 0; i < overlapAmount; i++) listB[i] = listA[i];
 
-            yield return new object[]{ listA, null, anyAmount, 0 };
-            yield return new object[]{ null, null, anyAmount, 0 };
-            yield return new object[]{ null, listA, anyAmount, 0 };
-            yield return new object[]{ listA, listB, amountInOverlapRange, amountInOverlapRange };
-            yield return new object[]{ listA, listB, higherAmount, overlapAmount };
-            yield return new object[]{ listA, listA, amountInListRange, amountInListRange };
-            yield return new object[]{ listA, listA, higherAmount, sizeA };
+            yield return new object[]{listA, null, anyAmount, 0};
+            yield return new object[]{null, null, anyAmount, 0};
+            yield return new object[]{null, listA, anyAmount, 0};
+            yield return new object[]{listA, listB, amountInOverlapRange, amountInOverlapRange};
+            yield return new object[]{listA, listB, higherAmount, overlapAmount};
+            yield return new object[]{listA, listA, amountInListRange, amountInListRange};
+            yield return new object[]{listA, listA, higherAmount, sizeA};
         }
         [TestCaseSource(nameof(UseCases_RemoveFrom))]
         public void RemoveFrom_RemoveResourcesFromGroupPresentInSource(ICollection<ResourceData> modelData, ICollection<ResourceData> sourceData, int amountToRemove, int amountRemoved)
@@ -159,17 +159,17 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         public static IEnumerable UseCases_Search()
         {
             var emptySource = Array<ResourceData>(0, null);
-            var filledSource = Array<ResourceData>(Random.Range(1,10), Mock.Collectables);
+            var filledSource = Array<ResourceData>(Range(1,10), Mock.Collectables);
 
             Predicate<IResourceData> predicate = (item) => item.Amount == 1;
             List<ResourceData> filteredData = new List<ResourceData>();
             foreach (var item in filledSource)
                 if (predicate(item)) filteredData.Add(item);
 
-            yield return new object[]{ emptySource, predicate, emptySource };
-            yield return new object[]{ emptySource, null, emptySource };
-            yield return new object[]{ filledSource, predicate, filteredData };
-            yield return new object[]{ filledSource, null, filledSource };
+            yield return new object[]{emptySource, predicate, emptySource};
+            yield return new object[]{emptySource, null, emptySource};
+            yield return new object[]{filledSource, predicate, filteredData};
+            yield return new object[]{filledSource, null, filledSource};
         }
         [TestCaseSource(nameof(UseCases_Search))]
         public void Search_ReturnsResourcesWhichFulfillThePredicate(ICollection<ResourceData> resources, Predicate<IResourceData> predicate, ICollection<ResourceData> output)

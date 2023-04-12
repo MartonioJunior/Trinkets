@@ -34,10 +34,10 @@ namespace Tests.MartonioJunior.Trinkets.Core
             int positiveValue = Range(1,10000, defaultValue: 9, fixValues);
             int negativeValue = Range(-10000,-1, defaultValue: -45, fixValues);
 
-            yield return new object[]{ resource, positiveValue, true };
-            yield return new object[]{ null, positiveValue, false };
-            yield return new object[]{ resource, negativeValue, false };
-            yield return new object[]{ resource, 0, false };
+            yield return new object[]{resource, positiveValue, true};
+            yield return new object[]{null, positiveValue, false};
+            yield return new object[]{resource, negativeValue, false};
+            yield return new object[]{resource, 0, false};
         }
         [TestCaseSource(nameof(UseCases_Add))]
         public void Add_InsertsResourcesIntoGroup(IResource resource, int amount, bool output)
@@ -55,9 +55,9 @@ namespace Tests.MartonioJunior.Trinkets.Core
             int negativeValue = Range(-10000, -1, defaultValue: -5, fixValues);
             int anyValue = Range(-10000, 10000, defaultValue: 784, fixValues);
 
-            yield return new object[]{ resource, positiveValue, positiveValue };
-            yield return new object[]{ resource, negativeValue, 0 };
-            yield return new object[]{ null, anyValue, 0 };
+            yield return new object[]{resource, positiveValue, positiveValue};
+            yield return new object[]{resource, negativeValue, 0};
+            yield return new object[]{null, anyValue, 0};
         }
         [TestCaseSource(nameof(UseCases_AmountOf))]
         public void AmountOf_ReturnsQuantityOfResourceInGroup(IResource resource, int input, int output)
@@ -86,11 +86,11 @@ namespace Tests.MartonioJunior.Trinkets.Core
             var higherAmount = Range(initialValue, Limit, defaultValue: 65, fixValues);
             var anyValue = Range(-Limit, Limit, defaultValue: -89, fixValues);
 
-            yield return new object[]{ initialValue, lowerAmount, true, initialValue-lowerAmount};
-            yield return new object[]{ initialValue, higherAmount, true, 0 };
-            yield return new object[]{ initialValue, -lowerAmount, false, initialValue };
-            yield return new object[]{ initialValue, 0, false, initialValue };
-            yield return new object[]{ null, anyValue, false, 0 };
+            yield return new object[]{initialValue, lowerAmount, true, initialValue-lowerAmount};
+            yield return new object[]{initialValue, higherAmount, true, 0};
+            yield return new object[]{initialValue, -lowerAmount, false, initialValue};
+            yield return new object[]{initialValue, 0, false, initialValue};
+            yield return new object[]{null, anyValue, false, 0};
         }
         [TestCaseSource(nameof(UseCases_Remove))]
         public void Remove_DeletesResourceFromGroup(int? input, int removeAmount, bool operationResult, int finalValue)
@@ -112,10 +112,10 @@ namespace Tests.MartonioJunior.Trinkets.Core
             foreach (var item in validSource)
                 if (predicate(item)) filteredData.Add(item);
 
-            yield return new object[]{ emptySource, predicate, emptySource };
-            yield return new object[]{ emptySource, null, emptySource };
-            yield return new object[]{ validSource, predicate, filteredData };
-            yield return new object[]{ validSource, null, validSource };
+            yield return new object[]{emptySource, predicate, emptySource};
+            yield return new object[]{emptySource, null, emptySource};
+            yield return new object[]{validSource, predicate, filteredData};
+            yield return new object[]{validSource, null, validSource};
         }
         [TestCaseSource(nameof(UseCases_Search))]
         public void Search_LooksForResourcesWhichFulfillPredicate(ICollection<ResourceData> resources, Predicate<IResourceData> predicate, ICollection<ResourceData> output)

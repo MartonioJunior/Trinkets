@@ -33,8 +33,8 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
 
         public static IEnumerable UseCases_Value()
         {
-            var positiveAmount = Random.Range(0,1000);
-            var negativeAmount = Random.Range(-1000,-1);
+            var positiveAmount = Range(0,1000);
+            var negativeAmount = Range(-1000,-1);
 
             yield return new object[]{positiveAmount, positiveAmount};
             yield return new object[]{negativeAmount, 0};
@@ -70,11 +70,11 @@ namespace Tests.MartonioJunior.Trinkets.Currencies
 
         public static IEnumerable UseCases_Multiply()
         {
-            var positiveAmount = Random.Range(0,1000);
-            var negativeAmount = Random.Range(-1000,-1);
+            var positiveAmount = Range(0,1000);
+            var negativeAmount = Range(-1000,-1);
 
-            yield return new object[]{ positiveAmount, positiveAmount };
-            yield return new object[]{ negativeAmount, 0 };
+            yield return new object[]{positiveAmount, positiveAmount};
+            yield return new object[]{negativeAmount, 0};
         }
         [TestCaseSource(nameof(UseCases_Multiply))]
         public void Multiply_CurrencyData_int_CreatesResourceData(int input, int output)

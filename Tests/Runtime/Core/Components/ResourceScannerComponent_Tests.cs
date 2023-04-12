@@ -55,15 +55,15 @@ namespace Tests.MartonioJunior.Trinkets.Components
         public static IEnumerable UseCases_Check()
         {
             var empty = new ResourceData[0];
-            var list = Array<ResourceData>(Random.Range(4,10), Mock.MixCurrenciesAndCollectables);
-            var insufficient = new ResourceData[3]{ list[0], list[2], list[list.Length-1] };
+            var list = Array<ResourceData>(Range(4,10), Mock.MixCurrenciesAndCollectables);
+            var insufficient = new ResourceData[3]{list[0], list[2], list[list.Length-1]};
             var sufficient = list;
-            var anything = Array<ResourceData>(Random.Range(1,20), Mock.MixCurrenciesAndCollectables);
+            var anything = Array<ResourceData>(Range(1,20), Mock.MixCurrenciesAndCollectables);
 
-            yield return new object[]{ true, empty, anything, true };
-            yield return new object[]{ true, list, insufficient, false };
-            yield return new object[]{ true, list, sufficient, true };
-            yield return new object[]{ false, anything, anything, false };
+            yield return new object[]{true, empty, anything, true};
+            yield return new object[]{true, list, insufficient, false};
+            yield return new object[]{true, list, sufficient, true};
+            yield return new object[]{false, anything, anything, false};
         }
         [TestCaseSource(nameof(UseCases_Check))]
         public void Check_VerifiesTheContentsInsideOfAGroup(bool enabled, ResourceData[] requirements, ResourceData[] input, bool output)
@@ -127,15 +127,15 @@ namespace Tests.MartonioJunior.Trinkets.Components
         public static IEnumerable UseCases_ScanWallet()
         {
             var empty = new ResourceData[0];
-            var list = Array<ResourceData>(Random.Range(4,10), Mock.Collectables);
-            var insufficient = new ResourceData[3]{ list[0], list[2], list[list.Length-1] };
+            var list = Array<ResourceData>(Range(4,10), Mock.Collectables);
+            var insufficient = new ResourceData[3]{list[0], list[2], list[list.Length-1]};
             var sufficient = list;
-            var anything = Array<ResourceData>(Random.Range(1,20), Mock.Collectables);
+            var anything = Array<ResourceData>(Range(1,20), Mock.Collectables);
 
-            yield return new object[]{ true, empty, anything, true };
-            yield return new object[]{ true, list, insufficient, false };
-            yield return new object[]{ true, list, sufficient, true };
-            yield return new object[]{ false, anything, anything, false };
+            yield return new object[]{true, empty, anything, true};
+            yield return new object[]{true, list, insufficient, false};
+            yield return new object[]{true, list, sufficient, true};
+            yield return new object[]{false, anything, anything, false};
         }
         [TestCaseSource(nameof(UseCases_ScanWallet))]
         public void ScanWallet_IsAVoidVersionOfScan(bool enabled, ResourceData[] requirements, ResourceData[] input, bool output)

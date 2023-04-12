@@ -24,8 +24,8 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         #region Method Tests
         public static IEnumerable UseCases_With()
         {
-            yield return new object[]{ Substitute.For<ICollectable>(), 1 };
-            yield return new object[]{ null, 0 };
+            yield return new object[]{Substitute.For<ICollectable>(), 1};
+            yield return new object[]{null, 0};
         }
         [TestCaseSource(nameof(UseCases_With))]
         public void With_ReturnsWalletWithAddedCollectables(ICollectable collectable, int resultAmount)

@@ -22,10 +22,15 @@ namespace Tests
             return result;
         }
 
+        public static int Range(int minInclusive, int maxInclusive)
+        {
+            return Random.Range(minInclusive, maxInclusive);
+        }
+
         public static int Range(int minInclusive, int maxInclusive, int defaultValue, bool fixedRandom = false)
         {
             if (fixedRandom) return defaultValue;
-            else return Random.Range(minInclusive, maxInclusive);
+            else return Range(minInclusive, maxInclusive);
         }
 
         public static T Substitute<T>() where T: class

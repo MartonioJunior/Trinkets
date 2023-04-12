@@ -22,9 +22,9 @@ namespace Tests.MartonioJunior.Trinkets.Collectables
         #region Method Tests
         public static IEnumerable UseCases_Category()
         {
-            yield return new object[]{ Mock.Category("Empty"), false };
-            yield return new object[]{ Substitute<ICollectableCategory>(), true };
-            yield return new object[]{ null, false };
+            yield return new object[]{Mock.Category("Empty"), false};
+            yield return new object[]{Substitute<ICollectableCategory>(), true};
+            yield return new object[]{null, false};
         }
         [TestCaseSource(nameof(UseCases_Category))]
         public void Category_ReturnsCategoryOfCollectable(ICollectableCategory input, bool shouldFail)

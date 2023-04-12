@@ -58,9 +58,9 @@ namespace Tests.MartonioJunior.Trinkets.Core
 
         public static IEnumerable UseCase_Value()
         {
-            var randomValue = Random.Range(1,1000);
+            var randomValue = Range(1,1000);
 
-            yield return new object[]{ randomValue, randomValue };
+            yield return new object[]{randomValue, randomValue};
         }
         [TestCaseSource(nameof(UseCase_Value))]
         public void Value_ReturnsResourceWorth(int input, int output)

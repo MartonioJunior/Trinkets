@@ -31,9 +31,9 @@ namespace Tests
         public static IEnumerable ResourceDataCases()
         {
             yield return Array<ResourceData>(0, null);
-            yield return Array<ResourceData>(Random.Range(1,10), Currencies);
-            yield return Array<ResourceData>(Random.Range(1,10), Collectables);
-            yield return Array<ResourceData>(Random.Range(1,10), MixCurrenciesAndCollectables);
+            yield return Array<ResourceData>(Range(1,10), Currencies);
+            yield return Array<ResourceData>(Range(1,10), Collectables);
+            yield return Array<ResourceData>(Range(1,10), MixCurrenciesAndCollectables);
         }
         #endregion
         #region Generators
@@ -51,7 +51,7 @@ namespace Tests
 
         public static ResourceData Currencies(int index = 0)
         {
-            return new ResourceData(Mock.ICurrency, Random.Range(1,10000));
+            return new ResourceData(Mock.ICurrency, Range(1,10000));
         }
 
         public static ResourceData MixCurrenciesAndCollectables(int index)

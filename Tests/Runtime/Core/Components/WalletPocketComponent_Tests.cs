@@ -17,8 +17,8 @@ namespace Tests.MartonioJunior.Trinkets.Components
         {
             var wallet = Substitute.For<Wallet>();
 
-            yield return new object[]{ wallet };
-            yield return new object[]{ null };
+            yield return new object[]{wallet};
+            yield return new object[]{null};
         }
         [TestCaseSource(nameof(UseCases_Wallet))]
         public void Wallet_ReturnsObjectStoredOnComponent(Wallet data)

@@ -7,7 +7,7 @@ using NSubstitute;
 using System.Collections.Generic;
 using static Tests.Suite;
 
-namespace Tests.MartonioJunior.Trinkets
+namespace Tests.MartonioJunior.Trinkets.Core
 {
     public class IResourceGroup_Tests: TestModel<IResourceGroup>
     {
@@ -35,7 +35,7 @@ namespace Tests.MartonioJunior.Trinkets
             yield return new object[]{null, validItem, false};
         }
         [TestCaseSource(nameof(UseCases_Contains))]
-        public void Contains_DetectsPresenceOfResourceInGroup(ResourceData[] groupData, ResourceData input, bool output)
+        public void Contains_IResource_DetectsPresenceOfResourceInGroup(ResourceData[] groupData, ResourceData input, bool output)
         {
             var expectedResult = (groupData as ICollection<ResourceData>)?.Contains(input) ?? false;
             modelReference.AmountOf(Arg.Any<IResource>()).Returns(expectedResult ? 1 : 0);
@@ -53,12 +53,12 @@ namespace Tests.MartonioJunior.Trinkets
             }
             var empty = new ResourceData[0];
 
-            yield return new object[]{ array[0..4], array[4..6], array[0..6] };
-            yield return new object[]{ array[2..6], array[3..7], overlapArray[2..7] };
-            yield return new object[]{ array, array, overlapArray };
-            yield return new object[]{ null, array, array };
-            yield return new object[]{ array, null, array };
-            yield return new object[]{ null, null, empty };
+            yield return new object[]{array[0..4], array[4..6], array[0..6]};
+            yield return new object[]{array[2..6], array[3..7], overlapArray[2..7]};
+            yield return new object[]{array, array, overlapArray};
+            yield return new object[]{null, array, array};
+            yield return new object[]{array, null, array};
+            yield return new object[]{null, null, empty};
         }
         [TestCaseSource(nameof(UseCases_Join))]
         public void Join_CombinesResourceFromTwoGroupsIntoANewOne(ResourceData[] groupDataA, ResourceData[] groupDataB, ResourceData[] output)
@@ -68,7 +68,7 @@ namespace Tests.MartonioJunior.Trinkets
 
             var result = groupA.Join(groupB);
 
-            CollectionAssert.AreEquivalent(output, result.All());
+            CollectionAssert.AreEquivalent(output, result);
         }
 
         public static IEnumerable UseCases_Overlap()
@@ -76,12 +76,12 @@ namespace Tests.MartonioJunior.Trinkets
             var array = Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
             var empty = new ResourceData[0];
 
-            yield return new object[]{ array[0..4], array[4..6], empty };
-            yield return new object[]{ array[3..6], array[4..7], array[4..6] };
-            yield return new object[]{ array, array, array };
-            yield return new object[]{ null, array, empty };
-            yield return new object[]{ array, null, empty };
-            yield return new object[]{ null, null, empty };
+            yield return new object[]{array[0..4], array[4..6], empty};
+            yield return new object[]{array[3..6], array[4..7], array[4..6]};
+            yield return new object[]{array, array, array};
+            yield return new object[]{null, array, empty};
+            yield return new object[]{array, null, empty};
+            yield return new object[]{null, null, empty};
         }
         [TestCaseSource(nameof(UseCases_Overlap))]
         public void Overlap_ReturnsAmountsPresentInBothGroups(ResourceData[] groupDataA, ResourceData[] groupDataB, ResourceData[] output)
@@ -91,7 +91,7 @@ namespace Tests.MartonioJunior.Trinkets
 
             var result = groupA.Overlap(groupB);
 
-            CollectionAssert.AreEquivalent(output, result.All());
+            CollectionAssert.AreEquivalent(output, result);
         }
 
         public static IEnumerable UseCases_Transfer()
@@ -103,12 +103,12 @@ namespace Tests.MartonioJunior.Trinkets
             }
             var empty = new ResourceData[0];
 
-            yield return new object[]{ array[0..4], array[4..6], array[0..6], true };
-            yield return new object[]{ array[2..6], array[3..7], overlapArray[2..7], true };
-            yield return new object[]{ array, array, overlapArray, true };
-            yield return new object[]{ null, array, array, false };
-            yield return new object[]{ array, null, array, true };
-            yield return new object[]{ null, null, empty, false };
+            yield return new object[]{array[0..4], array[4..6], array[0..6], true};
+            yield return new object[]{array[2..6], array[3..7], overlapArray[2..7], true};
+            yield return new object[]{array, array, overlapArray, true};
+            yield return new object[]{null, array, array, false};
+            yield return new object[]{array, null, array, true};
+            yield return new object[]{null, null, empty, false};
         }
         [TestCaseSource(nameof(UseCases_Transfer))]
         public void Transfer_MovesResourcesFromOneGroupToDestination(ResourceData[] groupDataA, ResourceData[] groupDataB, ResourceData[] output, bool result)
@@ -118,8 +118,8 @@ namespace Tests.MartonioJunior.Trinkets
 
             Assert.AreEqual(result, groupA.Transfer(groupB));
 
-            CollectionAssert.IsEmpty(groupA.All());
-            CollectionAssert.AreEquivalent(output, groupB.All());
+            CollectionAssert.IsEmpty(groupA);
+            CollectionAssert.AreEquivalent(output, groupB);
         }
 
         public static IEnumerable UseCases_Unique()
@@ -127,12 +127,12 @@ namespace Tests.MartonioJunior.Trinkets
             var array = Array<ResourceData>(10, Mock.MixCurrenciesAndCollectables);
             var empty = new ResourceData[0];
 
-            yield return new object[]{ array[0..4], array[4..6], array[0..4] };
-            yield return new object[]{ array[2..6], array[4..7], array[2..4] };
-            yield return new object[]{ array, array, empty };
-            yield return new object[]{ null, array, empty };
-            yield return new object[]{ array, null, array };
-            yield return new object[]{ null, null, empty };
+            yield return new object[]{array[0..4], array[4..6], array[0..4]};
+            yield return new object[]{array[2..6], array[4..7], array[2..4]};
+            yield return new object[]{array, array, empty};
+            yield return new object[]{null, array, empty};
+            yield return new object[]{array, null, array};
+            yield return new object[]{null, null, empty};
         }
         [TestCaseSource(nameof(UseCases_Unique))]
         public void Unique_ReturnsGroupWithUniqueResourcesWhenComparedToAnother(ResourceData[] groupDataA, ResourceData[] groupDataB, ResourceData[] output)
@@ -142,7 +142,7 @@ namespace Tests.MartonioJunior.Trinkets
 
             var result = groupA.Unique(groupB);
 
-            CollectionAssert.AreEquivalent(output, result.All());
+            CollectionAssert.AreEquivalent(output, result);
         }
         #endregion
     }
